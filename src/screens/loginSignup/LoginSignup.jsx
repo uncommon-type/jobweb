@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { baseUrl, sendData } from '@network/network';
 import { getUserInput } from '@helpers/form';
+import { requestToken } from '@network/network';
 
 import { Login } from './components/Login/Login';
-import { requestToken } from '@network/network';
+import { Signup } from './components/Signup/Signup';
 
 const defaultFormErrors = {
   message: '',
@@ -41,8 +43,32 @@ export const LoginSignup = ({ isGuest = false }) => {
     await doLogin({ username, password });
   };
 
+  const doSignup = async (userCredentials) => {
+    try {
+      const url = `${baseUrl}/user`;
+      setLoading(true);
+      await sendData(url, { data: userCredentials }); ///new
+      setLoading(false);
+      navigate('/');
+    } catch (err) {
+      setFormErrors({ message: err.message, errors: err.errors });
+      setLoading(false);
+    }
+  };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+    const { name, email, 'current-password': password } = getUserInput(e);
+    await doSignup({ name, email, password });
+  };
+
   return isGuest ? (
-    <h1>SignupForm View</h1>
+    <Signup
+      handleSignup={handleSignup}
+      formErrors={formErrors}
+      setFormErrors={setFormErrors}
+      loading={loading}
+    />
   ) : (
     <Login
       handleLogin={handleLogin}
