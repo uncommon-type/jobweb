@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { useAuth } from '@hooks/useAuth';
 import { baseUrl, sendData } from '@network/network';
 import { getUserInput } from '@helpers/form';
-import { requestToken } from '@network/network';
 
 import { Login } from './components/Login/Login';
 import { Signup } from './components/Signup/Signup';
@@ -16,6 +16,7 @@ const defaultFormErrors = {
 export const LoginSignup = ({ isGuest = false }) => {
   const [formErrors, setFormErrors] = useState(defaultFormErrors);
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
   const navigate = useNavigate();
   const { state: locationState } = useLocation();
 
@@ -27,7 +28,7 @@ export const LoginSignup = ({ isGuest = false }) => {
     try {
       setFormErrors(defaultFormErrors);
       setLoading(true);
-      const jtoken = await requestToken(userCredentials);
+      await login(userCredentials);
       setLoading(false);
       navigate(locationState?.path || '/jobs');
     } catch (err) {
@@ -47,7 +48,7 @@ export const LoginSignup = ({ isGuest = false }) => {
     try {
       const url = `${baseUrl}/user`;
       setLoading(true);
-      await sendData(url, { data: userCredentials }); ///new
+      await sendData(url, { data: userCredentials });
       setLoading(false);
       navigate('/');
     } catch (err) {

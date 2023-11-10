@@ -11,6 +11,8 @@ export default defineConfig({
       '@screens': path.resolve(__dirname, 'src/screens'),
       '@helpers': path.resolve(__dirname, 'src/helpers'),
       '@network': path.resolve(__dirname, 'src/network'),
+      '@contexts': path.resolve(__dirname, 'src/contexts'),
+      '@hooks': path.resolve(__dirname, 'src/hooks'),
     },
   },
 });
