@@ -1,0 +1,87 @@
+/*********************************************************
+** ~~ RESET ~~
+**********************************************************/
+*,
+::after,
+::before {
+ box-sizing: border-box;
+}
+
+html {
+ -moz-text-size-adjust: none;
+ -webkit-text-size-adjust: none;
+ text-size-adjust: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+ margin: 0;
+}
+
+ol,
+ul {
+ list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
+ line-height: 1.1;
+ line-height: var(--leading-standard);
+  
+}
+
+html:focus-within {
+ scroll-behavior: smooth;
+}
+
+img,
+picture {
+ max-width: 100%;
+ display: block;
+}
+
+button,
+input,
+select,
+textarea {
+ font: inherit;
+}
+
+textarea:not([rows]) {
+ min-height: 10em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+ html:focus-within {
+ scroll-behavior: auto;
+ }
+
+ *,
+ ::after,
+ ::before {
+ animation-duration: 0s !important;
+ animation-iteration-count: 1 !important;
+ transition-duration: 0s !important;
+ scroll-behavior: auto !important;
+ }
+}
+
+svg {
+  width: 0.75em;
+  height: 0.75em;
+  stroke: currentColor;
+ }
+ 

@@ -9,6 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@screens': path.resolve(__dirname, 'src/screens'),
+      '@helpers': path.resolve(__dirname, 'src/helpers'),
+      '@network': path.resolve(__dirname, 'src/network'),
     },
   },
 });
