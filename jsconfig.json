@@ -1,0 +1,14 @@
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@screens/*": ["src/screens/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@network/*": ["src/network/*"],
+      "@contexts/*": ["src/contexts/*"]
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}
