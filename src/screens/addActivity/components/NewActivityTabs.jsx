@@ -8,7 +8,6 @@ export const NewActivityTabs = () => {
     { label: 'Task', path: `/jobs/${jobId}/activity/tasks/new` },
   ];
 
-  //
   return (
     <nav className="activity-tabs">
       <ul role="list" className="activity-tab__list cluster">

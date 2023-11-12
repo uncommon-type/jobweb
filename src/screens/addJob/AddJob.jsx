@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
+import { NewJob } from './components/NewJob';
 
 export const AddJob = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ export const AddJob = () => {
       <Header>
         <SecondaryNav fromLink={from} />
       </Header>
-      <main>Add Job View</main>
+      <main><NewJob /></main>
     </>
   );
 };
