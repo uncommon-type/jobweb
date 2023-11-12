@@ -1,3 +1,7 @@
+import { LinkToAddActivity } from './LinkToAddActivity';
+
 export const ActivityInfo = ({ job }) => {
-  return <p>activity info</p>;
+  return (
+    <LinkToAddActivity />
+  );
 };
