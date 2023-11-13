@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { useLocation, Routes, Route } from 'react-router-dom';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
@@ -9,10 +9,15 @@ import { CompanyInfo } from './CompanyInfo';
 import { ActivityInfo } from './ActivityInfo';
 
 export const JobContent = ({ from, job }) => {
+  const location = useLocation();
+
   return (
     <>
       <Header>
-        <SecondaryNav fromLink={from} />
+        <SecondaryNav
+          fromLink={from}
+          showEdit={location.pathname.split('/').pop() !== 'activity'}
+        />
       </Header>
 
       <main>

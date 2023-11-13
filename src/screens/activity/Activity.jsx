@@ -19,6 +19,8 @@ export const Activity = ({ job }) => {
       <Header>
         <SecondaryNav
           fromLink={`/jobs/${jobId}/activity`}
+          title={isEvent ? 'Event details' : 'Task details'}
+          showEdit={true}
         />
       </Header>
 

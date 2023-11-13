@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { ArrowUturnLeftIcon as GoBackIcon } from '@heroicons/react/24/outline';
+import { ArrowUturnLeftIcon as GoBackIcon, PencilSquareIcon as EditIcon } from '@heroicons/react/24/outline';
 
-export const SecondaryNav = ({ fromLink }) => {
+export const SecondaryNav = ({ fromLink, title, showEdit }) => {
   return (
     <nav>
       <ul role="list" className="secondary-nav-list cluster">
@@ -10,6 +10,8 @@ export const SecondaryNav = ({ fromLink }) => {
             <GoBackIcon />
           </Link>
         </li>
+        {title && <li className="title">{title}</li>}
+        {showEdit ? <EditIcon /> : null}
       </ul>
     </nav>
   );
