@@ -6,7 +6,7 @@ const NAVLINKS = [
   { label: 'Activity', path: 'activity' },
 ];
 
-export const JobTabs = () => {
+export const JobTabs = ({ onChange }) => {
   const from = '/jobs';
 
   return (
@@ -19,6 +19,7 @@ export const JobTabs = () => {
               replace
               state={{ from }}
               aria-label={`View ${label}`}
+              onClick={onChange}
             >
               {label}
             </NavLink>
