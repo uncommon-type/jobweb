@@ -1,8 +1,14 @@
+import { EditableCheckbox } from '@screens/common/Inputs/EditableCheckbox';
+
 export const Event = ({ activity, edit }) => {
   return (
-    <div>
-      {!edit && <p>Event view - view mode</p>}
-      {edit && <p>Event view - edit mode</p>}
-    </div>
+    <>
+      <EditableCheckbox
+        edit={edit}
+        label="Type (hiring call, interview, etc)"
+        value={activity.title}
+        name="activity"
+      />
+    </>
   );
 };

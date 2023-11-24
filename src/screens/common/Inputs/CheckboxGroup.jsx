@@ -1,6 +1,8 @@
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-export const CheckboxGroup = ({ options }) => {
+import { EditableCheckbox } from './EditableCheckbox';
+
+export const CheckboxGroup = ({ options, edit }) => {
   const { jobId } = useParams();
 
   return (
@@ -8,23 +10,12 @@ export const CheckboxGroup = ({ options }) => {
       {options.map((option) => {
         return (
           <div key={option.id} className="activity" data-status="complete">
-            <div className="cluster with-checkbox-btn">
-              <div className="checkbox">
-                <input
-                  type="checkbox"
-                  id={`activity-${option.id}`}
-                  name="activity"
-                />
-                <label htmlFor={`activity-${option.id}`}>
-                  <Link
-                    to={`/jobs/${jobId}/activity/events/${option.id}`}
-                    aria-label="View details"
-                  >
-                    {option.title}
-                  </Link>
-                </label>
-              </div>
-            </div>
+            <EditableCheckbox
+              edit={edit}
+              value={option.title}
+              name="activity"
+              link={`/jobs/${jobId}/activity/events/${option.id}`}
+            />
           </div>
         );
       })}

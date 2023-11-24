@@ -1,8 +1,14 @@
+import { EditableCheckbox } from '@screens/common/Inputs/EditableCheckbox';
+
 export const Task = ({ activity, edit }) => {
   return (
-    <div>
-      {!edit && <p>Task view - view mode</p>}
-      {edit && <p>Task view - edit mode</p>}
-    </div>
+    <>
+      <EditableCheckbox
+        edit={edit}
+        label="Short title"
+        value={activity.title}
+        name="activity"
+      />
+    </>
   );
 };
