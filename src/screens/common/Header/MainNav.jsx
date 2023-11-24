@@ -1,19 +1,13 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useFetcher, NavLink } from 'react-router-dom';
 import {
   PlusCircleIcon,
   ArrowLeftOnRectangleIcon as SignoutIcon,
 } from '@heroicons/react/24/outline';
 
-import { useAuth } from '@hooks/useAuth';
 
 export const MainNav = () => {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  let fetcher = useFetcher();
+  let isLoggingOut = fetcher.formData != null;
 
   return (
     <nav>
@@ -25,14 +19,16 @@ export const MainNav = () => {
           </NavLink>
         </li>
         <li>
-          <button
-            type="button"
-            className="naked-btn stack"
-            onClick={handleLogout}
-          >
-            <SignoutIcon />
-            <span>Sign out </span>
-          </button>
+          <fetcher.Form method="post" action="/logout">
+            <button
+              className="naked-btn stack"
+              type="submit"
+              disabled={isLoggingOut}
+            >
+              <SignoutIcon />
+              <span>{isLoggingOut ? 'Signing out...' : 'Sign out'}</span>
+            </button>
+          </fetcher.Form>
         </li>
       </ul>
     </nav>

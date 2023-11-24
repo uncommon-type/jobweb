@@ -1,8 +1,6 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
-export const NewActivityTabs = () => {
-  const { jobId } = useParams();
-
+export const NewActivityTabs = ({ jobId }) => {
   const NAVLINKS = [
     { label: 'Event', path: `/jobs/${jobId}/activity/events/new` },
     { label: 'Task', path: `/jobs/${jobId}/activity/tasks/new` },

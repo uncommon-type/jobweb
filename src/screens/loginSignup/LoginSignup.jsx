@@ -1,81 +1,101 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import {
+  json,
+  redirect,
+  useLocation,
+  useNavigation,
+  useActionData,
+} from 'react-router-dom';
 
-import { useAuth } from '@hooks/useAuth';
-import { baseUrl, sendData } from '@network/network';
-import { getUserInput } from '@helpers/form';
+import { getToken } from '@helpers/token';
+import { requestToken } from '@network/network';
+import { validateLogin } from './helpers/validate-login';
+import { LoginForm } from './components/Login/LoginForm';
+import { SignupForm } from './components/Signup/SignupForm';
 
-import { Login } from './components/Login/Login';
-import { Signup } from './components/Signup/Signup';
+export const loader = () => {
+  const token = getToken();
 
-const defaultFormErrors = {
-  message: '',
-  errors: [],
+  if (token) {
+    return redirect('/jobs');
+  }
+
+  return null;
 };
 
-export const LoginSignup = ({ isGuest = false }) => {
-  const [formErrors, setFormErrors] = useState(defaultFormErrors);
-  const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const { state: locationState } = useLocation();
+export const action = async ({ request }) => {
+  const formData = await request.formData();
+  const { email: username, password } = Object.fromEntries(formData);
+
+  const errors = validateLogin({ username, password });
+
+  if (errors.length !== 0) {
+    return json(errors);
+  }
+
+  try {
+    const { token } = await requestToken({ username, password });
+
+    localStorage.setItem('token', token);
+  } catch (err) {
+    return json(err.errors, { status: 422 });
+  }
+
+  const redirectTo = formData.get('redirectTo');
+
+  return redirect(redirectTo || `/jobs`);
+};
+
+export function LoginSignup({ isGuest = false }) {
+  const [errors, setErrors] = useState([]);
+  const actionData = useActionData() || [];
+  const navigation = useNavigation();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const from = params.get('from') || '/';
 
   useEffect(() => {
-    setFormErrors(defaultFormErrors);
+    if (actionData.length !== 0) {
+      setErrors(actionData);
+    }
+  }, [actionData]);
+
+  useEffect(() => {
+    setErrors([]);
   }, [isGuest]);
 
-  const doLogin = async (userCredentials) => {
-    try {
-      setFormErrors(defaultFormErrors);
-      setLoading(true);
-      await login(userCredentials);
-      setLoading(false);
-      navigate(locationState?.path || '/jobs');
-    } catch (err) {
-      console.error(err);
-      setFormErrors({ message: 'Login failed', errors: [] });
-      setLoading(false);
-    }
+  const handleChange = () => {
+    setErrors([]);
   };
 
-  const handleLogin = async (e) => {
+  const handleLinkAction = (e) => {
     e.preventDefault();
-    const { email: username, 'current-password': password } = getUserInput(e);
-    await doLogin({ username, password });
   };
 
-  const doSignup = async (userCredentials) => {
-    try {
-      const url = `${baseUrl}/user`;
-      setLoading(true);
-      await sendData(url, { data: userCredentials });
-      setLoading(false);
-      navigate('/');
-    } catch (err) {
-      setFormErrors({ message: err.message, errors: err.errors });
-      setLoading(false);
-    }
-  };
+  const isLoading = navigation.state !== 'idle' && navigation.formData !== null;
 
-  const handleSignup = async (e) => {
-    e.preventDefault();
-    const { name, email, 'current-password': password } = getUserInput(e);
-    await doSignup({ name, email, password });
-  };
-
-  return isGuest ? (
-    <Signup
-      handleSignup={handleSignup}
-      formErrors={formErrors}
-      setFormErrors={setFormErrors}
-      loading={loading}
-    />
-  ) : (
-    <Login
-      handleLogin={handleLogin}
-      formErrors={formErrors}
-      setFormErrors={setFormErrors}
-      loading={loading}
-    />
+  return (
+    <main>
+      <section className="login-group">
+        <div className="login-group__inner flow flow-space-xs">
+          {isGuest ? (
+            <SignupForm
+              errors={errors}
+              isSigningUp={isLoading}
+              onChange={handleChange}
+              onLinkAction={handleLinkAction}
+            />
+          ) : (
+            <LoginForm
+              errors={errors}
+              isSigningIn={isLoading}
+              onChange={handleChange}
+              onLinkAction={handleLinkAction}
+              from={from}
+            />
+          )}
+        </div>
+      </section>
+    </main>
   );
-};
+}

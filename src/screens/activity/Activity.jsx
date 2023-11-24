@@ -1,14 +1,18 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigation } from 'react-router-dom';
 
+import { getJob } from '@network/jobs';
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { Event } from './components/Event';
 import { Task } from './components/Task';
 
-export const Activity = ({ job }) => {
+export const Activity = () => {
   const [edit, setEdit] = useState(false);
+  const navigation = useNavigation();
   const { jobId, activityId } = useParams();
+
+  const job = getJob(jobId);
 
   const activity = job.activities.find(
     (activity) => activity.id === activityId,
@@ -17,7 +21,7 @@ export const Activity = ({ job }) => {
   const isEvent = activity.type === 'event';
 
   return (
-    <>
+    <div className={navigation.state === 'loading' ? 'loading' : ''}>
       <Header>
         <SecondaryNav
           fromLink={`/jobs/${jobId}/activity`}
@@ -36,7 +40,6 @@ export const Activity = ({ job }) => {
           )}
         </section>
       </main>
-    </>
+    </div>
   );
 };
-

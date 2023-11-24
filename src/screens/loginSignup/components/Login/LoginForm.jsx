@@ -1,38 +1,36 @@
+import { Form } from 'react-router-dom';
+
 import { EmailField } from '../common/EmailField';
 import { PasswordField } from '../common/PasswordField';
 import { SignInButton } from './SignInButton';
-import { SignInPrompt } from './SignInPrompt/SignInPrompt';
+import { LinkToSignUp } from './LinkToSignUp';
 import { Alert } from '@screens/common/Alert';
-import { deleteError, showFormAlert } from '@helpers/form';
 
 export const LoginForm = ({
-  onSubmit,
-  formErrors,
-  onFormErrorChange,
-  loading,
+  from,
+  onChange,
+  isSigningIn,
+  errors,
+  onLinkAction,
 }) => {
-  const changeHandler = (fieldName) => {
-    const updatedFormErrors = deleteError(formErrors, fieldName);
-    onFormErrorChange(updatedFormErrors);
-  };
-
   return (
     <>
-      <form
-        onSubmit={onSubmit}
-        className="login-form flow"
-        noValidate
-        method="POST"
-      >
-        <EmailField onChange={changeHandler} loading={loading} />
-        <PasswordField onChange={changeHandler} loading={loading} />
+      <h1>Welcome back. Please sign in.</h1>
+      <Form method="post" className="login-form flow">
+        <EmailField from={from} onChange={onChange} loading={isSigningIn} />
+        <PasswordField onChange={onChange} loading={isSigningIn} />
         <div className="action-group flow flow-space-l">
-          <SignInButton loading={loading} disabled={loading} />
-          <SignInPrompt loading={loading} />
+          <SignInButton isSigningIn={isSigningIn} disabled={isSigningIn} />
+          <span className="cluster">
+            Need an account?
+            <LinkToSignUp
+              isSigningIn={isSigningIn}
+              onLinkAction={onLinkAction}
+            />
+          </span>
         </div>
-      </form>
-
-      {showFormAlert(formErrors) ? <Alert message="Login failed" /> : null}
+      </Form>
+      {errors.length !== 0 ? <Alert message="Login failed" /> : null}
     </>
   );
 };

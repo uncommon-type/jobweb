@@ -1,20 +1,20 @@
 import { Spinner } from '@screens/common/Spinner';
 
-export const SignupButton = ({ loading, disabled }) => {
+export const SignUpButton = ({ isSigningUp }) => {
   return (
     <button
       type="submit"
       className="button"
       data-type="primary"
-      disabled={disabled}
+      disabled={isSigningUp}
     >
-      {loading ? (
+      {isSigningUp ? (
         <>
-          <span>Signing up</span>
+          <span>Signing up...</span>
           <Spinner />
         </>
       ) : (
-        'Sign up'
+        <span>Sign up</span>
       )}
     </button>
   );

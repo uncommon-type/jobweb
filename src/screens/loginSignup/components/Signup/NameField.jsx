@@ -11,13 +11,14 @@ export const NameField = ({ error, onChange, loading }) => {
         id="name"
         name="name"
         type="text"
-        onChange={() => onChange('name')}
         autoCapitalize="none"
         autoCorrect="off"
         spellCheck="false"
         autoComplete="off"
         readOnly={loading}
+        onChange={onChange}
       />
     </div>
   );
 };
+

@@ -1,25 +1,23 @@
-export const EmailField = ({ error, onChange, loading }) => {
+export const EmailField = ({ from, error, onChange, loading }) => {
   return (
     <div className="form-item">
       <label htmlFor="email" className="font-special">
         Email
       </label>
-      {error && (
-        <div role="alert" className="form-item-error">
-          {error}
-        </div>
-      )}
+      {error && <p className="form-item-error">{error}</p>}
+      <input type="hidden" name="redirectTo" value={from} />
       <input
         id="email"
         name="email"
         type="email"
-        onChange={() => onChange('email')}
         autoCapitalize="none"
         autoCorrect="off"
         spellCheck="false"
         autoComplete="off"
         readOnly={loading}
+        onChange={onChange}
       />
     </div>
   );
 };
+
