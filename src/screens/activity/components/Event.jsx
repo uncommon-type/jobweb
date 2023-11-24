@@ -1,4 +1,5 @@
 import { EditableCheckbox } from '@screens/common/Inputs/EditableCheckbox';
+import { EditableDescription } from '@screens/common/Inputs/EditableDescription';
 
 export const Event = ({ activity, edit }) => {
   return (
@@ -9,6 +10,13 @@ export const Event = ({ activity, edit }) => {
         value={activity.title}
         name="activity"
       />
+      <EditableDescription
+        edit={edit}
+        label="Description"
+        value={activity.description}
+        name="description"
+      />
     </>
   );
 };
+

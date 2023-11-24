@@ -1,7 +1,15 @@
+import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
+
 export const EditRoleInfo = ({ job, edit }) => {
   return (
-  <div>
-     <p>role info - edit mode</p>
-  </div>
- );
-}
+    <form className="flow">
+      <TextAreaInput
+        edit={edit}
+        showLabel={true}
+        label="Description"
+        value={job.description}
+        name="description"
+      />
+    </form>
+  );
+};
