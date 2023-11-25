@@ -1,5 +1,5 @@
-import { EditableCheckbox } from '@screens/common/Inputs/EditableCheckbox';
-import { EditableDescription } from '@screens/common/Inputs/EditableDescription';
+import { EditableCheckbox } from '@screens/common/EditableCheckbox';
+import { EditableDescription } from '@screens/common/EditableDescription';
 import { SaveButton } from '@screens/common/Buttons/SaveButton';
 import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 

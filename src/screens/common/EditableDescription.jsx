@@ -1,6 +1,6 @@
 import { NewspaperIcon as InfoIcon } from '@heroicons/react/24/outline';
 
-import { TextAreaInput } from './TextAreaInput';
+import { TextAreaInput } from './Inputs/TextAreaInput';
 
 export const EditableDescription = ({
   edit,

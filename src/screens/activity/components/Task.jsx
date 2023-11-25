@@ -1,5 +1,5 @@
-import { EditableCheckbox } from '@screens/common/Inputs/EditableCheckbox';
-import { EditableDescription } from '@screens/common/Inputs/EditableDescription';
+import { EditableCheckbox } from '@screens/common/EditableCheckbox';
+import { EditableDescription } from '@screens/common/EditableDescription';
 
 export const Task = ({ activity, edit }) => {
   return (

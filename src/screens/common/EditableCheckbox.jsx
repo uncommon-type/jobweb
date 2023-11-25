@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useId } from 'react';
 
-import { Input } from './Input';
+import { Input } from './Inputs/Input';
 
 export const EditableCheckbox = ({
   edit,
