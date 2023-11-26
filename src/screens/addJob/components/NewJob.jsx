@@ -1,5 +1,6 @@
 import { Input } from '@screens/common/Inputs/Input';
 import { RadioGroup } from '@screens/common/Inputs/RadioGroup';
+import { NumericInput } from '@screens/common/Inputs/NumericInput';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { SaveButton } from '@screens/common/Buttons/SaveButton';
 
@@ -23,6 +24,16 @@ export const NewJob = () => {
         options={locationOptions}
         label="Location (optional)"
         name="location"
+      />
+      <NumericInput
+        label="Salary (optional)"
+        name="salary"
+        className="width-10"
+      />
+      <NumericInput
+        label="Company size (optional)"
+        name="company-size"
+        className="width-10"
       />
       <TextAreaInput
         edit={true}
