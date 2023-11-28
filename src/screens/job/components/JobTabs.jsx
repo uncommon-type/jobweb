@@ -4,6 +4,7 @@ const NAVLINKS = [
   { label: 'Role', path: 'role' },
   { label: 'Company', path: 'company' },
   { label: 'Activity', path: 'activity' },
+  { label: 'Offer details', path: 'offer' },
 ];
 
 export const JobTabs = ({ onChange }) => {
