@@ -7,14 +7,14 @@ import {
   useActionData,
 } from 'react-router-dom';
 
-import { getToken } from '@helpers/token';
+import { authenticate } from '@helpers/token';
 import { requestToken } from '@network/network';
 import { validateLogin } from './helpers/validate-login';
 import { LoginForm } from './components/Login/LoginForm';
 import { SignupForm } from './components/Signup/SignupForm';
 
 export const loader = () => {
-  const token = getToken();
+  const token = authenticate();
 
   if (token) {
     return redirect('/jobs');
