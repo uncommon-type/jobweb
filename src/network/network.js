@@ -1,11 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
+
 import { getSchemaErrors } from './schema-errors';
 
 export const baseUrl = `http://localhost:3000`;
 
 export const requestToken = async (userCredentials) => {
   const url = `${baseUrl}/login`;
-  return await sendData(url, { data: userCredentials });
+  return await sendData(url, userCredentials);
 };
 
 class ResponseError extends Error {
@@ -15,7 +16,7 @@ class ResponseError extends Error {
   }
 }
 
-export const handleError = ({ status, invalid_params }) => {
+export const handleError = ({ status = '', invalid_params = {} }) => {
   if (status === 400) {
     const validationErrors = getSchemaErrors(invalid_params);
 
@@ -26,6 +27,10 @@ export const handleError = ({ status, invalid_params }) => {
     throw new ResponseError('Bad request', validationErrors);
   }
 
+  if (status === 401) {
+    throw new ResponseError('Unauthorised', []);
+  }
+
   if (status === 500) {
     throw new ResponseError('Something went wrong', []);
   }
@@ -33,22 +38,22 @@ export const handleError = ({ status, invalid_params }) => {
   throw new Error('An unknown error occured', []);
 };
 
-const addToPayload = (payload) => {
+const addIdToPayload = (payload) => {
   const id = uuidv4();
   return { id, ...payload };
 };
 
-export const sendData = async (url, { data, token }) => {
+export const callServer = async (method, url, data, token) => {
   try {
     const config = {
-      method: 'POST',
+      method,
       mode: 'cors',
       credentials: 'same-origin',
       headers: {
         Authorization: token ? `Bearer ${token}` : undefined,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(addToPayload(data)),
+      body: method !== 'GET' ? JSON.stringify(data) : undefined,
     };
 
     const res = await fetch(url, config);
@@ -64,4 +69,30 @@ export const sendData = async (url, { data, token }) => {
   } catch (err) {
     handleError(err);
   }
+};
+
+export const sendData = (url, data, token) => {
+  if (Object.keys(data).length === 0) {
+    throw new Error('Expecting data');
+  }
+
+  return callServer('POST', url, addIdToPayload(data), token);
+};
+
+export const getData = (url, token, data) => {
+  const fetchUrl = new URL(url);
+
+  if (data) {
+    fetchUrl.search = new URLSearchParams(data);
+  }
+
+  return callServer('GET', fetchUrl, {}, token);
+};
+
+export const updateData = (url, data, token) => {
+  return callServer('PUT', url, data, token);
+};
+
+export const deleteData = (url, token) => {
+  return callServer('DELETE', url, {}, token);
 };
