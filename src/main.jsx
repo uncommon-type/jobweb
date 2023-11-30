@@ -15,7 +15,7 @@ import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
 import { ActivityInfo } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
 import { AddJob } from '@screens/addJob/AddJob';
-import { Activity } from '@screens/activity/Activity';
+import { Activity, loader as activityLoader } from '@screens/activity/Activity';
 import { AddActivity } from '@screens/addActivity/AddActivity';
 
 const routes = [
@@ -61,10 +61,12 @@ const routes = [
           {
             path: 'activity/events/:activityId',
             element: <Activity />,
+            loader: activityLoader,
           },
           {
             path: 'activity/tasks/:activityId',
             element: <Activity />,
+            loader: activityLoader,
           },
 
           {
