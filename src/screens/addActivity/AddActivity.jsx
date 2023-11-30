@@ -1,21 +1,31 @@
-import { useParams } from 'react-router-dom';
+import { useLoaderData, redirect } from 'react-router-dom';
 
+import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
+
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { NewActivityTabs } from './components/NewActivityTabs';
 import { NewEvent } from './components/NewEvent';
 import { NewTask } from './components/NewTask';
 
-export const AddActivity = ({ isEvent = false }) => {
-  const { jobId } = useParams();
+export const loader = async ({ params }) => {
+  const token = authenticate();
 
-  const job = getJob(jobId);
+  if (!token) {
+    return redirect('/');
+  }
+  const job = await getJob(params.jobId, token);
+  return { job };
+};
+
+export const AddActivity = ({ isEvent = false }) => {
+  const { job } = useLoaderData();
 
   return (
     <>
       <Header>
-        <SecondaryNav fromLink={`/jobs/${jobId}/activity`} />
+        <SecondaryNav fromLink={`/jobs/${job.id}/activity`} />
       </Header>
       <main>
         <section className="add-activity-group flow">
@@ -26,3 +36,4 @@ export const AddActivity = ({ isEvent = false }) => {
     </>
   );
 };
+

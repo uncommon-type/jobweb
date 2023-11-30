@@ -16,7 +16,7 @@ import { ActivityInfo } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
 import { AddJob } from '@screens/addJob/AddJob';
 import { Activity, loader as activityLoader } from '@screens/activity/Activity';
-import { AddActivity } from '@screens/addActivity/AddActivity';
+import { AddActivity, loader as addActivityLoader } from '@screens/addActivity/AddActivity';
 
 const routes = [
   {
@@ -72,10 +72,12 @@ const routes = [
           {
             path: 'activity/events/new',
             element: <AddActivity isEvent={true} />,
+            loader: addActivityLoader,
           },
           {
             path: 'activity/tasks/new',
             element: <AddActivity isEvent={false} />,
+            loader: addActivityLoader,
           },
         ],
       },

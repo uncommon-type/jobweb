@@ -13,7 +13,6 @@ export const NewEvent = () => {
         label="Type (hiring call, interview, etc)"
         name="activity"
       />
-
       <EditableDateTime
         edit={true}
         showLabel={true}
@@ -21,7 +20,6 @@ export const NewEvent = () => {
         value=""
         name="date"
       />
-
       <EditableDescription
         edit={true}
         showLabel={true}
@@ -29,7 +27,6 @@ export const NewEvent = () => {
         name="description"
         value=""
       />
-
       <div className="sidebar">
         <div />
         <div className="cluster gap-left">
