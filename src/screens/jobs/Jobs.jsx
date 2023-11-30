@@ -1,12 +1,28 @@
-import { useNavigation } from 'react-router-dom';
+import { useLoaderData, useNavigation } from 'react-router-dom';
 
-import { jobData as jobList } from '@helpers/defaultData';
+import { getJobs } from '@network/jobs';
+import { authenticate } from '@helpers/token';
+
 import { Header } from '@screens/common/Header/Header';
 import { Logo } from '@screens/common/Header/Logo';
 import { MainNav } from '@screens/common/Header/MainNav';
 import { CardGroup } from '../common/CardGroup/CardGroup';
 
+export const loader = async () => {
+  const token = authenticate();
+
+  if (!token) {
+    return redirect('/');
+  }
+
+  const jobList = await getJobs(token);
+
+  const jobs = jobList ?? {};
+  return { jobs };
+};
+
 export const Jobs = () => {
+  const { jobs: jobList } = useLoaderData();
   const navigation = useNavigation();
 
   return (
