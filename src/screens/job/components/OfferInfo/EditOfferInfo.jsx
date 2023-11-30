@@ -8,7 +8,7 @@ export const EditOfferInfo = ({ job, edit }) => {
     <form className="flow">
       <EditableSalaryInput
         label="Salary per year, in pounds"
-        name="salary-per-year"
+        name="salary"
         value={job.salary}
         className="input width-8"
       />

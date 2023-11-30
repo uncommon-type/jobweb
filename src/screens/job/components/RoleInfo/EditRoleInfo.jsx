@@ -18,7 +18,7 @@ export const EditRoleInfo = ({ job, edit }) => {
       <RadioGroup
         options={employmentOptions}
         label="Employment type"
-        name="employment-type"
+        name="employmentType"
         className="cluster"
       />
       <RadioGroup
@@ -29,7 +29,7 @@ export const EditRoleInfo = ({ job, edit }) => {
       />
       <EditableSalaryInput
         label="Salary per year, in pounds"
-        name="salary-per-year"
+        name="salary"
         value={job.salary}
         className="input width-8"
       />

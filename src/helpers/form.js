@@ -21,3 +21,14 @@ export function deleteError(formErrors, fieldName) {
 export const showFormAlert = ({ message, errors }) => {
   return message !== '' && errors?.length === 0;
 };
+
+export const formatMoney = (value) => {
+  const options = {
+    currency: 'GBP',
+    style: 'currency',
+    maximumFractionDigits: value % 1 ? 2 : 0,
+  };
+
+  const { format } = new Intl.NumberFormat('en-UK', options);
+  return format(value);
+};

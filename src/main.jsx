@@ -8,7 +8,7 @@ import {
 } from '@screens/loginSignup/LoginSignup';
 import { action as signupAction } from '@screens/loginSignup/components/Signup/SignupForm';
 import { Jobs, loader as jobsLoader } from '@screens/jobs/Jobs';
-import { Job } from '@screens/job/Job';
+import { Job, loader as jobLoader } from '@screens/job/Job';
 import { JobContent } from '@screens/job/components/JobContent';
 import { RoleInfo } from '@screens/job/components/RoleInfo/RoleInfo';
 import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
@@ -49,6 +49,7 @@ const routes = [
         children: [
           {
             element: <Job />,
+            loader: jobLoader,
             children: [
               { path: 'role', element: <RoleInfo /> },
               { path: 'company', element: <CompanyInfo /> },
