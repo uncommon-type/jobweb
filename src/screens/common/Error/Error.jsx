@@ -6,11 +6,17 @@ export const Error = () => {
   const error = useRouteError();
 
   return (
-    <>
-      <div className="wrapper decor">
-        <span className="pin"></span>
+    <div className="wrapper decor">
+      <span className="pin"></span>
+      <Header>
+        <SecondaryNav
+          fromLink="/jobs"
+          showEdit={false}
+        />
+      </Header>
+      <main>
         <ErrorContent error={error} />
-      </div>
-    </>
+      </main>
+    </div>
   );
 };
