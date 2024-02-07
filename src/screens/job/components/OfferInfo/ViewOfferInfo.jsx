@@ -6,7 +6,7 @@ export const ViewOfferInfo = ({ job }) => {
     <form className="flow">
       <div>
         <h4 className="font-special">Salary per year</h4>
-        <p>{formatMoney(job.salary) || 'n/a'}</p>
+        <p>{job.salary ? formatMoney(job.salary) : 'n/a'}</p>
       </div>
       <div>
         <h4 className="font-special">Benefits</h4>
