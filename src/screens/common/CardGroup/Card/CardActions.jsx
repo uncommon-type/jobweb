@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 
-export const CardActions = ({ job }) => {
+export const CardActions = ({ jobId }) => {
   return (
     <div className="cluster">
       <Link
-        to={`${job.id}/role`}
+        to={`${jobId}/role`}
         className="button"
         data-type="secondary"
         aria-label="View job"
