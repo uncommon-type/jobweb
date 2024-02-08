@@ -1,8 +1,7 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
 
-export const LinkToAddActivity = () => {
-  const { jobId } = useParams();
+export const LinkToAddActivity = ({ jobId }) => {
   return (
     <Link
       to={`/jobs/${jobId}/activity/events/new`}
