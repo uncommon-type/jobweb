@@ -9,7 +9,6 @@ export const RadioGroup = ({ options, label, name, className }) => {
         return (
           <RadioButton
             key={optionId}
-            optionId={optionId}
             name={name}
             option={option}
           />
