@@ -8,10 +8,13 @@ export const ActivityInfo = () => {
 
   return (
     <>
-      <LinkToAddActivity jobId={job.id}/>
-      <form>
-        <CheckboxGroup options={job.activities} jobId={job.id} />
-      </form>
+      <LinkToAddActivity jobId={job.id} />
+      {job.activities.length !== 0 ?
+        <form>
+          <CheckboxGroup options={job.activities} jobId={job.id} />
+        </form>
+        : null
+      }
     </>
   );
 };
