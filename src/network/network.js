@@ -10,9 +10,10 @@ export const requestToken = async (userCredentials) => {
 };
 
 class ResponseError extends Error {
-  constructor(message, errors) {
+  constructor(message, errors, status) {
     super(message);
     this.errors = errors;
+    this.status = status;
   }
 }
 
@@ -29,6 +30,10 @@ export const handleError = ({ status = '', invalid_params = {} }) => {
 
   if (status === 401) {
     throw new ResponseError('Unauthorised', []);
+  }
+
+  if (status === 404) {
+    throw new ResponseError('Not found', [], status);
   }
 
   if (status === 500) {
@@ -64,7 +69,12 @@ export const callServer = async (method, url, data, token) => {
       throw err;
     }
 
+    if (res.status === 204) {
+      return {}
+    }
+
     const responseData = await res.json();
+
     return responseData;
   } catch (err) {
     handleError(err);
