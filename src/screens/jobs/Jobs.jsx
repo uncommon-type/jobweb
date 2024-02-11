@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigation } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 import { getJobs } from '@network/jobs';
 import { authenticate } from '@helpers/token';
@@ -17,18 +17,21 @@ export const loader = async () => {
     return redirect('/');
   }
 
-  const jobList = await getJobs(token);
-
-  const jobs = jobList ?? {};
-  return { jobs };
+  try {
+    const jobs = await getJobs(token);
+    return { jobs };
+  } catch (err) {
+    console.error('Error caught while attempting to fetch jobs', err);
+    return {};
+  }
 };
+
 
 export const Jobs = () => {
   const { jobs: jobList } = useLoaderData();
-  const navigation = useNavigation();
 
   return (
-    <div className={navigation.state === 'loading' ? 'loading' : ''}>
+    <>
       <Header>
         <div className="cluster">
           <Logo />
@@ -36,18 +39,15 @@ export const Jobs = () => {
         </div>
       </Header>
       <main className="flow flow-space-xl">
+        <FilterGroup jobs={jobList} />
+        <SearchBar />
         <section className="card-group flow">
-          {Object.keys(jobList).length !== 0 ? (
-            <>
-              <FilterGroup jobs={jobList} />
-              <SearchBar />
-              <CardGroup jobs={jobList} />
-            </>
-          ) : (
-            <p>No actively tracked jobs </p>
-          )}
+          {jobList ?
+            <CardGroup jobs={jobList} />
+            : <p>No actively tracked jobs </p>
+          }
         </section>
       </main>
-    </div>
+    </>
   );
 };
