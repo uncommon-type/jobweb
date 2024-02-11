@@ -14,7 +14,7 @@ import { RoleInfo } from '@screens/job/components/RoleInfo/RoleInfo';
 import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
 import { ActivityInfo } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
-import { AddJob } from '@screens/addJob/AddJob';
+import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
 import { Activity, loader as activityLoader } from '@screens/activity/Activity';
 import { AddActivity, loader as addActivityLoader } from '@screens/addActivity/AddActivity';
 
@@ -43,6 +43,7 @@ const routes = [
       {
         path: 'jobs/new',
         element: <AddJob />,
+        action: addJobAction,
       },
       {
         path: 'jobs/:jobId/*',

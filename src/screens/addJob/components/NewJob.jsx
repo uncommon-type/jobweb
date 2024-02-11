@@ -1,3 +1,5 @@
+import { Form } from 'react-router-dom';
+
 import { Input } from '@screens/common/Inputs/Input';
 import { RadioGroup } from '@screens/common/Inputs/RadioGroup';
 import { NumericInput } from '@screens/common/Inputs/NumericInput';
@@ -8,17 +10,16 @@ const stages = ['Interested', 'Applied', 'Interviewing', 'Offer received'];
 const employmentOptions = ['Full-time', 'Part-time', 'Temporary'];
 const locationOptions = ['Hybrid', 'In Office', 'Remote'];
 
-
 export const NewJob = () => {
   return (
-    <form className="add-job-form flow flow-space-xl">
-      <Input showLabel={true} label="Role" name="role" />
-      <Input showLabel={true} label="Company" name="company" />
-      <RadioGroup options={stages} label="Stage you're at" name="stage" />
+    <Form method="post" className="add-job-form flow flow-space-xl">
+      <Input showLabel={true} label="Role" name="jobTitle" />
+      <Input showLabel={true} label="Company" name="companyName" />
+      <RadioGroup options={stages} label="Stage you're at" name="status" />
       <RadioGroup
         options={employmentOptions}
         label="Type (optional)"
-        name="employment"
+        name="employmentType"
       />
       <RadioGroup
         options={locationOptions}
@@ -32,7 +33,7 @@ export const NewJob = () => {
       />
       <NumericInput
         label="Company size (optional)"
-        name="company-size"
+        name="size"
         className="width-10"
       />
       <TextAreaInput
@@ -44,6 +45,6 @@ export const NewJob = () => {
         className="width-20"
       />
       <SaveButton />
-    </form>
+    </Form>
   );
 };
