@@ -8,7 +8,7 @@ export const ErrorContent = ({ error }) => {
   }
 
   if (hasError && error.status === 404) {
-    return <div>Not found</div>;
+    return <div>{error.statusText}</div>;
   }
 
   if (hasError && error.status === 503) {
