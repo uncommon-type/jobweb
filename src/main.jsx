@@ -2,10 +2,7 @@ import { createBrowserRouter, redirect } from 'react-router-dom';
 
 import { Root } from './Root';
 import { Error } from '@screens/common/Error/Error';
-import {
-  LoginSignup, action as loginAction,
-  loader as loginLoader,
-} from '@screens/loginSignup/LoginSignup';
+import { LoginSignup, action as loginAction, loader as loginLoader } from '@screens/loginSignup/LoginSignup';
 import { action as signupAction } from '@screens/loginSignup/components/Signup/SignupForm';
 import { Jobs, loader as jobsLoader } from '@screens/jobs/Jobs';
 import { Job, loader as jobLoader } from '@screens/job/Job';
@@ -16,7 +13,7 @@ import { ActivityInfo } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
 import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
 import { Activity, loader as activityLoader } from '@screens/activity/Activity';
-import { AddActivity, loader as addActivityLoader } from '@screens/addActivity/AddActivity';
+import { AddActivity, loader as addActivityLoader, action as addActivityAction } from '@screens/addActivity/AddActivity';
 
 const routes = [
   {
@@ -69,16 +66,17 @@ const routes = [
             element: <Activity />,
             loader: activityLoader,
           },
-
           {
             path: 'activity/events/new',
             element: <AddActivity isEvent={true} />,
             loader: addActivityLoader,
+            action: addActivityAction,
           },
           {
             path: 'activity/tasks/new',
             element: <AddActivity isEvent={false} />,
             loader: addActivityLoader,
+            action: addActivityAction,
           },
         ],
       },
