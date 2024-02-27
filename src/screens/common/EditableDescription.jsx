@@ -19,6 +19,7 @@ export const EditableDescription = ({
         className="width-20"
         showCharacterCount={true}
         showLabel={showLabel}
+        name={name}
       />
     </div>
   );
