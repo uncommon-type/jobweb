@@ -3,7 +3,7 @@ import { EditableDescription } from '@screens/common/EditableDescription';
 import { SaveButton } from '@screens/common/Buttons/SaveButton';
 import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 
-export const NewTask = () => {
+export const NewTask = ({ jobId }) => {
   return (
     <form className="flow">
       <EditableCheckbox
