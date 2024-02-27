@@ -8,6 +8,8 @@ import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 
 export const NewEvent = ({ jobId }) => (
   <Form method="post" className="flow">
+    <input type="hidden" name="jobId" value={jobId} />
+    <input type="hidden" name="type" value="event" />
     <EditableCheckbox
       edit={true}
       showLabel={true}

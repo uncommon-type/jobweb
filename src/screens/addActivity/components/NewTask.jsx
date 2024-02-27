@@ -7,6 +7,8 @@ import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 
 export const NewTask = ({ jobId }) => (
   <Form method="post" className="flow">
+    <input type="hidden" name="jobId" value={jobId} />
+    <input type="hidden" name="type" value="task" />
     <EditableCheckbox
       edit={true}
       showLabel={true}
