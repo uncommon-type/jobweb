@@ -15,12 +15,21 @@ export const loader = async ({ params }) => {
   if (!token) {
     return redirect('/');
   }
-  const job = await getJob(params.jobId, token);
-  return { job };
+
+  try {
+    return await getJob(params.jobId, token);
+  } catch (err) {
+    console.error('Error caught while attempting to fetch a job inside activity loader', err);
+    if (err.status !== 404) {
+      throw new Response('', { status: err.status || 500, statusText: 'Something went wrong' })
+    }
+
+    throw new Response('', { status: err.status, statusText: 'Job not found' });
+  }
 };
 
 export const AddActivity = ({ isEvent = false }) => {
-  const { job } = useLoaderData();
+  const job = useLoaderData();
 
   return (
     <>
