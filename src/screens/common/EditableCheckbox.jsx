@@ -18,7 +18,7 @@ export const EditableCheckbox = ({
   return (
     <div className="cluster with-checkbox-btn">
       <div className="checkbox">
-        <input type="checkbox" id={`${name}-${appliedId}`} name={name} />
+        <input type="checkbox" id={`${name}-${appliedId}`} name={`${name}Checkbox`} />
         <label htmlFor={`${name}-${appliedId}`}>
           {!edit && (
             <>
@@ -41,7 +41,7 @@ export const EditableCheckbox = ({
           showLabel={showLabel}
           label={label}
           value={value}
-          name={name}
+          name={`${name}Input`}
         />
       )}
     </div>
