@@ -1,5 +1,7 @@
 import { useRouteError } from 'react-router-dom';
 
+import { Header } from '../Header/Header';
+import { SecondaryNav } from '../Header/SecondaryNav';
 import { ErrorContent } from './ErrorContent';
 
 export const Error = () => {
