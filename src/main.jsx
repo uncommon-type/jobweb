@@ -53,8 +53,13 @@ const routes = [
               { path: 'company', element: <CompanyInfo /> },
               { path: 'activity', element: <ActivityInfo /> },
               { path: 'offer', element: <OfferInfo /> },
-              { path: '*', element: <JobContent /> },
             ],
+          },
+          {
+            path: '',
+            element: <JobContent />,
+            loader: jobLoader,
+
           },
           {
             path: 'activity/events/:activityId',
