@@ -14,6 +14,7 @@ class ResponseError extends Error {
     super(message);
     this.errors = errors;
     this.status = status;
+    this.statusText = message;
   }
 }
 
