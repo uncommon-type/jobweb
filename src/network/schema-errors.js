@@ -16,7 +16,7 @@ const cleanSchemaErrors = (schemaErrors) => {
 };
 
 export const getSchemaErrors = (invalidParams) => {
-  const schemaErrors = invalidParams?.body || [];
+  const schemaErrors = invalidParams?.body || invalidParams?.params || [];
   const errors = cleanSchemaErrors(schemaErrors);
   return errors;
 };
