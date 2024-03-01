@@ -22,14 +22,14 @@ export const handleError = ({ status = '', invalid_params = {} }) => {
     const validationErrors = getSchemaErrors(invalid_params);
 
     if (validationErrors.length === 0) {
-      throw new ResponseError('Something went wrong', []);
+      throw new ResponseError('Something went wrong', [], status);
     }
 
-    throw new ResponseError('Bad request', validationErrors);
+    throw new ResponseError('Bad request', validationErrors, status);
   }
 
   if (status === 401) {
-    throw new ResponseError('Unauthorised', []);
+    throw new ResponseError('Unauthorised', [], status);
   }
 
   if (status === 404) {
@@ -37,10 +37,10 @@ export const handleError = ({ status = '', invalid_params = {} }) => {
   }
 
   if (status === 500) {
-    throw new ResponseError('Something went wrong', []);
+    throw new ResponseError('Something went wrong', [], status);
   }
 
-  throw new Error('An unknown error occured', []);
+  throw new Error('An unknown error occured', [], status);
 };
 
 const addIdToPayload = (payload) => {
