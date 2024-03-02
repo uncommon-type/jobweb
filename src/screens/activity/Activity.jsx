@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { redirect, useLoaderData, useNavigation } from 'react-router-dom';
+import { redirect, useLoaderData } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
@@ -16,23 +16,38 @@ export const loader = async ({ params }) => {
     return redirect('/');
   }
 
-  const job = await getJob(params.jobId, token);
+  try {
+    const job = await getJob(params.jobId, token);
 
-  const activity = job.activities.find(
-    (activity) => activity.id === params.activityId,
-  );
+    const activity = job.activities.find(
+      (activity) => activity.id === params.activityId,
+    );
 
-  return { job, activity };
+    if (!activity) {
+      throw new Response('', {
+        status: 404,
+        statusText: 'Activity not found',
+      });
+    }
+
+    return { job, activity };
+  } catch (err) {
+    console.error('Error caught while attempting to fetch job', err);
+    throw new Response('', {
+      status: err.status,
+      statusText: err.statusText || 'Something went wrong'
+    })
+  }
 };
+
 
 export const Activity = () => {
   const [edit, setEdit] = useState(false);
   const { job, activity } = useLoaderData();
-  const navigation = useNavigation();
   const isEvent = activity.type === 'event';
 
   return (
-    <div className={navigation.state === 'loading' ? 'loading' : ''}>
+    <>
       <Header>
         <SecondaryNav
           fromLink={`/jobs/${job.id}/activity`}
@@ -41,7 +56,6 @@ export const Activity = () => {
           onEdit={() => setEdit(!edit)}
         />
       </Header>
-
       <main>
         <section className="activity-details-group flow">
           {isEvent ? (
@@ -51,6 +65,6 @@ export const Activity = () => {
           )}
         </section>
       </main>
-    </div>
+    </>
   );
 };
