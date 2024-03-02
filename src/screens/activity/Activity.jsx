@@ -45,9 +45,9 @@ export const Activity = () => {
       <main>
         <section className="activity-details-group flow">
           {isEvent ? (
-            <Event activity={activity} edit={edit} />
+            <Event activity={activity} edit={edit} jobId={job.id} />
           ) : (
-            <Task activity={activity} edit={edit} />
+            <Task activity={activity} edit={edit} jobId={job.id} />
           )}
         </section>
       </main>
