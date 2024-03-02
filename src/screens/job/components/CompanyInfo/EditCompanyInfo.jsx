@@ -21,7 +21,7 @@ export const EditCompanyInfo = ({ job, edit }) => {
       />
       <NumericInput
         label="Size"
-        value={job.company.size || 'n/a'}
+        value={job.company?.size}
         className="width-5"
         name="size"
       />

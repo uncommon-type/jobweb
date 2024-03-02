@@ -24,7 +24,7 @@ export const EditOfferInfo = ({ job, edit }) => {
         edit={edit}
         showLabel={true}
         label="Probation"
-        value={job.probation || 'n/a'}
+        value={job.probation}
         name="probation"
       />
       <ProsAndConsContainer job={job} />
