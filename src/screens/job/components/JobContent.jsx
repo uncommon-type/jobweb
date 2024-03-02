@@ -23,11 +23,10 @@ export const JobContent = ({ from, job }) => {
           showEdit={location.pathname.split('/').pop() !== 'activity'}
         />
       </Header>
-
       <main>
         <section className="job-details-group flow">
           <Card job={job} className="no-border" />
-          <JobTabs onChange={() => setEdit(false)} jobStatus={job.status} />
+          <JobTabs onChange={() => setEdit(false)} jobStatus={job?.status} />
           <Outlet context={{ job, edit }} />
         </section>
       </main>
