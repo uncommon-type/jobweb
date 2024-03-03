@@ -22,7 +22,7 @@ export const loader = async ({ params }) => {
   try {
     return await getJob(params.jobId, token);
   } catch (err) {
-    console.error('Error caught while attempting to fetch a job inside activity loader', err);
+    console.error('Error caught while attempting to fetch a job in activity loader', err);
     if (err.status !== 404) {
       throw new Response('', { status: err.status || 500, statusText: 'Something went wrong' })
     }
@@ -41,10 +41,7 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
 
   const {
-    jobId, type, activityInput: activityTitle,
-    time, date,
-    description,
-    activityCheckbox: done,
+    jobId, type, activityInput: activityTitle, time, date, description, activityCheckbox: done,
   } = Object.fromEntries(formData);
 
   const errors = validateActivity({
@@ -52,7 +49,7 @@ export const action = async ({ request }) => {
   });
 
   if (errors.length !== 0) {
-    return json(errors);
+    return errors;
   }
 
   const activityToAdd = {
