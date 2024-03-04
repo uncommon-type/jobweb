@@ -4,7 +4,6 @@ import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
 
 import { JobContent } from './components/JobContent';
-import { JobNotFound } from './components/JobNotFound';
 
 
 export const loader = async ({ params }) => {
@@ -29,10 +28,6 @@ export const Job = () => {
   const job = useLoaderData();
   const location = useLocation();
   const from = location.state?.from || '/jobs';
-
-  if (!job) {
-    return <JobNotFound from={from} />
-  }
 
   return (
     <JobContent from={from} job={job} />
