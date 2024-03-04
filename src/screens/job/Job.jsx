@@ -8,35 +8,33 @@ import { JobNotFound } from './components/JobNotFound';
 
 
 export const loader = async ({ params }) => {
-    const token = authenticate();
+  const token = authenticate();
 
-    if (!token) {
-        return redirect('/');
-    }
+  if (!token) {
+    return redirect('/');
+  }
 
-    let job;
-
-    try {
-        job = await getJob(params.jobId, token);
-    } catch (err) {
-        if (err.status !== 404) {
-            throw new Error('Something went wrong')
-        }
-    }
-
-    return { job };
+  try {
+    return await getJob(params.jobId, token);
+  } catch (err) {
+    console.error('Error fetching a job in job loader', err);
+    throw new Response('', {
+      status: err.status || 500,
+      statusText: err.statusText || 'Something went wrong'
+    })
+  }
 }
 
 export const Job = () => {
-    const { job } = useLoaderData();
-    const location = useLocation();
-    const from = location.state?.from || '/jobs';
+  const job = useLoaderData();
+  const location = useLocation();
+  const from = location.state?.from || '/jobs';
 
-    if (!job) {
-        return <JobNotFound from={from} />
-    }
+  if (!job) {
+    return <JobNotFound from={from} />
+  }
 
-    return (
-        <JobContent from={from} job={job} />
-    );
+  return (
+    <JobContent from={from} job={job} />
+  );
 };
