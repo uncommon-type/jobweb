@@ -61,6 +61,10 @@ export const action = async ({ request }) => {
     done: done === "on" ? true : false
   };
 
+  if (description) {
+    activityToAdd.description = description
+  }
+
   try {
     await postJobActivity(activityToAdd, token, jobId);
     return redirect(`/jobs/${jobId}/activity`);
