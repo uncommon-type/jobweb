@@ -18,17 +18,18 @@ export const loader = async () => {
   }
 
   try {
-    const jobs = await getJobs(token);
-    return { jobs };
+    return await getJobs(token);
   } catch (err) {
-    console.error('Error caught while attempting to fetch jobs', err);
-    return {};
+    throw new Response('', {
+      status: err.status || 500,
+      statusText: 'ee Something went wrong',
+    });
   }
 };
 
 
 export const Jobs = () => {
-  const { jobs: jobList } = useLoaderData();
+  const jobList = useLoaderData();
 
   return (
     <>
