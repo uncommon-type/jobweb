@@ -20,10 +20,14 @@ export const loader = async () => {
   try {
     return await getJobs(token);
   } catch (err) {
-    throw new Response('', {
-      status: err.status || 500,
-      statusText: 'ee Something went wrong',
-    });
+    if (err.status !== 404) {
+      throw new Response('', {
+        status: err.status || 500,
+        statusText: 'Something went wrong',
+      });
+    }
+
+    return err.errors;
   }
 };
 
