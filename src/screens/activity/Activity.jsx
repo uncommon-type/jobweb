@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { redirect, useLoaderData } from 'react-router-dom';
+import { redirect, useLoaderData, useActionData } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
@@ -40,10 +40,51 @@ export const loader = async ({ params }) => {
   }
 };
 
+export const action = async ({ request, params }) => {
+  const token = authenticate();
+
+  if (!token) {
+    return redirect('/');
+  }
+
+  const { activityId, jobId } = params;
+
+  const formData = await request.formData();
+  const { activityInput: activityTitle, date, time, description, activity: activityCheckbox } = Object.fromEntries(formData);
+
+  const errors = validateActivity({
+    activityTitle, date, time, description,
+  });
+
+  if (errors.length !== 0) {
+    return errors;
+  }
+
+  const activityToUpdate = {
+    id: activityId,
+    title: activityTitle,
+    startDate: new Date(`${date} ${time}`).toISOString(),
+    description,
+    done: activityCheckbox === "on" ? true : false
+  }
+
+  try {
+    await updateJobActivity(activityToUpdate, token, jobId);
+    return redirect(`/jobs/${jobId}/activity`);
+  } catch (err) {
+    console.error('Error caught while attempting to update an activity in activity action)', err);
+    throw new Response('', {
+      status: err.status,
+      statusText: err.statusText || 'Something went wrong'
+    })
+  }
+}
+
 
 export const Activity = () => {
   const [edit, setEdit] = useState(false);
   const { job, activity } = useLoaderData();
+  const actionData = useActionData() || [];
   const isEvent = activity.type === 'event';
 
   return (
@@ -63,6 +104,9 @@ export const Activity = () => {
           ) : (
             <Task activity={activity} edit={edit} jobId={job.id} />
           )}
+          {actionData.length !== 0
+            ? actionData.map((error) => <Alert key={error.message} message={error.message} />)
+            : null}
         </section>
       </main>
     </>

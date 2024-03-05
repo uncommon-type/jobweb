@@ -12,7 +12,7 @@ import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
 import { ActivityInfo } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
 import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
-import { Activity, loader as activityLoader } from '@screens/activity/Activity';
+import { Activity, loader as activityLoader, action as activityAction } from '@screens/activity/Activity';
 import { AddActivity, loader as addActivityLoader, action as addActivityAction } from '@screens/addActivity/AddActivity';
 
 const routes = [
@@ -65,11 +65,13 @@ const routes = [
             path: 'activity/events/:activityId',
             element: <Activity />,
             loader: activityLoader,
+            action: activityAction
           },
           {
             path: 'activity/tasks/:activityId',
             element: <Activity />,
             loader: activityLoader,
+            action: activityAction
           },
           {
             path: 'activity/events/new',
