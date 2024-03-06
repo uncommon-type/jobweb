@@ -32,3 +32,9 @@ export const formatMoney = (value) => {
   const { format } = new Intl.NumberFormat('en-UK', options);
   return format(value);
 };
+
+export const filterOutEmptyOrNull = (obj) => {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, value]) => value !== null && value !== '')
+  );
+}

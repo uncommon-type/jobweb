@@ -1,12 +1,9 @@
-import {
-  useLocation, redirect,
-  json,
-  useActionData,
-} from 'react-router-dom';
+import { useLocation, redirect, useActionData } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
 import { validateJob } from './helpers/validate-job';
+import { filterOutEmptyOrNull } from '@helpers/form';
 import { postJob } from '@network/jobs';
 
 import { Header } from '@screens/common/Header/Header';
@@ -34,38 +31,42 @@ export const action = async ({ request }) => {
     size,
   } = Object.fromEntries(formData);
 
-
   const jobToAdd = {
     jobTitle,
-    company: { id: uuidv4(), name: companyName, size: size ? parseInt(size) : null },
+    company: {
+      id: uuidv4(),
+      name: companyName,
+      size: parseInt(size)
+    },
     status,
     employmentType,
     location,
-  };
-
-  if (description) {
-    jobToAdd.description = description
-  }
-
-  if (salary) {
-    jobToAdd.salary = salary
+    description,
+    salary: parseInt(salary)
   }
 
   const errors = validateJob(jobToAdd);
 
   if (errors.length !== 0) {
-    return json(errors);
+    return errors;
   }
 
+  const cleanJobToAdd = filterOutEmptyOrNull(jobToAdd);
+
   try {
-    await postJob(jobToAdd, token);
+    await postJob(cleanJobToAdd, token);
     return redirect(`/jobs`);
   } catch (err) {
     console.error('Error caught while attempting to post a job', err);
-    return json(err);
+    if (err.status !== 400) {
+      throw new Response('', {
+        status: err.status || 500,
+        statusText: err.statusText || 'Something went wrong'
+      })
+    }
+    return err.errors;
   }
 };
-
 
 export const AddJob = () => {
   const location = useLocation();
