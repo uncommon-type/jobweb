@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
 import { validateJob } from './helpers/validate-job';
-import { filterOutEmptyOrNull } from '@helpers/form';
 import { postJob } from '@network/jobs';
 
 import { Header } from '@screens/common/Header/Header';
@@ -32,17 +31,41 @@ export const action = async ({ request }) => {
   } = Object.fromEntries(formData);
 
   const jobToAdd = {
-    jobTitle,
     company: {
       id: uuidv4(),
-      name: companyName,
-      size: parseInt(size)
     },
-    status,
-    employmentType,
-    location,
-    description,
-    salary: parseInt(salary)
+  };
+
+  if (jobTitle) {
+    jobToAdd.jobTitle = jobTitle
+  }
+
+  if (status) {
+    jobToAdd.status = status
+  }
+
+  if (companyName) {
+    jobToAdd.company.name = companyName
+  }
+
+  if (employmentType) {
+    jobToAdd.employmentType = employmentType
+  }
+
+  if (location) {
+    jobToAdd.location = location
+  }
+
+  if (size) {
+    jobToAdd.company.size = parseInt(size)
+  }
+
+  if (salary) {
+    jobToAdd.salary = parseInt(salary)
+  }
+
+  if (description) {
+    jobToAdd.description = description
   }
 
   const errors = validateJob(jobToAdd);
@@ -51,13 +74,12 @@ export const action = async ({ request }) => {
     return errors;
   }
 
-  const cleanJobToAdd = filterOutEmptyOrNull(jobToAdd);
-
   try {
-    await postJob(cleanJobToAdd, token);
+    await postJob(jobToAdd, token);
     return redirect(`/jobs`);
   } catch (err) {
     console.error('Error caught while attempting to post a job', err);
+
     if (err.status !== 400) {
       throw new Response('', {
         status: err.status || 500,
@@ -67,6 +89,7 @@ export const action = async ({ request }) => {
     return err.errors;
   }
 };
+
 
 export const AddJob = () => {
   const location = useLocation();
@@ -80,9 +103,9 @@ export const AddJob = () => {
       </Header>
       <main>
         <NewJob />
-        {actionData.length !== 0
-          ? actionData.map((error) => <Alert key={error.message} message={error.message} />)
-          : null}
+        {actionData.length !== 0 && actionData.map((error, index) =>
+          <Alert key={index} message={error.message} />
+        )}
       </main>
     </>
   );
