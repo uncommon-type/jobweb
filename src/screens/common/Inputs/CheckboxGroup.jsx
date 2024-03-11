@@ -1,18 +1,19 @@
 import { EditableCheckbox } from '../EditableCheckbox';
 
-export const CheckboxGroup = ({ options, edit, jobId }) => {
+export const CheckboxGroup = ({ options, edit, jobId, onChange }) => {
   return (
-    <fieldset className="flow flow-space-s">
+    <fieldset className="flow flow-space-s option-list">
       {options.map((option) => {
         return (
-          <div key={option.id} className="activity" data-status="complete">
-            <EditableCheckbox
-              edit={edit}
-              value={option.title}
-              name="activity"
-              link={`/jobs/${jobId}/activity/events/${option.id}`}
-            />
-          </div>
+          <EditableCheckbox key={option.id}
+            edit={edit}
+            name={option.title}
+            checked={option.done}
+            value={option.title}
+            onChange={onChange}
+            id={option.id}
+            link={`/jobs/${jobId}/activity/events/${option.id}`}
+          />
         );
       })}
     </fieldset>

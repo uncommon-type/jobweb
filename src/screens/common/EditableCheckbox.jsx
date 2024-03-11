@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useId } from 'react';
+import { Link } from 'react-router-dom';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 import { Input } from './Inputs/Input';
 
@@ -11,30 +12,32 @@ export const EditableCheckbox = ({
   value,
   link,
   showLabel,
+  checked = false,
+  onChange
 }) => {
   const generatedId = useId();
   const appliedId = id || generatedId;
 
   return (
-    <div className="cluster with-checkbox-btn">
-      <div className="checkbox">
-        <input type="checkbox" id={`${name}-${appliedId}`} name={`${name}Checkbox`} />
-        <label htmlFor={`${name}-${appliedId}`}>
-          {!edit && (
+    <div className={edit ? 'option items-end' : 'option'}>
+      <input type="checkbox" id={appliedId} name={name} onChange={onChange} checked={checked} />
+      <label htmlFor={appliedId} className={!edit ? 'option-meta' : 'sr-only'} >
+        {!edit && (
+          link ? (
             <>
-              {link ? (
-                <Link to={link} aria-label="View details">
-                  {value}
-                </Link>
-              ) : (
-                value
-              )}
+              <Link to={link} aria-label="View details">
+                {value}
+              </Link>
+              <span>
+                <TrashIcon className="delete-icon" />
+              </span>
             </>
-          )}
-          {edit && <span className="sr-only">{`${name} status`}</span>}
-        </label>
-      </div>
-
+          ) : (
+            value
+          )
+        )}
+        {edit && `${name} status`}
+      </label >
       {edit && (
         <Input
           edit={true}
@@ -44,6 +47,6 @@ export const EditableCheckbox = ({
           name={`${name}Input`}
         />
       )}
-    </div>
+    </div >
   );
 };

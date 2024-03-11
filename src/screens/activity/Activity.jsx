@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { redirect, useLoaderData, useActionData } from 'react-router-dom';
+import { redirect, useLoaderData, useActionData, useNavigate } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
+import { updateJobActivity } from '@network/jobs';
 import { validateActivity } from '@screens/addActivity/components/helpers/validate-activity';
 
 import { Header } from '@screens/common/Header/Header';
@@ -101,7 +102,23 @@ export const Activity = () => {
   const [edit, setEdit] = useState(false);
   const { job, activity } = useLoaderData();
   const actionData = useActionData() || [];
+  const navigate = useNavigate();
   const isEvent = activity.type === 'event';
+
+  const handleChange = async (e) => {
+    const activityToUpdate = {
+      id: activity.id,
+      done: e.target.checked
+    }
+    const token = authenticate();
+
+    if (!token) {
+      navigate('/')
+    }
+
+    await updateJobActivity(activityToUpdate, token, job.id);
+    navigate(`/jobs/${job.id}/activity/${activity.type}s/${activity.id}`)
+  }
 
   return (
     <>
@@ -109,18 +126,18 @@ export const Activity = () => {
         <SecondaryNav
           fromLink={`/jobs/${job.id}/activity`}
           title={isEvent ? 'Event details' : 'Task details'}
-          showEdit={true}
           onEdit={() => setEdit(!edit)}
+          showEdit={true}
         />
       </Header>
       <main>
         <section className="activity-details-group flow">
           {isEvent ? (
-            <Event activity={activity} edit={edit} jobId={job.id} />
+            <Event activity={activity} edit={edit} onChange={handleChange} />
           ) : (
-            <Task activity={activity} edit={edit} jobId={job.id} />
+            <Task activity={activity} edit={edit} onChange={handleChange} />
           )}
-          {actionData.length !== 0
+          {edit && actionData.length !== 0
             ? actionData.map((error) => <Alert key={error.message} message={error.message} />)
             : null}
         </section>
