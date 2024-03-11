@@ -3,6 +3,7 @@ import { redirect, useLoaderData, useActionData } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { getJob } from '@network/jobs';
+import { validateActivity } from '@screens/addActivity/components/helpers/validate-activity';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
@@ -48,24 +49,40 @@ export const action = async ({ request, params }) => {
   }
 
   const { activityId, jobId } = params;
-
   const formData = await request.formData();
-  const { activityInput: activityTitle, date, time, description, activity: activityCheckbox } = Object.fromEntries(formData);
 
-  const errors = validateActivity({
-    activityTitle, date, time, description,
-  });
+  const {
+    activityInput: activityTitle,
+    activity: activityCheckbox,
+    time,
+    date,
+    description,
+  } = Object.fromEntries(formData);
+
+  const activityToUpdate = {
+    id: activityId
+  }
+
+  if (activityTitle) {
+    activityToUpdate.title = activityTitle
+  }
+
+  if (activityCheckbox) {
+    activityToUpdate.done = activityCheckbox === "on" ? true : false
+  }
+
+  if (time && date) {
+    activityToUpdate.startDate = new Date(`${date} ${time}`).toISOString()
+  }
+
+  if (description) {
+    activityToUpdate.description = description
+  }
+
+  const errors = validateActivity(activityToUpdate);
 
   if (errors.length !== 0) {
     return errors;
-  }
-
-  const activityToUpdate = {
-    id: activityId,
-    title: activityTitle,
-    startDate: new Date(`${date} ${time}`).toISOString(),
-    description,
-    done: activityCheckbox === "on" ? true : false
   }
 
   try {
@@ -79,7 +96,6 @@ export const action = async ({ request, params }) => {
     })
   }
 }
-
 
 export const Activity = () => {
   const [edit, setEdit] = useState(false);

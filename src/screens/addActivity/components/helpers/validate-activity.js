@@ -1,20 +1,16 @@
 export const validateActivity = (data) => {
   let errors = [];
 
-  if (!data.activityTitle) {
-    errors = [...errors, { name: 'activity', message: 'Activity is required' }];
+  if (!data.title) {
+    errors = [...errors, { name: 'activity', message: 'Activity title is required' }];
   }
 
-  if (!data.time) {
-    errors = [...errors, { name: 'time', message: 'Time is required' }];
-  }
-
-  if (!data.date) {
-    errors = [...errors, { name: 'date', message: 'Date is required' }];
+  if (data.type === "event" && !data.startDate) {
+    errors = [...errors, { name: 'time', message: 'Start date is required' }];
   }
 
   if (!data.description) {
-    errors = [...errors, { name: 'description', message: 'Description is required' }];
+    errors = [...errors, { name: 'description', message: 'Activity description is required' }];
   }
 
   if (errors.length > 0) {
