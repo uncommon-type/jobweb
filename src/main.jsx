@@ -9,7 +9,7 @@ import { Job, loader as jobLoader } from '@screens/job/Job';
 import { JobContent } from '@screens/job/components/JobContent';
 import { RoleInfo } from '@screens/job/components/RoleInfo/RoleInfo';
 import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
-import { ActivityInfo } from '@screens/job/components/ActivityInfo';
+import { ActivityInfo, action as updateActivityAction } from '@screens/job/components/ActivityInfo';
 import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
 import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
 import { Activity, loader as activityLoader, action as activityAction } from '@screens/activity/Activity';
@@ -51,7 +51,7 @@ const routes = [
             children: [
               { path: 'role', element: <RoleInfo /> },
               { path: 'company', element: <CompanyInfo /> },
-              { path: 'activity', element: <ActivityInfo /> },
+              { path: 'activity', element: <ActivityInfo />, action: updateActivityAction },
               { path: 'offer', element: <OfferInfo /> },
             ],
           },
