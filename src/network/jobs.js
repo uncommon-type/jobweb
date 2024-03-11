@@ -24,3 +24,7 @@ export const deleteJob = async (jobId, token) => {
 export const postJobActivity = async (activityToAdd, token, jobId) => {
   return await sendData(`${baseUrl}/jobs/${jobId}/activities`, activityToAdd, token);
 };
+
+export const updateJobActivity = async (activityToUpdate, token, jobId) => {
+  return await updateData(`${baseUrl}/jobs/${jobId}/activities/${activityToUpdate.id}`, activityToUpdate, token);
+}
