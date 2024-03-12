@@ -1,4 +1,4 @@
-import { redirect, useOutletContext, useActionData, useSubmit } from 'react-router-dom';
+import { redirect, useOutletContext, useActionData, useSubmit, Form } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { updateJobActivity } from '@network/jobs';
@@ -52,9 +52,9 @@ export const ActivityInfo = () => {
     <>
       <LinkToAddActivity jobId={job.id} />
       {activities.length !== 0 ?
-        <form>
+        <Form method='put'>
           <CheckboxGroup options={activities} jobId={job.id} edit={edit} onChange={handleChange} />
-        </form>
+        </Form>
         : null
       }
       {actionData.length !== 0
