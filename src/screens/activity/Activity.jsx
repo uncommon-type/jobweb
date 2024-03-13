@@ -61,15 +61,12 @@ export const action = async ({ request, params }) => {
   } = Object.fromEntries(formData);
 
   const activityToUpdate = {
-    id: activityId
+    id: activityId,
+    done: activityCheckbox === "on" ? true : false
   }
 
   if (activityTitle) {
     activityToUpdate.title = activityTitle
-  }
-
-  if (activityCheckbox) {
-    activityToUpdate.done = activityCheckbox === "on" ? true : false
   }
 
   if (time && date) {
