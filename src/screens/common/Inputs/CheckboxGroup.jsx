@@ -1,21 +1,28 @@
+import { MinusCircleIcon } from '@heroicons/react/24/outline';
+
 import { EditableCheckbox } from '../EditableCheckbox';
 
 export const CheckboxGroup = ({ options, edit, jobId, onChange }) => {
   return (
     <fieldset className="flow flow-space-s option-list">
-      {options.map((option) => {
+      {options.map(({ id, title, done }) => {
         return (
-          <EditableCheckbox key={option.id}
-            edit={edit}
-            name={option.title}
-            checked={option.done}
-            value={option.title}
-            onChange={onChange}
-            id={option.id}
-            link={`/jobs/${jobId}/activity/events/${option.id}`}
-          />
+          <div key={id} className="cluster option-list__inner">
+            <EditableCheckbox key={id}
+              edit={edit}
+              name={title}
+              checked={done}
+              value={title}
+              onChange={onChange}
+              id={id}
+              link={`/jobs/${jobId}/activity/events/${id}`}
+            />
+            <div className="cluster option-icon">
+              <MinusCircleIcon id={id} />
+            </div>
+          </div>
         );
       })}
-    </fieldset>
+    </fieldset >
   );
 };
