@@ -14,6 +14,7 @@ export const NewTask = ({ jobId }) => (
       showLabel={true}
       label="Short title"
       name="activity"
+      className="items-end"
     />
     <EditableDescription
       edit={true}

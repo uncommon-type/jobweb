@@ -15,6 +15,7 @@ export const NewEvent = ({ jobId }) => (
       showLabel={true}
       label="Type (hiring call, interview, etc)"
       name="activity"
+      className="items-end"
     />
     <EditableDateTime
       edit={true}
