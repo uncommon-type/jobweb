@@ -1,4 +1,4 @@
-import { MinusCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 import { EditableCheckbox } from '../EditableCheckbox';
 
@@ -17,9 +17,9 @@ export const CheckboxGroup = ({ options, edit, jobId, onChange }) => {
               id={id}
               link={`/jobs/${jobId}/activity/events/${id}`}
             />
-            <div className="cluster option-icon">
-              <MinusCircleIcon id={id} />
-            </div>
+            <button className="cluster option-button" aria-label="Delete item">
+              <TrashIcon id={id} />
+            </button>
           </div>
         );
       })}
