@@ -31,7 +31,7 @@ export const loader = async ({ params }) => {
   }
 };
 
-export const action = async ({ request }) => {
+export const action = async ({ request, params }) => {
   const token = authenticate();
 
   if (!token) {
@@ -41,28 +41,31 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
 
   const {
-    jobId, type, activityInput: activityTitle, time, date, description, activityCheckbox: done,
+    jobId, type, activityInput: activityTitle, time, date, description, activity: activityCheckbox
   } = Object.fromEntries(formData);
-
-  const errors = validateActivity({
-    activityTitle, time, date, description,
-  });
-
-  if (errors.length !== 0) {
-    return errors;
-  }
 
   const activityToAdd = {
     id: uuidv4(),
-    title: activityTitle,
-    startDate: new Date(`${date} ${time}`).toISOString(),
     type,
-    description,
-    done: done === "on" ? true : false
+    done: activityCheckbox === "on" ? true : false
   };
+
+  if (activityTitle) {
+    activityToAdd.title = activityTitle
+  }
 
   if (description) {
     activityToAdd.description = description
+  }
+
+  if (time && date) {
+    activityToAdd.startDate = new Date(`${date} ${time}`).toISOString()
+  }
+
+  const errors = validateActivity(activityToAdd);
+
+  if (errors.length !== 0) {
+    return errors;
   }
 
   try {
