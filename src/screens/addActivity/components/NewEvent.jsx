@@ -6,7 +6,7 @@ import { EditableDescription } from '@screens/common/EditableDescription';
 import { SaveButton } from '@screens/common/Buttons/SaveButton';
 import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 
-export const NewEvent = ({ jobId }) => (
+export const NewEvent = ({ jobId, onChange, activityCheckbox }) => (
   <Form method="post" className="flow">
     <input type="hidden" name="jobId" value={jobId} />
     <input type="hidden" name="type" value="event" />
@@ -16,6 +16,8 @@ export const NewEvent = ({ jobId }) => (
       label="Type (hiring call, interview, etc)"
       name="activity"
       className="items-end"
+      checked={activityCheckbox}
+      onChange={onChange}
     />
     <EditableDateTime
       edit={true}

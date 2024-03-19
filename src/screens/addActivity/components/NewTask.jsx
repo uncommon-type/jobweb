@@ -5,7 +5,7 @@ import { EditableDescription } from '@screens/common/EditableDescription';
 import { SaveButton } from '@screens/common/Buttons/SaveButton';
 import { DeleteButton } from '@screens/common/Buttons/DeleteButton';
 
-export const NewTask = ({ jobId }) => (
+export const NewTask = ({ jobId, onChange, activityCheckbox }) => (
   <Form method="post" className="flow">
     <input type="hidden" name="jobId" value={jobId} />
     <input type="hidden" name="type" value="task" />
@@ -15,6 +15,8 @@ export const NewTask = ({ jobId }) => (
       label="Short title"
       name="activity"
       className="items-end"
+      checked={activityCheckbox}
+      onChange={onChange}
     />
     <EditableDescription
       edit={true}

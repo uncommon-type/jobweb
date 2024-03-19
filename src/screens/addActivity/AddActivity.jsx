@@ -1,4 +1,5 @@
-import { useLoaderData, redirect, useActionData, json } from 'react-router-dom';
+import { useState } from 'react';
+import { useLoaderData, redirect, useActionData } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
@@ -78,8 +79,13 @@ export const action = async ({ request, params }) => {
 };
 
 export const AddActivity = ({ isEvent = false }) => {
+  const [activityCheckbox, setActivityCheckbox] = useState(false);  ///////???
   const job = useLoaderData();
   const actionData = useActionData() || [];
+
+  const handleChange = async (e) => {
+    setActivityCheckbox(e.target.checked);
+  }
 
   return (
     <>
@@ -89,7 +95,7 @@ export const AddActivity = ({ isEvent = false }) => {
       <main>
         <section className="add-activity-group flow">
           <NewActivityTabs jobId={job.id} />
-          {isEvent ? <NewEvent jobId={job.id} /> : <NewTask jobId={job.id} />}
+          {isEvent ? <NewEvent jobId={job.id} onChange={handleChange} activityCheckbox={activityCheckbox} /> : <NewTask jobId={job.id} onChange={handleChange} activityCheckbox={activityCheckbox} />}
           {actionData.length !== 0
             ? actionData.map((error) => <Alert key={error.message} message={error.message} />)
             : null}
