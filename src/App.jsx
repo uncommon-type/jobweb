@@ -1,22 +1,11 @@
-import { RouterProvider } from 'react-router-dom';
+import React from 'react';
+import { RouterProvider} from 'react-router-dom';
 
-import { router } from './main';
-import { Spinner } from '@screens/common/Spinner';
+import { router } from "./routes";
+import { Root } from './Root';
 
-export const App = () => {
-  return (
-    <RouterProvider
-      router={router}
-      fallbackElement={
-        <>
-          <div className="wrapper decor">
-            <span className="pin"></span>
-            <div className="cluster fallback-element">
-              <Spinner />
-            </div>
-          </div>
-        </>
-      }
-    />
-  );
-};
+export const App = () => (
+    <div className='k'>
+      <RouterProvider router={router} fallbackElement={<Root />} />
+    </div>
+)
