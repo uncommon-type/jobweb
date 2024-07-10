@@ -1,12 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { endpoints } from '@helpers/constants';
 import { getSchemaErrors } from './schema-errors';
 
-export const baseUrl = `http://localhost:3000`;
-
 export const requestToken = async (userCredentials) => {
-  const url = `${baseUrl}/login`;
-  return await sendData(url, userCredentials);
+  return await sendData(endpoints.login, userCredentials);
 };
 
 class ResponseError extends Error {
@@ -14,14 +12,14 @@ class ResponseError extends Error {
     super(message);
     this.errors = errors;
     this.status = status;
-    this.statusText = message;
+    this.statusText = message; 
   }
 }
 
 export const handleError = ({ status = '', invalid_params = {} }) => {
   if (status === 400) {
     const validationErrors = getSchemaErrors(invalid_params);
-
+  
     if (validationErrors.length === 0) {
       throw new ResponseError('Something went wrong', [], status);
     }
@@ -41,10 +39,10 @@ export const handleError = ({ status = '', invalid_params = {} }) => {
     throw new ResponseError('Something went wrong', [], status);
   }
 
-  throw new Error('An unknown error occured', [], status);
+  throw new Error('An unknown error occured', []); 
 };
 
-const addIdToPayload = (payload) => {
+const addToPayload = (payload) => {
   const id = uuidv4();
   return { id, ...payload };
 };
@@ -74,9 +72,7 @@ export const callServer = async (method, url, data, token) => {
       return {}
     }
 
-    const responseData = await res.json();
-
-    return responseData;
+   return await res.json(); 
   } catch (err) {
     handleError(err);
   }
@@ -87,23 +83,19 @@ export const sendData = (url, data, token) => {
     throw new Error('Expecting data');
   }
 
-  return callServer('POST', url, addIdToPayload(data), token);
+  const payload = addToPayload(data)
+
+  return callServer('POST', url, payload, token);
 };
 
-export const getData = (url, token, data) => {
-  const fetchUrl = new URL(url);
+export const getData = (url, token) => {
+  return callServer('GET', url, {}, token);
+}
 
-  if (data) {
-    fetchUrl.search = new URLSearchParams(data);
-  }
-
-  return callServer('GET', fetchUrl, {}, token);
+export const updateData = async (url, data, token) => {
+  return await callServer('PUT', url, data, token);
 };
 
-export const updateData = (url, data, token) => {
-  return callServer('PUT', url, data, token);
-};
-
-export const deleteData = (url, token) => {
-  return callServer('DELETE', url, {}, token);
+export const deleteData = async (url, token) => {
+  return await callServer('DELETE', url, {}, token);
 };
