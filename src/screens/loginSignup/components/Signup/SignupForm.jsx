@@ -1,6 +1,7 @@
-import { Form, redirect, json } from 'react-router-dom';
+import { Form, redirect } from 'react-router-dom';
 
-import { baseUrl, sendData } from '@network/network';
+import { sendData } from '@network/network';
+import { endpoints } from '@helpers/constants';
 import { getErrorMessage } from '@helpers/form';
 import { validateSignup } from '@screens/loginSignup/helpers/validate-signup';
 
@@ -9,32 +10,32 @@ import { EmailField } from '../common/EmailField';
 import { PasswordField } from '../common/PasswordField';
 import { SignUpButton } from './SignupButton';
 import { LinkToSignIn } from './LinkToSignIn';
+import { Alert } from '@screens/common/Alert';
 
 export const action = async ({ request }) => {
   const formData = await request.formData();
   const { name, email, password } = Object.fromEntries(formData);
-  const url = `${baseUrl}/user`;
 
   const errors = validateSignup({ name, email, password });
 
   if (errors.length !== 0) {
-    return json(errors);
+    return errors;
   }
 
   try {
-    await sendData(url, { name, email, password });
+     await sendData(endpoints.users.create, { name, email, password });
+     return redirect('/');
   } catch (err) {
-    return json(err.errors, { status: 422 });
+    console.error('Error caught while creating a user', err);
+    return ['Sign up failed'] ;
   }
-
-  return redirect('/');
 };
 
 export const SignupForm = ({ onChange, isSigningUp, errors, onLinkAction }) => {
   return (
     <>
       <h1>Please sign up.</h1>
-      <Form method="post" className="login-form flow" replace>
+      <Form method='post' className='login-form flow' replace>
         <NameField
           onChange={onChange}
           error={getErrorMessage(errors, 'name')}
@@ -45,17 +46,14 @@ export const SignupForm = ({ onChange, isSigningUp, errors, onLinkAction }) => {
           error={getErrorMessage(errors, 'email')}
           loading={isSigningUp}
         />
-
         <PasswordField
           onChange={onChange}
           error={getErrorMessage(errors, 'password')}
           loading={isSigningUp}
         />
-
-        <div className="action-group flow flow-space-l">
+        <div className='action-group flow flow-space-l'>
           <SignUpButton isSigningUp={isSigningUp} />
-
-          <span className="cluster">
+          <span className='cluster'>
             Have an account?
             <LinkToSignIn
               isSigningUp={isSigningUp}
@@ -64,6 +62,7 @@ export const SignupForm = ({ onChange, isSigningUp, errors, onLinkAction }) => {
           </span>
         </div>
       </Form>
+      {errors.length !== 0 ? <Alert message='Sign up failed' /> : null}
     </>
   );
 };
