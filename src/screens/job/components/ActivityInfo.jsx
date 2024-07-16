@@ -1,11 +1,10 @@
-import { redirect, useOutletContext, useActionData, useSubmit, Form } from 'react-router-dom';
+import { redirect, useOutletContext, useFetcher } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
-import { updateJobActivity } from '@network/jobs';
+import { updateJobActivity, deleteJobActivity } from '@network/jobs';
 
 import { LinkToAddActivity } from './LinkToAddActivity';
 import { CheckboxGroup } from '@screens/common/Inputs/CheckboxGroup';
-import { Alert } from '@screens/common/Alert';
 
 export const action = async ({ request, params }) => {
   const token = authenticate();
@@ -16,49 +15,67 @@ export const action = async ({ request, params }) => {
 
   const { jobId } = params;
   const formData = await request.formData();
-  const activityData = Object.fromEntries(formData);
-  activityData.done = JSON.parse(activityData.done);
+  const formValues = Object.fromEntries(formData);
 
-  try {
-    await updateJobActivity(activityData, token, jobId);
-    return redirect(`/jobs/${jobId}/activity`);
-  } catch (err) {
-    if (err.status !== 400) {
+  if (request.method === 'PUT') {
+    formValues.done = JSON.parse(formValues?.done);
+
+    try {
+      return await updateJobActivity(formValues, token, jobId);
+    }
+    catch (err) {
       throw new Response('', {
         status: err.status || 500,
-        statusText: err.statusText || 'Something went wrong'
-      })
+        statusText: err.statusText || 'Something went wrong',
+      });
     }
-    return err.errors;
   }
+
+  if (request.method === 'DELETE') {
+    try {
+      return await deleteJobActivity(jobId, formValues.id, token);
+    }
+    catch (err) {
+      console.error('Error caught while attempting to delete an activity in activity action)', err);
+      throw new Response('', {
+        status: err.status,
+        statusText: err.statusText || 'Something went wrong',
+      });
+    }
+  }
+
+  throw new Response('', {
+    status: 500,
+    statusText: `Invalid request method: ${request.method} ?? "Missing"`,
+  });
 };
 
 export const ActivityInfo = () => {
   const { job, edit } = useOutletContext();
-  const { activities } = job;
-  const actionData = useActionData() || [];
-  const submit = useSubmit();
+  const { id, activities } = job;
+  const fetcher = useFetcher();
 
-  const handleChange = (e) => {
-    const activity = activities.find((activity) => {
-      return activity.id === e.target.id;
-    })
+  const handleChange = async (e) => {
+    fetcher.submit({ id: e.target.id, done: e.target.checked }, { method: 'PUT', action: `/jobs/${id}/activity` });
+  };
 
-    activity.done = e.target.checked;
-    submit({ id: e.target.id, done: activity.done }, { method: 'PUT' })
+  const handleOptionRemove = async (e) => {
+    fetcher.submit({ id: e.currentTarget.id }, { method: 'DELETE', action: `/jobs/${id}/activity` });
   };
 
   return (
     <>
-      <LinkToAddActivity jobId={job.id} />
-      {activities.length !== 0 ?
-        <Form method='put'>
-          <CheckboxGroup options={activities} jobId={job.id} edit={edit} onChange={handleChange} />
-        </Form>
-        : null
-      }
-      {actionData.length !== 0
-        ? actionData.map((error) => <Alert key={error.message} message={error.message} />)
+      <LinkToAddActivity jobId={id} />
+      {activities.length !== 0
+        ? (
+            <CheckboxGroup
+              options={activities}
+              jobId={id}
+              edit={edit}
+              onChange={handleChange}
+              onRemove={handleOptionRemove}
+            />
+          )
         : null}
     </>
   );
