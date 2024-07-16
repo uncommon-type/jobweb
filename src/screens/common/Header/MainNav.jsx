@@ -1,9 +1,7 @@
 import { useFetcher, NavLink } from 'react-router-dom';
-import {
-  PlusCircleIcon,
-  ArrowLeftOnRectangleIcon as SignoutIcon,
-} from '@heroicons/react/24/outline';
+import { PlusCircleIcon, ArrowRightStartOnRectangleIcon as SignoutIcon } from '@heroicons/react/24/outline';
 
+import { links } from '@helpers/constants';
 
 export const MainNav = () => {
   let fetcher = useFetcher();
@@ -11,18 +9,18 @@ export const MainNav = () => {
 
   return (
     <nav>
-      <ul role="list" className="cluster">
+      <ul role='list' className='cluster'>
         <li>
-          <NavLink aria-label="Add a job" to="/jobs/new" className="stack">
+          <NavLink aria-label='Add a job' to={links.jobs.new} className='stack'>
             <PlusCircleIcon />
             Add a job
           </NavLink>
         </li>
         <li>
-          <fetcher.Form method="post" action="/logout">
+          <fetcher.Form method='post' action='/logout'>
             <button
-              className="naked-btn stack"
-              type="submit"
+              className='naked-btn stack'
+              type='submit'
               disabled={isLoggingOut}
             >
               <SignoutIcon />
