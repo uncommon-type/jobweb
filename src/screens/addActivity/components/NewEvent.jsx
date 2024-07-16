@@ -11,7 +11,7 @@ const getErrorMessage = (erroredFields, field) => {
 };
 
 export const NewEvent = ({ jobId, errors }) => {
-  const [isChecked, setIsChecked] = useState(false); /// / new
+  const [isChecked, setIsChecked] = useState(false);
 
   const descriptionError = getErrorMessage(errors, 'description');
   const activityTitleError = getErrorMessage(errors, 'activity');

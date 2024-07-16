@@ -10,7 +10,7 @@ const getErrorMessage = (erroredFields, field) => {
 };
 
 export const NewTask = ({ jobId, errors }) => {
-  const [isChecked, setIsChecked] = useState(false); /// / new
+  const [isChecked, setIsChecked] = useState(false);
   const descriptionError = getErrorMessage(errors, 'description');
   const activityTitleError = getErrorMessage(errors, 'activity');
 
@@ -25,7 +25,7 @@ export const NewTask = ({ jobId, errors }) => {
         name='activity'
         className='items-end'
         error={activityTitleError}
-        checked={isChecked} // new
+        checked={isChecked}
         onChange={(e) => {
           setIsChecked(e.target.checked);
         }}
@@ -36,11 +36,10 @@ export const NewTask = ({ jobId, errors }) => {
         showLabel={true}
         label='Description'
         name='description'
-        value='' //  "NaN characters left"
+        value=''
       />
       {descriptionError && (
         <Alert>
-          {' '}
           {descriptionError}
         </Alert>
       )}
