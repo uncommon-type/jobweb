@@ -1,9 +1,13 @@
 import { NavLink } from 'react-router-dom';
 
-export const Logo = () => {
-  return (
-    <NavLink to="/jobs" aria-label="View jobs" className="stack title shadow">
-      Job Tracker
-    </NavLink>
-  );
-};
+import { links } from '@helpers/constants';
+
+export const Logo = () => (
+  <NavLink
+    to={links.jobs.list}
+    aria-label='View jobs'
+    className='stack title shadow'
+  >
+    Job Tracker
+  </NavLink>
+);

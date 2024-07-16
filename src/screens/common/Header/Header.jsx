@@ -1,3 +1,1 @@
-export const Header = ({ children }) => {
-  return <header>{children}</header>;
-};
+export const Header = ({ children }) => <header>{children}</header>;
