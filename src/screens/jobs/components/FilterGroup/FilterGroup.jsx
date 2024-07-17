@@ -7,18 +7,14 @@ const JOBS = [
   { id: 'Offer Received', number: 1 },
 ];
 
-export const FilterGroup = ({ jobs }) => {
-  return (
-    <ul role="list" className="filter-group cluster">
-      {JOBS.map(({ id, number }) => (
-        <Filter
-          key={id}
-          id={id}
-          number={number}
-        />
-      ))}
-    </ul>
-  );
-};
-
-
+export const FilterGroup = ({ jobs }) => (
+  <ul role='list' className='filter-group cluster'>
+    {JOBS.map(({ id, number }) => (
+      <Filter
+        key={id}
+        id={id}
+        number={number}
+      />
+    ))}
+  </ul>
+);
