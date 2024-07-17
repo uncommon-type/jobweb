@@ -4,7 +4,7 @@ export const getUserInput = (e) => {
 };
 
 export const getErrorMessage = (errors, fieldName) => {
-  const error = errors?.find((error) => error.name === fieldName);
+  const error = errors?.find(error => error.name === fieldName);
   return error?.message;
 };
 
@@ -14,7 +14,7 @@ export function deleteError(formErrors, fieldName) {
   return {
     ...formErrors,
     message: '',
-    errors: errorFields.filter((field) => field.name !== fieldName),
+    errors: errorFields.filter(field => field.name !== fieldName),
   };
 }
 
@@ -35,6 +35,6 @@ export const formatMoney = (value) => {
 
 export const filterOutEmptyOrNull = (obj) => {
   return Object.fromEntries(
-    Object.entries(obj).filter(([_, value]) => value !== null && value !== '')
+    Object.entries(obj).filter(([_, value]) => value !== null && value !== ''),
   );
-}
+};

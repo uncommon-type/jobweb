@@ -19,15 +19,17 @@ export const TextAreaInput = ({
 
   return (
     <>
-      {!edit && <span className="item-center">{value}</span>}
+      {!edit && <span className='item-center'>{value}</span>}
       {edit && (
-        <div className="form-item">
+        <div className='form-item'>
           <label htmlFor={`${name}-${appliedId}`}>
-            {showLabel ? (
-              <span className="font-special">{label}</span>
-            ) : (
-              <span className="sr-only">{label}</span>
-            )}
+            {showLabel
+              ? (
+                  <span className='font-special'>{label}</span>
+                )
+              : (
+                  <span className='sr-only'>{label}</span>
+                )}
           </label>
           <textarea
             id={`${name}-${appliedId}`}
@@ -35,12 +37,13 @@ export const TextAreaInput = ({
             rows={rows}
             className={className}
             defaultValue={input}
-            onChange={(e) => setInput(e.target.value)}
+            onChange={e => setInput(e.target.value)}
             message={message}
             maxLength={maxLength}
-          ></textarea>
+          >
+          </textarea>
           {showCharacterCount && (
-            <span role="status" aria-live="polite">
+            <span role='status' aria-live='polite'>
               {message}
             </span>
           )}

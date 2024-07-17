@@ -6,7 +6,8 @@ export const SpinnerIcon = ({ ...props }) => (
     fill='none'
     xmlns='http://www.w3.org/2000/svg'
     className='spin'
-    {...props}>
+    {...props}
+  >
     <g>
       <circle cx='17' cy='17' r='15' strokeWidth='4' />
       <path

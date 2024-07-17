@@ -11,14 +11,14 @@ export const validateSignup = (data) => {
   if (!data.email) {
     errors = [
       ...errors,
-      { name: 'email', message: "That doesn't look like a valid email" },
+      { name: 'email', message: 'That doesn\'t look like a valid email' },
     ];
   }
 
   if (!data.password) {
     errors = [
       ...errors,
-      { name: 'password', message: "That doesn't look like a valid password" },
+      { name: 'password', message: 'That doesn\'t look like a valid password' },
     ];
   }
 

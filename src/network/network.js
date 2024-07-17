@@ -12,14 +12,14 @@ class ResponseError extends Error {
     super(message);
     this.errors = errors;
     this.status = status;
-    this.statusText = message; 
+    this.statusText = message;
   }
 }
 
 export const handleError = ({ status = '', invalid_params = {} }) => {
   if (status === 400) {
     const validationErrors = getSchemaErrors(invalid_params);
-  
+
     if (validationErrors.length === 0) {
       throw new ResponseError('Something went wrong', [], status);
     }
@@ -39,7 +39,7 @@ export const handleError = ({ status = '', invalid_params = {} }) => {
     throw new ResponseError('Something went wrong', [], status);
   }
 
-  throw new Error('An unknown error occured', []); 
+  throw new Error('An unknown error occured', []);
 };
 
 const addToPayload = (payload) => {
@@ -54,7 +54,7 @@ export const callServer = async (method, url, data, token) => {
       mode: 'cors',
       credentials: 'same-origin',
       headers: {
-        Authorization: token ? `Bearer ${token}` : undefined,
+        'Authorization': token ? `Bearer ${token}` : undefined,
         'Content-Type': 'application/json',
       },
       body: method !== 'GET' ? JSON.stringify(data) : undefined,
@@ -69,11 +69,12 @@ export const callServer = async (method, url, data, token) => {
     }
 
     if (res.status === 204) {
-      return {}
+      return {};
     }
 
-   return await res.json(); 
-  } catch (err) {
+    return await res.json();
+  }
+  catch (err) {
     handleError(err);
   }
 };
@@ -83,14 +84,14 @@ export const sendData = (url, data, token) => {
     throw new Error('Expecting data');
   }
 
-  const payload = addToPayload(data)
+  const payload = addToPayload(data);
 
   return callServer('POST', url, payload, token);
 };
 
 export const getData = (url, token) => {
   return callServer('GET', url, {}, token);
-}
+};
 
 export const updateData = async (url, data, token) => {
   return await callServer('PUT', url, data, token);

@@ -9,11 +9,11 @@ const NAVLINKS = [
 
 export const JobTabs = ({ onChange, jobStatus }) => {
   const from = '/jobs';
-  const filteredNavLinks = jobStatus === "Offer received" ? NAVLINKS : NAVLINKS.filter(link => link.label !== "Offer details");
+  const filteredNavLinks = jobStatus === 'Offer received' ? NAVLINKS : NAVLINKS.filter(link => link.label !== 'Offer details');
 
   return (
-    <nav className="job-details-tabs">
-      <ul role="list" className="job-details-tablist cluster">
+    <nav className='job-details-tabs'>
+      <ul role='list' className='job-details-tablist cluster'>
         {filteredNavLinks.map(({ label, path }) => (
           <li key={label}>
             <NavLink

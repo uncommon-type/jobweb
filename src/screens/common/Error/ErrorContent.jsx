@@ -4,7 +4,7 @@ export const ErrorContent = ({ error }) => {
   const hasError = isRouteErrorResponse(error);
 
   if (hasError && error.status === 401) {
-    return <div>You aren't authorized to see this</div>;
+    return <div>You aren&apos;t authorized to see this</div>;
   }
 
   if (hasError && error.status === 404) {

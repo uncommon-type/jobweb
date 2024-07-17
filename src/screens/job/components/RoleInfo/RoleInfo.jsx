@@ -12,5 +12,3 @@ export const RoleInfo = () => {
 
   return <ViewRoleInfo job={job} />;
 };
-
-

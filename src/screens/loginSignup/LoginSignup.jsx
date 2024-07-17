@@ -37,7 +37,8 @@ export const action = async ({ request }) => {
     const { token } = await requestToken({ username, password });
 
     localStorage.setItem('token', token);
-  } catch (err) {
+  }
+  catch (err) {
     return json(err.errors, { status: 422 });
   }
 
@@ -76,24 +77,26 @@ export function LoginSignup({ isGuest = false }) {
 
   return (
     <main>
-      <section className="login-group">
-        <div className="login-group__inner flow flow-space-xs">
-          {isGuest ? (
-            <SignupForm
-              errors={errors}
-              isSigningUp={isLoading}
-              onChange={handleChange}
-              onLinkAction={handleLinkAction}
-            />
-          ) : (
-            <LoginForm
-              errors={errors}
-              isSigningIn={isLoading}
-              onChange={handleChange}
-              onLinkAction={handleLinkAction}
-              from={from}
-            />
-          )}
+      <section className='login-group'>
+        <div className='login-group__inner flow flow-space-xs'>
+          {isGuest
+            ? (
+                <SignupForm
+                  errors={errors}
+                  isSigningUp={isLoading}
+                  onChange={handleChange}
+                  onLinkAction={handleLinkAction}
+                />
+              )
+            : (
+                <LoginForm
+                  errors={errors}
+                  isSigningIn={isLoading}
+                  onChange={handleChange}
+                  onLinkAction={handleLinkAction}
+                  from={from}
+                />
+              )}
         </div>
       </section>
     </main>

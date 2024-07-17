@@ -20,5 +20,3 @@ export const getSchemaErrors = (invalidParams) => {
   const errors = cleanSchemaErrors(schemaErrors);
   return errors;
 };
-
-

@@ -10,7 +10,6 @@ export const SecondaryNav = ({ fromLink, title, onEdit, showEdit }) => (
         </Link>
       </li>
       {title && <li className='title'>{title}</li>}
-
       {showEdit ? <EditIcon onClick={onEdit} /> : null}
     </ul>
   </nav>

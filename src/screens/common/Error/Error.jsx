@@ -8,11 +8,11 @@ export const Error = () => {
   const error = useRouteError();
 
   return (
-    <div className="wrapper decor">
-      <span className="pin"></span>
+    <div className='wrapper decor'>
+      <span className='pin'></span>
       <Header>
         <SecondaryNav
-          fromLink="/jobs"
+          fromLink='/jobs'
           showEdit={false}
         />
       </Header>

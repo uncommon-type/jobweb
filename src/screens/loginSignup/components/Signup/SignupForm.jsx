@@ -23,11 +23,12 @@ export const action = async ({ request }) => {
   }
 
   try {
-     await sendData(endpoints.users.create, { name, email, password });
-     return redirect('/');
-  } catch (err) {
+    await sendData(endpoints.users.create, { name, email, password });
+    return redirect('/');
+  }
+  catch (err) {
     console.error('Error caught while creating a user', err);
-    return ['Sign up failed'] ;
+    return ['Sign up failed'];
   }
 };
 

@@ -5,10 +5,10 @@ export const LinkToSignUp = ({ isSigningIn, onLinkAction }) => {
   if (isSigningIn) {
     return (
       <Link
-        to=""
+        to=''
         onClick={onLinkAction}
-        aria-label="Sign up"
-        className="with-icon"
+        aria-label='Sign up'
+        className='with-icon'
       >
         Sign up
         <ArrowLongRightIcon />
@@ -17,7 +17,7 @@ export const LinkToSignUp = ({ isSigningIn, onLinkAction }) => {
   }
 
   return (
-    <Link to='/signup' aria-label="Sign up" className="with-icon">
+    <Link to='/signup' aria-label='Sign up' className='with-icon'>
       Sign up
       <ArrowLongRightIcon />
     </Link>

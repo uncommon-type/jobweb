@@ -12,4 +12,3 @@ export const CompanyInfo = () => {
 
   return <ViewCompanyInfo job={job} />;
 };
-

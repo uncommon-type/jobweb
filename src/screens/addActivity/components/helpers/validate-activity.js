@@ -5,7 +5,7 @@ export const validateActivity = (data) => {
     errors = [...errors, { name: 'activity', message: 'Activity title is required' }];
   }
 
-  if (data.type === "event" && !data.startDate) {
+  if (data.type === 'event' && !data.startDate) {
     errors = [...errors, { name: 'time', message: 'Start date is required' }];
   }
 
