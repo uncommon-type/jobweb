@@ -1,20 +1,23 @@
 import { Filter } from './Filter';
 
-const JOBS = [
-  { id: 'Interested', number: 0 },
-  { id: 'Applied', number: 0 },
-  { id: 'Interviewing', number: 1 },
-  { id: 'Offer Received', number: 1 },
-];
+export const FilterGroup = ({ onFilterSelection, jobs }) => {
+  const statuses = ['Interested', 'Applied', 'Interviewing', 'Offer received'];
 
-export const FilterGroup = ({ jobs }) => (
-  <ul role='list' className='filter-group cluster'>
-    {JOBS.map(({ id, number }) => (
-      <Filter
-        key={id}
-        id={id}
-        number={number}
-      />
-    ))}
-  </ul>
-);
+  const statusCounts = Object.values(jobs).reduce((totals, job) => {
+    totals[job.status] = totals[job.status] + 1 || 1;
+    return totals;
+  }, {});
+
+  return (
+    <ul role='list' className='filter-group cluster'>
+      {statuses.map(status => (
+        <Filter
+          key={status}
+          id={status}
+          number={statusCounts[status] || 0}
+          onFilterSelection={onFilterSelection}
+        />
+      ))}
+    </ul>
+  );
+};
