@@ -16,7 +16,6 @@ export const EditCompanyInfo = ({ job, edit }) => (
       label='Benefits'
       value={job.benefits}
       name='benefits'
-
     />
     <NumericInput
       label='Size'

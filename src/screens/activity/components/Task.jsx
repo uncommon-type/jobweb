@@ -5,7 +5,7 @@ import { EditableCheckbox } from '@screens/common/EditableCheckbox';
 import { EditableDescription } from '@screens/common/EditableDescription';
 import { Button } from '@screens/common/Buttons/Button';
 
-export const Task = ({ activity, edit, setEdit }) => {
+export const Task = ({ activity, edit, setEdit, maxLength }) => {
   const [isChecked, setIsChecked] = useState(activity.done);
   const fetcher = useFetcher();
   const submit = useSubmit();
@@ -86,6 +86,7 @@ export const Task = ({ activity, edit, setEdit }) => {
             label='Description'
             value={activity.description}
             name='description'
+            maxLength={maxLength}
           />
           <div className='cluster gap-left'>
             <Button label='Save' aria-label='Save job' variant='primary' type='submit' />

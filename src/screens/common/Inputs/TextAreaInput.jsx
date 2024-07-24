@@ -1,18 +1,7 @@
 import { useId } from 'react';
 import { useCharacterCountdown } from '@hooks/useCharacterCountdown';
 
-export const TextAreaInput = ({
-  edit,
-  label,
-  value,
-  name,
-  id,
-  className,
-  showLabel,
-  rows = 9,
-  showCharacterCount,
-}) => {
-  const maxLength = 250;
+export const TextAreaInput = ({ edit, label, value, name, id, className, showLabel, rows = 9, maxLength }) => {
   const { input, setInput, message } = useCharacterCountdown(maxLength, value);
   const generatedId = useId();
   const appliedId = id || generatedId;
@@ -42,7 +31,7 @@ export const TextAreaInput = ({
             maxLength={maxLength}
           >
           </textarea>
-          {showCharacterCount && (
+          {maxLength && (
             <span role='status' aria-live='polite'>
               {message}
             </span>

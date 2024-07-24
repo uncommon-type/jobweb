@@ -70,6 +70,7 @@ export const Activity = () => {
 
   const activity = activities.find(activity => activity.id === activityId);
   const isEvent = activity?.type === 'event';
+  const maxLength = 250;
 
   return (
     <>
@@ -85,10 +86,10 @@ export const Activity = () => {
         <section className='activity-details-group flow'>
           {isEvent
             ? (
-                <Event activity={activity} edit={edit} setEdit={setEdit} />
+                <Event activity={activity} edit={edit} setEdit={setEdit} maxLength={maxLength} />
               )
             : (
-                <Task activity={activity} edit={edit} setEdit={setEdit} />
+                <Task activity={activity} edit={edit} setEdit={setEdit} maxLength={maxLength} />
               )}
         </section>
       </main>

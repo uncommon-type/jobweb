@@ -8,7 +8,7 @@ import { EditableDateTime } from '@screens/common/EditableDateTime';
 import { EditableDescription } from '@screens/common/EditableDescription';
 import { Button } from '@screens/common/Buttons/Button';
 
-export const Event = ({ activity, edit, setEdit }) => {
+export const Event = ({ activity, edit, setEdit, maxLength }) => {
   const [isChecked, setIsChecked] = useState(activity.done);
   const fetcher = useFetcher();
   const submit = useSubmit();
@@ -99,6 +99,7 @@ export const Event = ({ activity, edit, setEdit }) => {
             label='Description'
             value={activity.description}
             name='description'
+            maxLength={maxLength}
           />
           <div className='cluster gap-left'>
             <Button label='Save' aria-label='Save job' variant='primary' type='submit' />
