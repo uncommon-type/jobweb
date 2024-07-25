@@ -63,8 +63,7 @@ export const action = async ({ request, params }) => {
 };
 
 export const Activity = () => {
-  const [edit, setEdit] = useState(false);
-  const { job } = useOutletContext();
+  const { job, edit, setEdit } = useOutletContext();
   const { activityId } = useParams();
   const { activities } = job;
 
