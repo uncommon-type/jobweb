@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { EditableCheckbox } from '@screens/common/EditableCheckbox';
 import { EditableDescription } from '@screens/common/EditableDescription';
 import { Alert } from '@screens/common/Alert';
+import { Button } from '@screens/common/Buttons/Button';
 
 const getErrorMessage = (erroredFields, field) => {
   const error = erroredFields.find(erroredField => erroredField.name === field);
@@ -13,6 +14,10 @@ export const NewTask = ({ jobId, errors }) => {
   const [isChecked, setIsChecked] = useState(false);
   const descriptionError = getErrorMessage(errors, 'description');
   const activityTitleError = getErrorMessage(errors, 'activity');
+
+  const handleCancel = () => {
+
+  };
 
   return (
     <>
@@ -43,16 +48,9 @@ export const NewTask = ({ jobId, errors }) => {
           {descriptionError}
         </Alert>
       )}
-      <div className='sidebar'>
-        <div />
-        <div className='cluster gap-left'>
-          <button type='submit' className='button' data-type='primary'>
-            Save
-          </button>
-          <button className='button' data-type='primary'>
-            Cancel
-          </button>
-        </div>
+      <div className='cluster gap-left'>
+        <Button label='Save' aria-label='Save job' variant='primary' type='submit' />
+        <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
       </div>
     </>
   );
