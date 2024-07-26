@@ -6,7 +6,7 @@ export const Logo = () => (
   <NavLink
     to={links.jobs.list}
     aria-label='View jobs'
-    className='stack title shadow'
+    className='stack title'
   >
     Job Tracker
   </NavLink>
