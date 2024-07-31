@@ -8,8 +8,7 @@ import { validateActivity } from './helpers/validate-activity';
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { NewActivityTabs } from './components/NewActivityTabs';
-import { NewEvent } from './components/NewEvent';
-import { NewTask } from './components/NewTask';
+import { NewActivity } from './components/NewActivity';
 
 export const action = async ({ request }) => {
   const token = authenticate();
@@ -78,9 +77,7 @@ export const AddActivity = ({ isEvent = false }) => {
         <section className='add-activity-group flow'>
           <NewActivityTabs jobId={job.id} />
           <Form method='post' className='flow' noValidate>
-            {isEvent
-              ? <NewEvent jobId={job.id} errors={errors} />
-              : <NewTask jobId={job.id} errors={errors} />}
+            <NewActivity jobId={job.id} errors={errors} type={isEvent ? 'event' : 'task'} />
           </Form>
         </section>
       </main>
