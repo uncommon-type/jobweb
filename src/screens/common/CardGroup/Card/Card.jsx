@@ -1,7 +1,7 @@
 import { CardActions } from './CardActions';
 
 export const Card = ({ className = '', job, showButtons, ...otherProps }) => {
-  const { company, status, jobTitle, date, id } = job;
+  const { company, status, jobTitle, id } = job;
   const appliedClass = `card sidebar ${className}`;
 
   return (
@@ -13,7 +13,6 @@ export const Card = ({ className = '', job, showButtons, ...otherProps }) => {
           <p className='text-500'>{jobTitle}</p>
           <div>
             <span className='meta-item'>{status}</span>
-            <span className='meta-item'>{date}</span>
           </div>
         </div>
         {showButtons ? <CardActions jobId={id} {...otherProps} /> : null}
