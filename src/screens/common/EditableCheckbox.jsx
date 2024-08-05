@@ -8,9 +8,9 @@ export const EditableCheckbox = ({ edit, label, name, id, value, link, showLabel
   const appliedId = id || generatedId;
 
   return (
-    <div className={`option ${className}`}>
-      <input type='checkbox' id={appliedId} name={`${name}Status`} checked={checked} onChange={onChange} />
-      <label htmlFor={appliedId} className={!edit ? '' : 'sr-only'}>
+    <div className='option'>
+      <input type='checkbox' id={appliedId} name={`${name}Status`} checked={checked} onChange={onChange} className={className} />
+      <label htmlFor={appliedId} className={!edit ? 'items-center' : 'sr-only'}>
         {!edit && (
           link
             ? (
