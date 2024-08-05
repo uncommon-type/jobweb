@@ -28,7 +28,7 @@ export const NewActivity = ({ jobId, errors, type }) => {
         showLabel={true}
         label={type === 'event' ? 'Type (hiring call, interview, etc)' : 'Short title'}
         name='activity'
-        className='items-end'
+        className='align-self'
         error={activityTitleError}
         checked={isChecked}
         onChange={e => setIsChecked(e.target.checked)}
