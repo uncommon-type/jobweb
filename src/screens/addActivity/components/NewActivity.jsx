@@ -2,20 +2,19 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { getErrorMessage } from '@helpers/form';
-
 import { EditableCheckbox } from '@screens/common/EditableCheckbox';
 import { EditableDateTime } from '@screens/common/EditableDateTime';
 import { EditableDescription } from '@screens/common/EditableDescription';
-import { Alert } from '@screens/common/Alert';
 import { Button } from '@screens/common/Buttons/Button';
 
-export const NewActivity = ({ jobId, errors, type }) => {
+export const NewActivity = ({ jobId, errors, type, onEdit }) => {
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
   const descriptionError = getErrorMessage(errors, 'description');
   const activityTitleError = getErrorMessage(errors, 'activity');
 
   const handleCancel = () => {
+    onEdit(false);
     navigate(`/jobs/${jobId}/activity`);
   };
 
@@ -48,12 +47,8 @@ export const NewActivity = ({ jobId, errors, type }) => {
         label='Description'
         value=''
         name='description'
+        error={descriptionError}
       />
-      {descriptionError && (
-        <Alert>
-          {descriptionError}
-        </Alert>
-      )}
       <div className='cluster gap-left'>
         <Button label='Save' aria-label='Save job' variant='primary' type='submit' />
         <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
