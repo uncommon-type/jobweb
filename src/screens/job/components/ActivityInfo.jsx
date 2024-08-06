@@ -1,4 +1,4 @@
-import { redirect, useOutletContext, useFetcher } from 'react-router-dom';
+import { redirect, useOutletContext } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { updateJobActivity, deleteJobActivity } from '@network/jobs';
@@ -53,15 +53,6 @@ export const action = async ({ request, params }) => {
 export const ActivityInfo = () => {
   const { job, edit } = useOutletContext();
   const { id, activities } = job;
-  const fetcher = useFetcher();
-
-  const handleChange = async (e) => {
-    fetcher.submit({ id: e.target.id, done: e.target.checked }, { method: 'PUT', action: `/jobs/${id}/activity` });
-  };
-
-  const handleOptionRemove = async (e) => {
-    fetcher.submit({ id: e.currentTarget.id }, { method: 'DELETE', action: `/jobs/${id}/activity` });
-  };
 
   return (
     <>
@@ -72,8 +63,6 @@ export const ActivityInfo = () => {
               options={activities}
               jobId={id}
               edit={edit}
-              onChange={handleChange}
-              onRemove={handleOptionRemove}
             />
           )
         : null}
