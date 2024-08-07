@@ -18,10 +18,15 @@ export const action = async ({ request, params }) => {
   const formValues = Object.fromEntries(formData);
 
   if (request.method === 'PUT') {
-    formValues.done = JSON.parse(formValues?.done);
+    const { id, done, type } = formValues;
+    const activityToUpdate = {
+      id,
+      done: done === 'true' ? true : false,
+      type,
+    };
 
     try {
-      return await updateJobActivity(formValues, token, jobId);
+      return await updateJobActivity(activityToUpdate, token, jobId);
     }
     catch (err) {
       throw new Response('', {
@@ -54,6 +59,11 @@ export const ActivityInfo = () => {
   const { job, edit } = useOutletContext();
   const { id, activities } = job;
 
+  const getActivityTypeById = (activityId) => {
+    const activity = activities.find(activity => activity.id === activityId);
+    return activity ? activity.type : '';
+  };
+
   return (
     <>
       <LinkToAddActivity jobId={id} />
@@ -63,6 +73,7 @@ export const ActivityInfo = () => {
               options={activities}
               jobId={id}
               edit={edit}
+              getActivityTypeById={getActivityTypeById}
             />
           )
         : null}
