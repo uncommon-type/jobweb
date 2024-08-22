@@ -2,15 +2,15 @@ export const validateJob = (data) => {
   let errors = [];
 
   if (!data.jobTitle) {
-    errors = [...errors, { name: 'role', message: 'Role is required' }];
+    errors = [...errors, { name: 'jobTitle', message: 'This field is required' }];
   }
 
   if (!data.company.name) {
-    errors = [...errors, { name: 'company', message: 'Company is required' }];
+    errors = [...errors, { name: 'company', message: 'This field is required' }];
   }
 
   if (!data.status) {
-    errors = [...errors, { name: 'stage', message: 'Stage is required' }];
+    errors = [...errors, { name: 'status', message: 'This field is required' }];
   }
 
   if (errors.length > 0) {
