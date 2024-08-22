@@ -10,8 +10,9 @@ import { Button } from '@screens/common/Buttons/Button';
 export const NewActivity = ({ jobId, errors, type, onEdit }) => {
   const [isChecked, setIsChecked] = useState(false);
   const navigate = useNavigate();
+  const activityTitleError = getErrorMessage(errors, 'title');
+  const dateTimeError = getErrorMessage(errors, 'startDate');
   const descriptionError = getErrorMessage(errors, 'description');
-  const activityTitleError = getErrorMessage(errors, 'activity');
 
   const handleCancel = () => {
     onEdit(false);
@@ -28,8 +29,8 @@ export const NewActivity = ({ jobId, errors, type, onEdit }) => {
         label={type === 'event' ? 'Type (hiring call, interview, etc)' : 'Short title'}
         name='activity'
         className='align-self'
-        error={activityTitleError}
         checked={isChecked}
+        error={activityTitleError}
         onChange={e => setIsChecked(e.target.checked)}
       />
       {type === 'event' && (
@@ -39,6 +40,7 @@ export const NewActivity = ({ jobId, errors, type, onEdit }) => {
           label='Start time'
           value=''
           name='date'
+          error={dateTimeError}
         />
       )}
       <EditableDescription

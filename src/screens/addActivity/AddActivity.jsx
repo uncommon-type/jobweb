@@ -2,8 +2,9 @@ import { redirect, useActionData, useOutletContext, Form } from 'react-router-do
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
-import { postJobActivity } from '@network/jobs';
 import { validateActivity } from './helpers/validate-activity';
+import { validateErrors } from '@screens/addJob/helpers/validate-job';
+import { postJobActivity } from '@network/jobs';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
@@ -50,7 +51,7 @@ export const action = async ({ request }) => {
   const errors = validateActivity(activityToAdd);
 
   if (errors.length !== 0) {
-    return { errors };
+    return errors;
   }
 
   try {
@@ -58,15 +59,22 @@ export const action = async ({ request }) => {
     return redirect(`/jobs/${jobId}/activity`);
   }
   catch (err) {
-    console.error('Error caught while attempting to post an activity in activity action', err);
-    throw new Response('', { status: err.status || 500, statusText: 'Something went wrong' });
+    if (err.status !== 400) {
+      throw new Response('', {
+        status: err.status || 500,
+        statusText: err.statusText || 'Something went wrong',
+      });
+    }
+
+    return validateErrors(err.errors);
   }
 };
 
 export const AddActivity = ({ isEvent = false }) => {
-  const { job } = useOutletContext();
-  const actionData = useActionData() || {};
-  const errors = actionData?.errors || [];
+  const { job, setEdit } = useOutletContext();
+
+  const actionData = useActionData();
+  const errors = actionData?.length ? actionData : [];
 
   return (
     <>
@@ -77,7 +85,7 @@ export const AddActivity = ({ isEvent = false }) => {
         <section className='add-activity-group flow'>
           <NewActivityTabs jobId={job.id} />
           <Form method='post' className='flow' noValidate>
-            <NewActivity jobId={job.id} errors={errors} type={isEvent ? 'event' : 'task'} />
+            <NewActivity jobId={job.id} errors={errors} type={isEvent ? 'event' : 'task'} onEdit={setEdit} />
           </Form>
         </section>
       </main>
