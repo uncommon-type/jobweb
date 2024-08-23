@@ -1,6 +1,6 @@
 import { useId } from 'react';
 
-import { Alert } from '../Alert';
+import { FieldError } from '../Error/FieldError';
 
 export const Input = ({ label, value, name, id, showLabel, error, className = '' }) => {
   const generatedId = useId();
@@ -19,6 +19,7 @@ export const Input = ({ label, value, name, id, showLabel, error, className = ''
               <span className='sr-only'>{`Edit ${name} name`}</span>
             )}
       </label>
+      {error && <FieldError error={error} />}
       <input
         type='text'
         id={`${name}-${appliedId}`}
@@ -26,7 +27,6 @@ export const Input = ({ label, value, name, id, showLabel, error, className = ''
         defaultValue={value}
         className='width-20'
       />
-      {error && <Alert className='width-20'>{error}</Alert>}
     </div>
   );
 };
