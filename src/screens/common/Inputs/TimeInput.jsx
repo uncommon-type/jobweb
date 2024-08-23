@@ -9,7 +9,6 @@ export const TimeInput = ({ timeString }) => (
       name='time'
       className='width-6'
       defaultValue={timeString}
-      onChange={() => console.log('**')}
       pattern='[0-9]*'
     />
   </div>

@@ -9,7 +9,6 @@ export const DateInput = ({ dateString }) => (
       name='date'
       className='width-8'
       defaultValue={dateString}
-      onChange={() => console.log('**')}
       pattern='[0-9]*'
     />
   </div>
