@@ -4,10 +4,11 @@ import { getDate, getTime } from '@helpers/datetime';
 
 import { DateTimeInput } from './Inputs/DateTimeInput';
 
-export const EditableDateTime = ({ edit, value, name, label }) => {
+export const EditableDateTime = ({ edit, value, name, label, error }) => {
   const date = new Date(value);
+
   return (
-    <div className='sidebar'>
+    <div className='option'>
       <DateIcon className={`${name}-icon`} />
       {!edit && <span className='item-center'>{`${getDate(date)} ${getTime(date)}`}</span>}
       {edit && (
@@ -16,6 +17,7 @@ export const EditableDateTime = ({ edit, value, name, label }) => {
           label={label}
           value={value}
           name={name}
+          error={error}
         />
       )}
     </div>

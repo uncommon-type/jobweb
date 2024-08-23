@@ -1,7 +1,8 @@
 import { TimeInput } from './TimeInput';
 import { DateInput } from './DateInput';
+import { FieldError } from '../Error/FieldError';
 
-export const DateTimeInput = ({ label, value, name, showLabel }) => {
+export const DateTimeInput = ({ label, value, name, showLabel, error }) => {
   if (!value) {
     value = new Date();
   }
@@ -15,6 +16,7 @@ export const DateTimeInput = ({ label, value, name, showLabel }) => {
 
   return (
     <fieldset className={`${name}-field`}>
+      {error && <FieldError error={error} />}
       {showLabel
         ? (
             <legend className='font-special'>
