@@ -1,6 +1,7 @@
 import { useId } from 'react';
+
 import { useCharacterCountdown } from '@hooks/useCharacterCountdown';
-import { Alert } from '../Alert';
+import { FieldError } from '../Error/FieldError';
 
 export const TextAreaInput = ({ edit, label, value, name, id, className, showLabel, rows = 9, maxLength, error }) => {
   const { input, setInput, message } = useCharacterCountdown(maxLength, value);
@@ -21,6 +22,7 @@ export const TextAreaInput = ({ edit, label, value, name, id, className, showLab
                   <span className='sr-only'>{label}</span>
                 )}
           </label>
+          {error && <FieldError error={error} />}
           <textarea
             id={`${name}-${appliedId}`}
             name={name}
@@ -37,7 +39,6 @@ export const TextAreaInput = ({ edit, label, value, name, id, className, showLab
               {message}
             </span>
           )}
-          {error && <Alert className='width-20' />}
         </div>
       )}
     </>
