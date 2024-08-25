@@ -1,9 +1,12 @@
-export const EditableSalaryInput = ({ label, name, value }) => (
+import { FieldError } from './Error/FieldError';
+
+export const EditableSalary = ({ label, name, value, error }) => (
   <div className='form-item'>
     <label htmlFor={name}>
       <span className='font-special'>{label}</span>
       <span className='salary-legend-hint'>For example, 50000</span>
     </label>
+    {error && <FieldError error={error} />}
     <div className='salary cluster'>
       <div className='input-prefix' aria-hidden='true'>
         £

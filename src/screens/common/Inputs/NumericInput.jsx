@@ -1,8 +1,11 @@
-export const NumericInput = ({ label, name, className, value }) => (
+import { FieldError } from '../Error/FieldError';
+
+export const NumericInput = ({ label, name, className, value, error }) => (
   <div className='form-item'>
     <label htmlFor={name}>
       <span className='font-special'>{label}</span>
     </label>
+    {error && <FieldError error={error} />}
     <input
       type='text'
       id={name}
