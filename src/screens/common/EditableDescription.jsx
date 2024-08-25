@@ -3,7 +3,7 @@ import { NewspaperIcon as InfoIcon } from '@heroicons/react/24/outline';
 import { TextAreaInput } from './Inputs/TextAreaInput';
 
 export const EditableDescription = ({ edit, label, value, name, showLabel, maxLength, error }) => (
-  <div className='sidebar'>
+  <div className='option'>
     <InfoIcon className={`${name}-icon`} />
     <TextAreaInput
       edit={edit}
