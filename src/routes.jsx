@@ -1,12 +1,12 @@
-import { createBrowserRouter, redirect } from 'react-router-dom';
+import { createBrowserRouter, Outlet, redirect } from 'react-router-dom';
 
 import { Root } from './Root';
 import { Error } from '@screens/common/Error/Error';
 import { LoginSignup, action as loginAction, loader as loginLoader } from '@screens/loginSignup/LoginSignup';
 import { action as signupAction } from '@screens/loginSignup/components/Signup/SignupForm';
 import { Jobs, loader as jobsLoader, action as destroyAction } from '@screens/jobs/Jobs';
-import { Job, loader as jobLoader } from '@screens/job/Job';
-import { JobContent } from '@screens/job/components/JobContent';
+import { Job, loader as jobLoader, action as updateJobAction } from '@screens/job/Job';
+import { JobItem } from '@screens/job/components/JobItem';
 import { RoleInfo } from '@screens/job/components/RoleInfo/RoleInfo';
 import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
 import { ActivityInfo, action as modifyActivityInfoAction } from '@screens/job/components/ActivityInfo';
@@ -35,57 +35,76 @@ const routes = [
       },
       {
         path: 'jobs',
-        element: <Jobs />,
-        loader: jobsLoader,
-        action: destroyAction,
-      },
-      {
-        path: 'jobs/new',
-        element: <AddJob />,
-        action: addJobAction,
-      },
-      {
-        path: 'jobs/:jobId/*',
-        element: <Job />,
-        loader: jobLoader,
-        id: 'job',
+        element: <Outlet />,
         children: [
           {
-            element: <JobContent />,
+            index: true,
+            element: <Jobs />,
+            loader: jobsLoader,
+            action: destroyAction,
+          },
+          {
+            path: 'new',
+            element: <AddJob />,
+            action: addJobAction,
+          },
+          {
+            path: ':jobId/*',
+            element: <Job />,
+            loader: jobLoader,
+            action: updateJobAction,
             children: [
-              { path: 'role', element: <RoleInfo /> },
-              { path: 'company', element: <CompanyInfo /> },
               {
-                path: 'activity', element: <ActivityInfo />,
-                action: modifyActivityInfoAction 
+                element: <JobItem />,
+                children: [
+                  {
+                    index: true,
+                    element: <RoleInfo />,
+                  },
+                  {
+                    path: 'role',
+                    element: <RoleInfo />,
+                  },
+                  { path: 'company',
+                    element: <CompanyInfo />,
+                  },
+                  { path: 'offer',
+                    element: <OfferInfo />,
+                  },
+                  {
+                    path: 'activity',
+                    element: <ActivityInfo />,
+                    action: modifyActivityInfoAction,
+                  },
+                  { path: '*', element: <NotFound /> },
+                ],
               },
-              { path: 'offer', element: <OfferInfo /> }
+              {
+                path: 'activity/events/:activityId',
+                element: <Activity isEvent={true} />,
+                action: activityAction,
+
+              },
+              {
+                path: 'activity/events/new',
+                element: <AddActivity isEvent={true} />,
+                action: addActivityAction,
+              },
+              {
+                path: 'activity/tasks/:activityI',
+                element: <Activity isEvent={false} />,
+                action: activityAction,
+              },
+              {
+                path: 'activity/tasks/new',
+                element: <AddActivity isEvent={false} />,
+                action: addActivityAction,
+              },
             ],
-          },
-          {
-            path: 'activity/events/:activityId',
-            element: <Activity />,
-            action: activityAction
-          },
-          {
-            path: 'activity/tasks/:activityId',
-            element: <Activity />,
-            action: activityAction 
-          },
-          {
-            path: 'activity/events/new',
-            element: <AddActivity isEvent={true} />,
-            action: addActivityAction,
-          },
-          {
-            path: 'activity/tasks/new',
-            element: <AddActivity isEvent={false} />,
-            action: addActivityAction,
           },
           { path: '*', element: <NotFound /> },
         ],
       },
-      { path: '*', element: <NotFound /> },
     ],
   },
   {
