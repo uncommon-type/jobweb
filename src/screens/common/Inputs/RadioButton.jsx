@@ -1,12 +1,13 @@
-import { useId } from 'react';
-
-export const RadioButton = ({ name, option }) => {
-  const id = useId();
-
-  return (
-    <div className='radiobox'>
-      <input type='radio' id={`option-${id}`} name={name} value={option} />
-      <label htmlFor={`option-${id}`}>{option}</label>
-    </div>
-  );
-};
+export const RadioButton = ({ id, name, option, selectedOption, onChange }) => (
+  <div className='radiobox'>
+    <input
+      type='radio'
+      id={id}
+      name={name}
+      value={option}
+      checked={option === selectedOption}
+      onChange={onChange}
+    />
+    <label htmlFor={id}>{option}</label>
+  </div>
+);
