@@ -4,7 +4,6 @@ export const ViewCompanyInfo = ({ job }) => (
       <h4 className='font-special'>Description</h4>
       <p>{job.company.description || 'n/a'}</p>
     </div>
-
     <div>
       <h4 className='font-special'>Benefits</h4>
       {job.benefits || 'n/a'}
