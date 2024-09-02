@@ -2,7 +2,7 @@ import { CardActions } from './CardActions';
 
 export const Card = ({ className = '', job, showButtons, ...otherProps }) => {
   const { company, status, jobTitle, id } = job;
-  const appliedClass = `card sidebar ${className}`;
+  const appliedClass = `card cluster ${className}`;
 
   return (
     <article className={appliedClass}>
