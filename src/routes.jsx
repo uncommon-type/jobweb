@@ -80,25 +80,29 @@ const routes = [
                 ],
               },
               {
-                path: 'activity/events/:activityId',
-                element: <Activity isEvent={true} />,
-                action: activityAction,
-
-              },
-              {
-                path: 'activity/events/new',
-                element: <AddActivity isEvent={true} />,
-                action: addActivityAction,
-              },
-              {
-                path: 'activity/tasks/:activityI',
-                element: <Activity isEvent={false} />,
-                action: activityAction,
-              },
-              {
-                path: 'activity/tasks/new',
-                element: <AddActivity isEvent={false} />,
-                action: addActivityAction,
+                path: 'activity',
+                children: [
+                  {
+                    path: 'events/:activityId',
+                    element: <Activity isEvent={true} />,
+                    action: activityAction,
+                  },
+                  {
+                    path: 'events/new',
+                    element: <AddActivity isEvent={true} />,
+                    action: addActivityAction,
+                  },
+                  {
+                    path: 'tasks/:activity',
+                    element: <Activity isEvent={false} />,
+                    action: activityAction,
+                  },
+                  {
+                    path: 'tasks/new',
+                    element: <AddActivity isEvent={false} />,
+                    action: addActivityAction,
+                  },
+                ],
               },
             ],
           },
