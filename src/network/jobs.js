@@ -32,3 +32,11 @@ export const updateJobActivity = async (activityToUpdate, token, jobId) => {
 export const deleteJobActivity = async (jobId, activityId, token) => {
   return await deleteData(endpoints.jobs.activities.delete(jobId, activityId), token);
 };
+
+export const postJobTag = async (tagToAdd, token, jobId) => {
+  return await sendData(endpoints.jobs.tags.add(jobId), tagToAdd, token);
+};
+
+export const deleteJobTag = async (jobId, tagId, token) => {
+  return await deleteData(endpoints.jobs.tags.delete(jobId, tagId), token);
+};
