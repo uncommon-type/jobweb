@@ -10,7 +10,12 @@ export const endpoints = {
       update: (jobId, activityId) => `${SERVICE_URL}/jobs/${jobId}/activities/${activityId}`,
       delete: (jobId, activityId) => `${SERVICE_URL}/jobs/${jobId}/activities/${activityId}`,
     },
+    tags: {
+      add: jobId => `${SERVICE_URL}/jobs/${jobId}/tags`,
+      delete: (jobId, tagId) => `${SERVICE_URL}/jobs/${jobId}/tags/${tagId}`,
+    },
   },
+
   users: {
     create: `${SERVICE_URL}/user`,
   },
