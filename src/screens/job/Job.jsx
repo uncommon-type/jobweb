@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useLocation, useLoaderData, redirect, Outlet } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
-import { getJob, updateJob } from '@network/jobs';
+import { getJob, updateJob, deleteJobTag, postJobTag } from '@network/jobs';
 import { validateErrors } from '@screens/addJob/helpers/validate-job';
 
 export const loader = async ({ params }) => {
@@ -16,7 +17,6 @@ export const loader = async ({ params }) => {
     return await getJob(params.jobId, token);
   }
   catch (err) {
-    console.error('Error fetching a job in job loader', err);
     throw new Response('', {
       status: err.status || 500,
       statusText: err.statusText || 'Something went wrong',
@@ -31,86 +31,139 @@ export const action = async ({ request, params }) => {
     return redirect('/');
   }
 
-  const formData = await request.formData();
   const { jobId } = params;
 
-  const {
-    tabName,
-    description,
-    employmentType,
-    location,
-    salary,
-    status,
-    companyId,
-    companyName,
-    companyDescription,
-    benefits,
-    size,
-    time,
-    date,
-    probation,
-  } = Object.fromEntries(formData.entries(formData));
+  const formData = await request.formData();
+  const intent = formData.get('intent');
 
-  const jobToUpdate = { id: jobId, tabName };
+  if (intent === 'ADD') {
+    try {
+      const { title } = Object.fromEntries(formData.entries(formData));
+      return await postJobTag({ id: uuidv4(), title }, token, jobId);
+    }
 
-  if (description) {
-    jobToUpdate.description = description;
-  }
+    catch (err) {
+      console.error('Error caught while attempting to adding a job tag', err);
+      if (err.status !== 400) {
+        throw new Response('', {
+          status: err.status || 500,
+          statusText: err.statusText || 'Something went wrong',
+        });
+      }
 
-  if (status) {
-    jobToUpdate.status = status;
-  }
-
-  if (employmentType) {
-    jobToUpdate.employmentType = employmentType;
-  }
-
-  if (location) {
-    jobToUpdate.location = location;
-  }
-
-  if (salary) {
-    jobToUpdate.salary = parseInt(salary);
-  }
-
-  if (tabName === 'company') {
-    jobToUpdate.company = {
-      id: companyId,
-      name: companyName,
-      description: companyDescription,
-
-    };
-
-    if (size) {
-      jobToUpdate.company.size = parseInt(size);
+      return validateErrors(err.errors);
     }
   }
 
-  if (benefits) {
-    jobToUpdate.benefits = benefits;
-  }
+  if (intent === 'UPDATE') {
+    const {
+      tabName,
+      description,
+      employmentType,
+      location,
+      salary,
+      status,
+      companyId,
+      companyName,
+      companyDescription,
+      benefits,
+      size,
+      time,
+      date,
+      probation,
+      title,
+    } = Object.fromEntries(formData.entries(formData));
 
-  if (time && date) {
-    jobToUpdate.startDate = new Date(`${date} ${time}`).toISOString();
-  }
+    const jobToUpdate = { id: jobId, tabName };
 
-  if (probation) {
-    jobToUpdate.probation = probation;
-  }
-
-  try {
-    return await updateJob(jobId, jobToUpdate, token);//
-  }
-  catch (err) {
-    if (err.status !== 400) {
-      throw new Response('', {
-        status: err.status || 500,
-        statusText: err.statusText || 'Something went wrong',
-      });
+    if (title) {
+      let pros = [];
+      jobToUpdate.pros = [...pros, { id: uuidv4(), title }];
     }
 
-    return validateErrors(err.errors);
+    if (description) {
+      jobToUpdate.description = description;
+    }
+
+    if (status) {
+      jobToUpdate.status = status;
+    }
+
+    if (employmentType) {
+      jobToUpdate.employmentType = employmentType;
+    }
+
+    if (location) {
+      jobToUpdate.location = location;
+    }
+
+    if (salary) {
+      jobToUpdate.salary = parseInt(salary);
+    }
+
+    if (tabName === 'company') {
+      jobToUpdate.company = {
+        id: companyId,
+        name: companyName,
+        description: companyDescription,
+      };
+
+      if (size) {
+        jobToUpdate.company.size = parseInt(size);
+      }
+    }
+
+    if (benefits) {
+      jobToUpdate.benefits = benefits;
+    }
+
+    if (time && date) {
+      jobToUpdate.startDate = new Date(`${date} ${time}`).toISOString();
+    }
+
+    if (probation) {
+      jobToUpdate.probation = probation;
+    }
+
+    try {
+      return await updateJob(jobId, jobToUpdate, token);
+    }
+    catch (err) {
+      console.error('Error caught while attempting to update a job )', err);
+      if (err.status !== 400) {
+        throw new Response('', {
+          status: err.status || 500,
+          statusText: err.statusText || 'Something went wrong',
+        });
+      }
+
+      return validateErrors(err.errors);
+    }
   }
+
+  if (intent === 'DELETE') {
+    const { tagId } = Object.fromEntries(formData.entries(formData));
+
+    try {
+      return await deleteJobTag(jobId, tagId, token); ///
+    }
+    catch (err) {
+      console.error('Error caught while attempting to delete a job tag)', err);
+      if (err.status !== 400) {
+        throw new Response('', {
+          status: err.status || 500,
+          statusText: err.statusText || 'Something went wrong',
+        });
+      }
+
+      return validateErrors(err.errors);
+    }
+  }
+
+  throw new Response('', {
+    status: 500,
+    statusText: `Invalid request method: ${request.method} ?? "Missing"`,
+  });
 };
 
 export const Job = () => {
