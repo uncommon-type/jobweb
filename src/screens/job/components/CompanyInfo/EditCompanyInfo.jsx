@@ -2,16 +2,11 @@ import { getErrorMessage } from '@helpers/form';
 
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { NumericInput } from '@screens/common/Inputs/NumericInput';
-import { Button } from '@screens/common/Buttons/Button';
 
-export const EditCompanyInfo = ({ job, edit, onEdit, errors }) => {
+export const EditCompanyInfo = ({ job, edit, errors }) => {
   const sizeError = getErrorMessage(errors, 'company/size');
   const companyDescriptionError = getErrorMessage(errors, 'company/description');
   const benefitsError = getErrorMessage(errors, 'benefits');
-
-  const handleCancel = () => {
-    onEdit(!edit);
-  };
 
   return (
     <>
@@ -53,10 +48,6 @@ export const EditCompanyInfo = ({ job, edit, onEdit, errors }) => {
         name='size'
         error={sizeError}
       />
-      <div className='cluster'>
-        <Button label='Save' aria-label='Save job' variant='primary' type='submit' />
-        <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
-      </div>
     </>
   );
 };

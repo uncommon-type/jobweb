@@ -4,7 +4,6 @@ import { Select } from '@screens/common/Inputs/Select/Select';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { RadioGroup } from '@screens/common/Inputs/RadioGroup';
 import { EditableSalary } from '@screens/common/EditableSalary';
-import { Button } from '@screens/common/Buttons/Button';
 
 const EMPLOYMENT_OPTIONS = ['Full-time', 'Part-time', 'Temporary'];
 const LOCATION_OPTIONS = ['Hybrid', 'In office', 'Remote'];
@@ -15,15 +14,11 @@ const STATUS_OPTIONS = [
   { value: 'Offer received', label: 'Offer received' },
 ];
 
-export const EditRoleInfo = ({ job, edit, onEdit, errors }) => {
+export const EditRoleInfo = ({ job, edit, errors }) => {
   const roleDescriptionError = getErrorMessage(errors, 'description');
   const employmentTypeError = getErrorMessage(errors, 'employmentType');
   const locationError = getErrorMessage(errors, 'location');
   const salaryError = getErrorMessage(errors, 'salary');
-
-  const handleCancel = () => {
-    onEdit(!edit);
-  };
 
   return (
     <>
@@ -68,10 +63,6 @@ export const EditRoleInfo = ({ job, edit, onEdit, errors }) => {
         className='input width-8'
         error={salaryError}
       />
-      <div className='cluster'>
-        <Button label='Save' aria-label='Save job' variant='primary' />
-        <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
-      </div>
     </>
   );
 };
