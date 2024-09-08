@@ -10,5 +10,5 @@ export const OfferInfo = () => {
     return <EditOfferInfo job={job} edit={edit} onEdit={setEdit} errors={errors} />;
   }
 
-  return <ViewOfferInfo job={job} />;
+  return <ViewOfferInfo job={job} edit={edit} errors={errors} />;
 };
