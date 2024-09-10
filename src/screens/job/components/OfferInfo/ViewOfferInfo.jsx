@@ -1,26 +1,20 @@
-import { formatMoney } from '@helpers/form';
+import { formatMoney, getErrorMessage } from '@helpers/form';
 import { getDate } from '@helpers/datetime';
 
-import { ProsAndConsContainer } from './ProsAndCons/ProsAndConsContainer';
+import { JobDetail } from '../JobDetail';
+import { TagSection } from './Tags/TagSection';
 
-export const ViewOfferInfo = ({ job }) => (
-  <>
-    <div>
-      <h4 className='font-special'>Salary per year</h4>
-      <p>{job.salary ? formatMoney(job.salary) : 'n/a'}</p>
-    </div>
-    <div>
-      <h4 className='font-special'>Benefits</h4>
-      {job.benefits || 'n/a'}
-    </div>
-    <div>
-      <h4 className='font-special'>Start date</h4>
-      <p>{getDate(job.startDate) || 'n/a'}</p>
-    </div>
-    <div>
-      <h4 className='font-special'>Probation</h4>
-      <p>{job.probation || 'n/a'}</p>
-    </div>
-    <ProsAndConsContainer job={job} />
-  </>
-);
+export const ViewOfferInfo = ({ job, edit, errors }) => {
+  const tagError = getErrorMessage(errors, 'title');
+
+  return (
+    <>
+      <JobDetail title='Salary per year' content={job.salary ? formatMoney(job.salary) : 'n/a'} formatMoney={formatMoney} />
+      <JobDetail title='Benefits' content={job.benefits} />
+      <JobDetail title='Start date' content={getDate(job.startDate) || 'n/a'} />
+      <JobDetail title='Probation' content={job.probation} />
+      <TagSection jobId={job.id} tags={job.pros} edit={edit} tagError={tagError} title='Pros' />
+      <TagSection jobId={job.id} tags={job.cons} edit={edit} tagError={tagError} title='Cons' />
+    </>
+  );
+};
