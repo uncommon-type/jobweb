@@ -3,18 +3,13 @@ import { getErrorMessage } from '@helpers/form';
 import { EditableSalary } from '@screens/common/EditableSalary';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput';
-import { ProsAndConsContainer } from './ProsAndCons/ProsAndConsContainer';
-import { Button } from '@screens/common/Buttons/Button';
+import { TagSection } from './Tags/TagSection';
 
-export const EditOfferInfo = ({ job, edit, onEdit, errors }) => {
+export const EditOfferInfo = ({ job, edit, errors }) => {
   const salaryError = getErrorMessage(errors, 'salary');
   const benefitsError = getErrorMessage(errors, 'benefits');
   const probationError = getErrorMessage(errors, 'probation');
   const dateTimeInputError = getErrorMessage(errors, 'startDate');
-
-  const handleCancel = () => {
-    onEdit(!edit);
-  };
 
   return (
     <>
@@ -50,13 +45,8 @@ export const EditOfferInfo = ({ job, edit, onEdit, errors }) => {
         name='probation'
         error={probationError}
       />
-      <ProsAndConsContainer
-        job={job}
-      />
-      <div className='cluster'>
-        <Button label='Save' aria-label='Save job' variant='primary' />
-        <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
-      </div>
+      <TagSection jobId={job.id} tags={job.pros} edit={edit} title='Pros' />
+      <TagSection job={job.id} tags={job.cons} edit={edit} title='Cons' />
     </>
   );
 };
