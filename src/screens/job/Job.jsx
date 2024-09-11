@@ -38,8 +38,16 @@ export const action = async ({ request, params }) => {
 
   if (intent === 'ADD') {
     try {
-      const { title } = Object.fromEntries(formData.entries(formData));
-      return await postJobTag({ id: uuidv4(), title }, token, jobId);
+      const { pros, cons } = Object.fromEntries(formData.entries(formData));
+
+      if (pros) {
+        return await postJobTag({ id: uuidv4(), title: pros, type: 'pro' }, token, jobId);
+      }
+      if (cons) {
+        return await postJobTag({ id: uuidv4(), title: cons, type: 'con' }, token, jobId);
+      }
+
+      return null;
     }
 
     catch (err) {
@@ -50,7 +58,6 @@ export const action = async ({ request, params }) => {
           statusText: err.statusText || 'Something went wrong',
         });
       }
-
       return validateErrors(err.errors);
     }
   }
@@ -71,15 +78,9 @@ export const action = async ({ request, params }) => {
       time,
       date,
       probation,
-      title,
     } = Object.fromEntries(formData.entries(formData));
 
     const jobToUpdate = { id: jobId, tabName };
-
-    if (title) {
-      let pros = [];
-      jobToUpdate.pros = [...pros, { id: uuidv4(), title }];
-    }
 
     if (description) {
       jobToUpdate.description = description;
@@ -145,18 +146,14 @@ export const action = async ({ request, params }) => {
     const { tagId } = Object.fromEntries(formData.entries(formData));
 
     try {
-      return await deleteJobTag(jobId, tagId, token); ///
+      return await deleteJobTag(jobId, tagId, token);
     }
     catch (err) {
       console.error('Error caught while attempting to delete a job tag)', err);
-      if (err.status !== 400) {
-        throw new Response('', {
-          status: err.status || 500,
-          statusText: err.statusText || 'Something went wrong',
-        });
-      }
-
-      return validateErrors(err.errors);
+      throw new Response('', {
+        status: err.status,
+        statusText: err.statusText || 'Something went wrong',
+      });
     }
   }
 
