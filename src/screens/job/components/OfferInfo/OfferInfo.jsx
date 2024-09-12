@@ -4,11 +4,11 @@ import { EditOfferInfo } from './EditOfferInfo';
 import { ViewOfferInfo } from './ViewOfferInfo';
 
 export const OfferInfo = () => {
-  const { job, edit, setEdit, errors } = useOutletContext();
+  const { edit } = useOutletContext();
 
   if (edit) {
-    return <EditOfferInfo job={job} edit={edit} onEdit={setEdit} errors={errors} />;
+    return <EditOfferInfo />;
   }
 
-  return <ViewOfferInfo job={job} edit={edit} errors={errors} />;
+  return <ViewOfferInfo />;
 };
