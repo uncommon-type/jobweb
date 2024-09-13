@@ -1,11 +1,13 @@
+import { useOutletContext } from 'react-router-dom';
+
 import { getErrorMessage } from '@helpers/form';
 
 import { EditableSalary } from '@screens/common/EditableSalary';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput';
-import { TagSection } from './Tags/TagSection';
 
-export const EditOfferInfo = ({ job, edit, errors }) => {
+export const EditOfferInfo = () => {
+  const { job, edit, errors } = useOutletContext();
   const salaryError = getErrorMessage(errors, 'salary');
   const benefitsError = getErrorMessage(errors, 'benefits');
   const probationError = getErrorMessage(errors, 'probation');
@@ -45,8 +47,6 @@ export const EditOfferInfo = ({ job, edit, errors }) => {
         name='probation'
         error={probationError}
       />
-      <TagSection jobId={job.id} tags={job.pros} edit={edit} title='Pros' />
-      <TagSection job={job.id} tags={job.cons} edit={edit} title='Cons' />
     </>
   );
 };
