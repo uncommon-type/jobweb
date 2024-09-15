@@ -1,20 +1,25 @@
-import { formatMoney, getErrorMessage } from '@helpers/form';
+import { useOutletContext } from 'react-router-dom';
+
+import { formatMoney } from '@helpers/form';
 import { getDate } from '@helpers/datetime';
 
-import { JobDetail } from '../JobDetail';
 import { TagSection } from './Tags/TagSection';
+import { JobDetail } from '../JobDetail';
 
-export const ViewOfferInfo = ({ job, edit, errors }) => {
-  const tagError = getErrorMessage(errors, 'title');
+export const ViewOfferInfo = () => {
+  const { job } = useOutletContext();
+  const { tags, salary, benefits, startDate, probation } = job;
+  const cons = tags.filter(tag => tag.type === 'con');
+  const pros = tags.filter(tag => tag.type === 'pro');
 
   return (
     <>
-      <JobDetail title='Salary per year' content={job.salary ? formatMoney(job.salary) : 'n/a'} formatMoney={formatMoney} />
-      <JobDetail title='Benefits' content={job.benefits} />
-      <JobDetail title='Start date' content={getDate(job.startDate) || 'n/a'} />
-      <JobDetail title='Probation' content={job.probation} />
-      <TagSection jobId={job.id} tags={job.pros} edit={edit} tagError={tagError} title='Pros' />
-      <TagSection jobId={job.id} tags={job.cons} edit={edit} tagError={tagError} title='Cons' />
+      <JobDetail title='Salary per year' content={salary ? formatMoney(salary) : 'n/a'} formatMoney={formatMoney} />
+      <JobDetail title='Benefits' content={benefits || 'n/a'} />
+      <JobDetail title='Start date' content={startDate ? getDate(startDate) : 'n/a'} />
+      <JobDetail title='Probation' content={probation || 'n/a'} />
+      <TagSection tags={pros} title='Pros' fieldName='pro' />
+      <TagSection tags={cons} title='Cons' fieldName='con' />
     </>
   );
 };
