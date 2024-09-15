@@ -38,13 +38,13 @@ export const action = async ({ request, params }) => {
 
   if (intent === 'ADD') {
     try {
-      const { pros, cons } = Object.fromEntries(formData.entries(formData));
+      const { pro, con } = Object.fromEntries(formData.entries(formData));
 
-      if (pros) {
-        return await postJobTag({ id: uuidv4(), title: pros, type: 'pro' }, token, jobId);
+      if (pro) {
+        return await postJobTag({ id: uuidv4(), title: pro, type: 'pro' }, token, jobId);
       }
-      if (cons) {
-        return await postJobTag({ id: uuidv4(), title: cons, type: 'con' }, token, jobId);
+      if (con) {
+        return await postJobTag({ id: uuidv4(), title: con, type: 'con' }, token, jobId);
       }
 
       return null;
