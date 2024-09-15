@@ -20,10 +20,6 @@ export const JobItem = () => {
     }
   }, [fetcher.data, errors]);
 
-  const handleEdit = () => {
-    setEdit(!edit);
-  };
-
   const handleCancel = () => {
     setEdit(false);
   };
@@ -33,14 +29,14 @@ export const JobItem = () => {
       <Header>
         <SecondaryNav
           fromLink={from}
-          onEdit={handleEdit}
+          onEdit={() => setEdit(!edit)}
           showEdit={isNotActivityPath}
         />
       </Header>
       <main>
         <section className='job-details-group flow'>
           <Card job={job} className='no-border' />
-          <JobTabs onChange={() => setEdit(false)} jobStatus={job?.status} />
+          <JobTabs onChange={handleCancel} jobStatus={job?.status} />
           {isNotActivityPath
             ? (
                 <fetcher.Form method='put' className='flow'>
