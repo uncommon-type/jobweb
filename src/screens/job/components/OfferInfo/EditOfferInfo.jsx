@@ -8,6 +8,7 @@ import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput';
 
 export const EditOfferInfo = () => {
   const { job, edit, errors } = useOutletContext();
+  const { salary, benefits, startDate, probation } = job;
   const salaryError = getErrorMessage(errors, 'salary');
   const benefitsError = getErrorMessage(errors, 'benefits');
   const probationError = getErrorMessage(errors, 'probation');
@@ -23,7 +24,7 @@ export const EditOfferInfo = () => {
       <EditableSalary
         label='Salary per year, in pounds'
         name='salary'
-        value={job.salary}
+        value={salary}
         className='input width-8'
         error={salaryError}
       />
@@ -31,19 +32,19 @@ export const EditOfferInfo = () => {
         edit={edit}
         showLabel={true}
         label='Benefits'
-        value={job.benefits}
+        value={benefits}
         name='benefits'
         error={benefitsError}
       />
       <DateTimeInput
-        date={job.startDate}
+        date={startDate}
         error={dateTimeInputError}
       />
       <TextAreaInput
         edit={edit}
         showLabel={true}
         label='Probation'
-        value={job.probation}
+        value={probation}
         name='probation'
         error={probationError}
       />
