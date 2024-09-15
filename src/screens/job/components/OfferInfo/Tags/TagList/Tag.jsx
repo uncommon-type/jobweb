@@ -2,12 +2,12 @@ import { useOutletContext } from 'react-router-dom';
 
 import { Button } from '@screens/common/Buttons/Button';
 
-export const Tag = ({ tag, jobId }) => {
-  const { fetcher } = useOutletContext();
+export const Tag = ({ tag }) => {
+  const { fetcher, job } = useOutletContext();
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    fetcher.submit({ tagId: tag.id, tabName: 'offer', intent: 'DELETE' }, { method: 'DELETE', action: `/jobs/${jobId}/` });
+    fetcher.submit({ tagId: tag.id, tabName: 'offer', intent: 'DELETE' }, { method: 'DELETE', action: `/jobs/${job.id}/` });
   };
 
   return (
