@@ -1,13 +1,20 @@
+import { useOutletContext } from 'react-router-dom';
+
 import { formatMoney } from '@helpers/form';
 
 import { JobDetail } from '../JobDetail';
 
-export const ViewRoleInfo = ({ job }) => (
-  <div className='flow'>
-    <JobDetail title='Stage' content={job.status} />
-    <JobDetail title='Description' content={job.description} />
-    <JobDetail title='Employment type' content={job.employmentType} />
-    <JobDetail title='Location' content={job.location} />
-    <JobDetail title='Salary per year' content={job.salary ? formatMoney(job.salary) : 'n/a'} />
-  </div>
-);
+export const ViewRoleInfo = () => {
+  const { job } = useOutletContext();
+  const { status, description, employmentType, location, salary } = job;
+
+  return (
+    <div className='flow'>
+      <JobDetail title='Stage' content={status} />
+      <JobDetail title='Description' content={description || 'n/a'} />
+      <JobDetail title='Employment type' content={employmentType} />
+      <JobDetail title='Location' content={location} />
+      <JobDetail title='Salary per year' content={salary ? formatMoney(salary) : 'n/a'} />
+    </div>
+  );
+};
