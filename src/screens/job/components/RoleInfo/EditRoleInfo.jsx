@@ -1,3 +1,5 @@
+import { useOutletContext } from 'react-router-dom';
+
 import { getErrorMessage } from '@helpers/form';
 
 import { Select } from '@screens/common/Inputs/Select/Select';
@@ -14,7 +16,9 @@ const STATUS_OPTIONS = [
   { value: 'Offer received', label: 'Offer received' },
 ];
 
-export const EditRoleInfo = ({ job, edit, errors }) => {
+export const EditRoleInfo = () => {
+  const { job, edit, errors } = useOutletContext();
+  const { id, status, description, employmentType, location, salary } = job;
   const roleDescriptionError = getErrorMessage(errors, 'description');
   const employmentTypeError = getErrorMessage(errors, 'employmentType');
   const locationError = getErrorMessage(errors, 'location');
@@ -28,17 +32,17 @@ export const EditRoleInfo = ({ job, edit, errors }) => {
         value='role'
       />
       <Select
-        id={job.id}
+        id={id}
         name='status'
         className='width-9'
         options={STATUS_OPTIONS}
-        defaultValue={job.status}
+        defaultValue={status}
       />
       <TextAreaInput
         edit={edit}
         showLabel={true}
         label='Description'
-        value={job.description}
+        value={description}
         name='description'
         error={roleDescriptionError}
       />
@@ -47,19 +51,19 @@ export const EditRoleInfo = ({ job, edit, errors }) => {
         label='Employment type'
         name='employmentType'
         error={employmentTypeError}
-        defaultValue={job.employmentType}
+        defaultValue={employmentType}
       />
       <RadioGroup
         options={LOCATION_OPTIONS}
         label='Location'
         name='location'
         error={locationError}
-        defaultValue={job.location}
+        defaultValue={location}
       />
       <EditableSalary
         label='Salary per year, in pounds'
         name='salary'
-        value={job.salary}
+        value={salary}
         className='input width-8'
         error={salaryError}
       />
