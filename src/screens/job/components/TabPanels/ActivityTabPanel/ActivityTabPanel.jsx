@@ -55,7 +55,7 @@ export const action = async ({ request, params }) => {
   });
 };
 
-export const ActivityInfo = () => {
+export const ActivityTabPanel = () => {
   const { job } = useOutletContext();
   const { id, activities } = job;
 

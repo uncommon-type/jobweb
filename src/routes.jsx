@@ -7,10 +7,10 @@ import { action as signupAction } from '@screens/loginSignup/components/Signup/S
 import { Jobs, loader as jobsLoader, action as destroyAction } from '@screens/jobs/Jobs';
 import { Job, loader as jobLoader, action as updateJobAction } from '@screens/job/Job';
 import { JobItem } from '@screens/job/components/JobItem';
-import { RoleInfo } from '@screens/job/components/RoleInfo/RoleInfo';
-import { CompanyInfo } from '@screens/job/components/CompanyInfo/CompanyInfo';
-import { ActivityInfo, action as modifyActivityInfoAction } from '@screens/job/components/ActivityInfo';
-import { OfferInfo } from '@screens/job/components/OfferInfo/OfferInfo';
+import { RoleTabPanel } from '@screens/job/components/TabPanels/RoleTabPanel/RoleTabPanel';
+import { CompanyTabPanel } from '@screens/job/components/TabPanels/CompanyTabPanel/CompanyTabPanel';
+import { ActivityTabPanel, action as modifyActivityInfoAction } from '@screens/job/components/TabPanels/ActivityTabPanel/ActivityTabPanel';
+import { OfferTabPanel } from '@screens/job/components/TabPanels/OfferTabPanel/OfferTabPanel';
 import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
 import { Activity, action as activityAction } from '@screens/activity/Activity';
 import { AddActivity, action as addActivityAction } from '@screens/addActivity/AddActivity';
@@ -49,6 +49,7 @@ const routes = [
             action: addJobAction,
           },
           {
+
             path: ':jobId/*',
             element: <Job />,
             loader: jobLoader,
@@ -59,21 +60,21 @@ const routes = [
                 children: [
                   {
                     index: true,
-                    element: <RoleInfo />,
+                    element: <RoleTabPanel />,
                   },
                   {
                     path: 'role',
-                    element: <RoleInfo />,
+                    element: <RoleTabPanel />,
                   },
                   { path: 'company',
-                    element: <CompanyInfo />,
+                    element: <CompanyTabPanel />,
                   },
                   { path: 'offer',
-                    element: <OfferInfo />,
+                    element: <OfferTabPanel />,
                   },
                   {
                     path: 'activity',
-                    element: <ActivityInfo />,
+                    element: <ActivityTabPanel />,
                     action: modifyActivityInfoAction,
                   },
                   { path: '*', element: <NotFound /> },
@@ -93,7 +94,7 @@ const routes = [
                     action: addActivityAction,
                   },
                   {
-                    path: 'tasks/:activity',
+                    path: 'tasks/:activityId',
                     element: <Activity isEvent={false} />,
                     action: activityAction,
                   },

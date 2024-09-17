@@ -6,7 +6,7 @@ import { getDate } from '@helpers/datetime';
 import { TagSection } from './Tags/TagSection';
 import { JobDetail } from '../JobDetail';
 
-export const ViewOfferInfo = () => {
+export const ViewOfferTabPanel = () => {
   const { job } = useOutletContext();
   const { tags, salary, benefits, startDate, probation } = job;
   const cons = tags.filter(tag => tag.type === 'con');

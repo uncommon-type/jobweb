@@ -5,7 +5,7 @@ import { getErrorMessage } from '@helpers/form';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { NumericInput } from '@screens/common/Inputs/NumericInput';
 
-export const EditCompanyInfo = () => {
+export const EditCompanyTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
   const { company, benefits } = job;
   const sizeError = getErrorMessage(errors, 'company/size');

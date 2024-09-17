@@ -2,7 +2,7 @@ import { useOutletContext } from 'react-router-dom';
 
 import { JobDetail } from '../JobDetail';
 
-export const ViewCompanyInfo = () => {
+export const ViewCompanyTabPanel = () => {
   const { job } = useOutletContext();
   const { company, benefits } = job;
 

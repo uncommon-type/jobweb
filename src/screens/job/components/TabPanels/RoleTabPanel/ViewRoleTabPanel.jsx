@@ -4,7 +4,7 @@ import { formatMoney } from '@helpers/form';
 
 import { JobDetail } from '../JobDetail';
 
-export const ViewRoleInfo = () => {
+export const ViewRoleTabPanel = () => {
   const { job } = useOutletContext();
   const { status, description, employmentType, location, salary } = job;
 

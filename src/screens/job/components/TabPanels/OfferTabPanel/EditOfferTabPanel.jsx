@@ -6,7 +6,7 @@ import { EditableSalary } from '@screens/common/EditableSalary';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput';
 
-export const EditOfferInfo = () => {
+export const EditOfferTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
   const { salary, benefits, startDate, probation } = job;
   const salaryError = getErrorMessage(errors, 'salary');

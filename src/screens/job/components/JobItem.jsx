@@ -4,7 +4,7 @@ import { useLocation, Outlet, useOutletContext, useFetcher } from 'react-router-
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { Card } from '@screens/common/CardGroup/Card/Card';
-import { JobTabs } from './JobTabs';
+import { TabList } from './TabList/TabList';
 import { Button } from '@screens/common/Buttons/Button';
 
 export const JobItem = () => {
@@ -36,7 +36,7 @@ export const JobItem = () => {
       <main>
         <section className='job-details-group flow'>
           <Card job={job} className='no-border' />
-          <JobTabs onChange={handleCancel} jobStatus={job?.status} />
+          <TabList onChange={handleCancel} jobStatus={job?.status} />
           {isNotActivityPath
             ? (
                 <fetcher.Form method='put' className='flow'>

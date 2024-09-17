@@ -16,7 +16,7 @@ const STATUS_OPTIONS = [
   { value: 'Offer received', label: 'Offer received' },
 ];
 
-export const EditRoleInfo = () => {
+export const EditRoleTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
   const { id, status, description, employmentType, location, salary } = job;
   const roleDescriptionError = getErrorMessage(errors, 'description');
