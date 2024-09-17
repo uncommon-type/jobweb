@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import { redirect, useOutletContext, useParams } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
 import { validateActivity } from './helpers/validate-act';
+import { validateErrors } from '@screens/addJob/helpers/validate-job';
 import { updateJobActivity } from '@network/jobs';
 
 import { Header } from '@screens/common/Header/Header';
@@ -20,8 +20,7 @@ export const action = async ({ request, params }) => {
   const { activityId, jobId } = params;
   const formData = await request.formData();
 
-  const { activityStatus, type, activityTitle, time, date, description }
-    = Object.fromEntries(formData);
+  const { activityStatus, type, activityTitle, time, date, description } = Object.fromEntries(formData);
 
   const activityToUpdate = {
     id: activityId,
@@ -55,20 +54,23 @@ export const action = async ({ request, params }) => {
       'Error caught while attempting to update an activity in activity action)',
       err,
     );
-    throw new Response('', {
-      status: err.status,
-      statusText: err.statusText || 'Something went wrong',
-    });
+    if (err.status !== 400) {
+      throw new Response('', {
+        status: err.status || 500,
+        statusText: err.statusText || 'Something went wrong',
+      });
+    }
+    return validateErrors(err.errors);
   }
 };
 
-export const Activity = () => {
+export const Activity = ({ isEvent }) => {
   const { job, edit, setEdit } = useOutletContext();
   const { activityId } = useParams();
   const { activities } = job;
 
   const activity = activities.find(activity => activity.id === activityId);
-  const isEvent = activity?.type === 'event';
+  isEvent = activity?.type === 'event';
   const maxLength = 250;
 
   return (
@@ -83,13 +85,11 @@ export const Activity = () => {
       </Header>
       <main>
         <section className='activity-details-group flow'>
-          {isEvent
-            ? (
-                <Event activity={activity} edit={edit} setEdit={setEdit} maxLength={maxLength} />
-              )
-            : (
-                <Task activity={activity} edit={edit} setEdit={setEdit} maxLength={maxLength} />
-              )}
+          {activity
+            ? isEvent
+              ? <Event activity={activity} maxLength={maxLength} />
+              : <Task activity={activity} maxLength={maxLength} />
+            : null }
         </section>
       </main>
     </>
