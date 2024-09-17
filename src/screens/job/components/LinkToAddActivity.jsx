@@ -1,16 +1,12 @@
-import { Link } from 'react-router-dom';
-import { ArrowLongRightIcon } from '@heroicons/react/24/outline';
+import { Button } from '@screens/common/Buttons/Button';
 
 export const LinkToAddActivity = ({ jobId }) => (
-  <Link
+  <Button
     to={`/jobs/${jobId}/activity/events/new`}
     state={{ from: `/jobs/${jobId}/activity` }}
-    data-type='secondary'
+    variant='secondary'
     className='button button-lg'
-  >
-    <span className='with-icon'>
-      Add task or event
-      <ArrowLongRightIcon />
-    </span>
-  </Link>
+    icon='arrow'
+    label='Add task or event'
+  />
 );
