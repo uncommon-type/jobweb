@@ -1,9 +1,13 @@
+import { useOutletContext } from 'react-router-dom';
+
 import { getErrorMessage } from '@helpers/form';
 
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { NumericInput } from '@screens/common/Inputs/NumericInput';
 
-export const EditCompanyInfo = ({ job, edit, errors }) => {
+export const EditCompanyInfo = () => {
+  const { job, edit, errors } = useOutletContext();
+  const { company, benefits } = job;
   const sizeError = getErrorMessage(errors, 'company/size');
   const companyDescriptionError = getErrorMessage(errors, 'company/description');
   const benefitsError = getErrorMessage(errors, 'benefits');
@@ -18,18 +22,18 @@ export const EditCompanyInfo = ({ job, edit, errors }) => {
       <input
         name='companyId'
         type='hidden'
-        value={job.company.id}
+        value={company.id}
       />
       <input
         name='companyName'
         type='hidden'
-        value={job.company.name}
+        value={company.name}
       />
       <TextAreaInput
         edit={edit}
         showLabel={true}
         label='Description'
-        value={job.company.description}
+        value={company.description}
         name='companyDescription'
         error={companyDescriptionError}
       />
@@ -37,13 +41,13 @@ export const EditCompanyInfo = ({ job, edit, errors }) => {
         edit={edit}
         showLabel={true}
         label='Benefits'
-        value={job.benefits}
+        value={benefits}
         name='benefits'
         error={benefitsError}
       />
       <NumericInput
         label='Size'
-        value={job.company?.size}
+        value={company?.size}
         className='width-5'
         name='size'
         error={sizeError}
