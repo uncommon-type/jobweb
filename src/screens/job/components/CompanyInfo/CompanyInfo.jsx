@@ -4,11 +4,11 @@ import { EditCompanyInfo } from './EditCompanyInfo';
 import { ViewCompanyInfo } from './ViewCompanyInfo';
 
 export const CompanyInfo = () => {
-  const { job, edit, setEdit, errors } = useOutletContext();
+  const { edit } = useOutletContext();
 
   if (edit) {
-    return <EditCompanyInfo job={job} edit={edit} onEdit={setEdit} errors={errors} />;
+    return <EditCompanyInfo />;
   }
 
-  return <ViewCompanyInfo job={job} />;
+  return <ViewCompanyInfo />;
 };
