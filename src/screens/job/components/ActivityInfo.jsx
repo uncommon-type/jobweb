@@ -56,25 +56,15 @@ export const action = async ({ request, params }) => {
 };
 
 export const ActivityInfo = () => {
-  const { job, edit } = useOutletContext();
+  const { job } = useOutletContext();
   const { id, activities } = job;
-
-  const getActivityTypeById = (activityId) => {
-    const activity = activities.find(activity => activity.id === activityId);
-    return activity ? activity.type : '';
-  };
 
   return (
     <>
       <LinkToAddActivity jobId={id} />
       {activities.length !== 0
         ? (
-            <CheckboxGroup
-              options={activities}
-              jobId={id}
-              edit={edit}
-              getActivityTypeById={getActivityTypeById}
-            />
+            <CheckboxGroup options={activities} jobId={id} />
           )
         : null}
     </>
