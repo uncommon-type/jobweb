@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useLocation, useLoaderData, redirect, Outlet } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -36,18 +35,15 @@ export const action = async ({ request, params }) => {
   const formData = await request.formData();
   const intent = formData.get('intent');
 
-  if (intent === 'ADD') {
+  if (intent === 'add-pro') {
     try {
-      const { pro, con } = Object.fromEntries(formData.entries(formData));
+      const { pro } = Object.fromEntries(formData.entries(formData));
 
       if (pro) {
         return await postJobTag({ id: uuidv4(), title: pro, type: 'pro' }, token, jobId);
       }
-      if (con) {
-        return await postJobTag({ id: uuidv4(), title: con, type: 'con' }, token, jobId);
-      }
 
-      return null;
+      return [{ name: 'pro', message: 'This field is required' }];
     }
 
     catch (err) {
@@ -62,7 +58,30 @@ export const action = async ({ request, params }) => {
     }
   }
 
-  if (intent === 'UPDATE') {
+  if (intent === 'add-con') {
+    try {
+      const { con } = Object.fromEntries(formData.entries(formData));
+
+      if (con) {
+        return await postJobTag({ id: uuidv4(), title: con, type: 'con' }, token, jobId);
+      }
+
+      return [{ name: 'con', message: 'This field is required' }];
+    }
+
+    catch (err) {
+      console.error('Error caught while attempting to adding a job tag', err);
+      if (err.status !== 400) {
+        throw new Response('', {
+          status: err.status || 500,
+          statusText: err.statusText || 'Something went wrong',
+        });
+      }
+      return validateErrors(err.errors);
+    }
+  }
+
+  if (intent === 'update') {
     const {
       tabName,
       description,
@@ -142,7 +161,7 @@ export const action = async ({ request, params }) => {
     }
   }
 
-  if (intent === 'DELETE') {
+  if (intent === 'delete') {
     const { tagId } = Object.fromEntries(formData.entries(formData));
 
     try {
@@ -164,13 +183,11 @@ export const action = async ({ request, params }) => {
 };
 
 export const Job = () => {
-  const [edit, setEdit] = useState(false);
   const job = useLoaderData();
-
   const location = useLocation();
   const from = location.state?.from || '/jobs';
 
   return (
-    <Outlet context={{ job, edit, setEdit, from }} />
+    <Outlet context={{ job, from }} />
   );
 };
