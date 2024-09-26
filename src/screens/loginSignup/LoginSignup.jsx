@@ -13,7 +13,7 @@ import { validateLogin } from './helpers/validate-login';
 import { LoginForm } from './components/Login/LoginForm';
 import { SignupForm } from './components/Signup/SignupForm';
 
-export const loader = () => {
+export const loginLoader = () => {
   const token = authenticate();
 
   if (token) {
@@ -23,7 +23,7 @@ export const loader = () => {
   return null;
 };
 
-export const action = async ({ request }) => {
+export const loginAction = async ({ request }) => {
   const formData = await request.formData();
   const { email: username, password } = Object.fromEntries(formData);
 

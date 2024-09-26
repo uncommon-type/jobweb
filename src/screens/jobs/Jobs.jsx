@@ -10,7 +10,7 @@ import { FilterGroup } from './components/FilterGroup/FilterGroup';
 import { SearchBar } from './components/SearchBar';
 import { CardGroup } from '@screens/common/CardGroup/CardGroup';
 
-export const loader = async () => {
+export const jobsLoader = async () => {
   const token = authenticate();
 
   if (!token) {
@@ -28,7 +28,7 @@ export const loader = async () => {
   }
 };
 
-export const action = async ({ request }) => {
+export const deleteJobAction = async ({ request }) => {
   const token = authenticate();
 
   if (!token) {
