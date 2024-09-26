@@ -2,14 +2,15 @@ import { useLocation, redirect, useActionData } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
-import { validateJob, validateErrors } from './helpers/validate-job';
+import { validateJob } from './helpers/validate-job';
 import { postJob } from '@network/jobs';
+import { validateErrors } from './helpers/validate-job';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { NewJob } from './components/NewJob';
 
-export const action = async ({ request }) => {
+export const addJobAction = async ({ request }) => {
   const token = authenticate();
 
   if (!token) {
@@ -78,6 +79,7 @@ export const action = async ({ request }) => {
     return redirect(`/jobs`);
   }
   catch (err) {
+    console.error('Error caught while attempting to post a job', err);
     if (err.status !== 400) {
       throw new Response('', {
         status: err.status || 500,

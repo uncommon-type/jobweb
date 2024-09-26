@@ -12,7 +12,7 @@ import { SignUpButton } from './SignupButton';
 import { LinkToSignIn } from './LinkToSignIn';
 import { Alert } from '@screens/common/Alert';
 
-export const action = async ({ request }) => {
+export const signupAction = async ({ request }) => {
   const formData = await request.formData();
   const { name, email, password } = Object.fromEntries(formData);
 
