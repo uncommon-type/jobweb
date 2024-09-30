@@ -1,36 +1,35 @@
 import { createBrowserRouter, Outlet, redirect } from 'react-router-dom';
 
 import { Root } from './Root';
-import { Error } from '@screens/common/Error/Error';
-import { LoginSignup, action as loginAction, loader as loginLoader } from '@screens/loginSignup/LoginSignup';
-import { action as signupAction } from '@screens/loginSignup/components/Signup/SignupForm';
-import { Jobs, loader as jobsLoader, action as destroyAction } from '@screens/jobs/Jobs';
-import { Job, loader as jobLoader, action as updateJobAction } from '@screens/job/Job';
+import { PageError } from '@screens/common/Error/PageError';
+import { SigninSignup, signinAction, signinLoader, signupAction } from '@screens/signinSignup/SigninSignup';
+import { Jobs, jobsLoader, deleteJobAction } from '@screens/jobs/Jobs';
+import { Job, jobLoader, updateJobAction } from '@screens/job/Job';
 import { JobItem } from '@screens/job/components/JobItem';
 import { RoleTabPanel } from '@screens/job/components/TabPanels/RoleTabPanel/RoleTabPanel';
 import { CompanyTabPanel } from '@screens/job/components/TabPanels/CompanyTabPanel/CompanyTabPanel';
-import { ActivityTabPanel, action as modifyActivityInfoAction } from '@screens/job/components/TabPanels/ActivityTabPanel/ActivityTabPanel';
-import { OfferTabPanel } from '@screens/job/components/TabPanels/OfferTabPanel/OfferTabPanel';
-import { AddJob, action as addJobAction } from '@screens/addJob/AddJob';
-import { Activity, action as activityAction } from '@screens/activity/Activity';
-import { AddActivity, action as addActivityAction } from '@screens/addActivity/AddActivity';
+import { ActivityTabPanel, updateActivityStatusAction, deleteActivityAction } from '@screens/job/components/TabPanels/ActivityTabPanel/ActivityTabPanel';
+import { OfferTabPanel, deleteTagAction, addProTagAction, addConTagAction } from '@screens/job/components/TabPanels/OfferTabPanel/OfferTabPanel';/// new
+import { AddJob, addJobAction } from '@screens/addJob/AddJob';
+import { Activity, updateActivityAction } from '@screens/activity/Activity';
+import { AddActivity, addActivityAction } from '@screens/addActivity/AddActivity';
 import { NotFound } from '@screens/notFound/NotFound';
 
 const routes = [
   {
     path: '/',
     element: <Root />,
-    errorElement: <Error />,
+    errorElement: <PageError />,
     children: [
       {
         index: true,
-        element: <LoginSignup />,
-        action: loginAction,
-        loader: loginLoader,
+        element: <SigninSignup isGuest={false} />,
+        action: signinAction,
+        loader: signinLoader,
       },
       {
         path: 'signup',
-        element: <LoginSignup isGuest={true} />,
+        element: <SigninSignup isGuest={true} />,
         action: signupAction,
       },
       {
@@ -41,7 +40,7 @@ const routes = [
             index: true,
             element: <Jobs />,
             loader: jobsLoader,
-            action: destroyAction,
+            action: deleteJobAction,
           },
           {
             path: 'new',
@@ -49,8 +48,7 @@ const routes = [
             action: addJobAction,
           },
           {
-
-            path: ':jobId/*',
+            path: ':jobId',
             element: <Job />,
             loader: jobLoader,
             action: updateJobAction,
@@ -71,37 +69,73 @@ const routes = [
                   },
                   { path: 'offer',
                     element: <OfferTabPanel />,
+                    children: [
+                      { path: 'tags/pro',
+                        action: addProTagAction,
+                      },
+                      { path: 'tags/con',
+                        action: addConTagAction,
+                      },
+                      { path: 'tags/:tagId',
+                        action: deleteTagAction,
+                      },
+                    ],
                   },
                   {
                     path: 'activity',
-                    element: <ActivityTabPanel />,
-                    action: modifyActivityInfoAction,
+                    children: [
+                      { index: true,
+                        element: <ActivityTabPanel />,
+                      },
+                      { path: 'status',
+                        action: updateActivityStatusAction,
+                      },
+                      { path: 'ended',
+                        action: deleteActivityAction,
+                      },
+                    ],
                   },
-                  { path: '*', element: <NotFound /> },
                 ],
               },
               {
                 path: 'activity',
                 children: [
                   {
-                    path: 'events/:activityId',
-                    element: <Activity isEvent={true} />,
-                    action: activityAction,
+                    path: 'events',
+                    children: [
+                      {
+                        path: ':activityId',
+                        element: <Activity isEvent={true} />,
+                        action: updateActivityAction,
+                      },
+                      {
+                        path: 'new',
+                        element: <AddActivity isEvent={true} />,
+                        action: addActivityAction,
+                      },
+                      { path: '*',
+                        element: <NotFound />,
+                      },
+                    ],
                   },
                   {
-                    path: 'events/new',
-                    element: <AddActivity isEvent={true} />,
-                    action: addActivityAction,
-                  },
-                  {
-                    path: 'tasks/:activityId',
-                    element: <Activity isEvent={false} />,
-                    action: activityAction,
-                  },
-                  {
-                    path: 'tasks/new',
-                    element: <AddActivity isEvent={false} />,
-                    action: addActivityAction,
+                    path: 'tasks',
+                    children: [
+                      {
+                        path: ':activityId',
+                        element: <Activity isEvent={false} />,
+                        action: updateActivityAction,
+                      },
+                      {
+                        path: 'new',
+                        element: <AddActivity isEvent={false} />,
+                        action: addActivityAction,
+                      },
+                      {
+                        path: '*',
+                        element: <NotFound />,
+                      },
+                    ],
                   },
                 ],
               },
