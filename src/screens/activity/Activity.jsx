@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { redirect, useOutletContext, useParams, useFetcher } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
-import { validateErrors } from '@screens/addJob/helpers/validate-job';
 import { validate } from '@helpers/validate';
+import { validateErrors } from '@screens/addJob/helpers/validate-job';
 import { updateJobActivity } from '@network/jobs';
-import { getErrorMessage } from '@helpers/form';
 
 import { Header } from '@screens/common/Header/Header';
 import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
-import { Event } from './components/Event';
-import { Task } from './components/Task';
+import { EditableActivity } from './components/EditableActivity';
 
 export const updateActivityAction = async ({ request, params }) => {
   const token = authenticate();
@@ -64,18 +62,14 @@ export const updateActivityAction = async ({ request, params }) => {
   }
 };
 
-export const Activity = ({ isEvent }) => {
+export const Activity = ({ isEvent = false }) => {
   const { job } = useOutletContext();
-  const [edit, setEdit] = useState(false);
+  const { activities } = job;
   const { activityId } = useParams();
+  const [edit, setEdit] = useState(false);
   const fetcher = useFetcher({ key: 'activity-fetcher' });
   const errors = fetcher?.data?.length ? fetcher.data : null;
-  const { activities } = job;
   const activity = activities.find(activity => activity.id === activityId);
-  isEvent = activity?.type === 'event';
-  const maxLength = 250;
-  const titleError = getErrorMessage(errors, 'title');
-  const descriptionError = getErrorMessage(errors, 'description');
 
   useEffect(() => {
     if (fetcher.data && !errors) {
@@ -93,16 +87,14 @@ export const Activity = ({ isEvent }) => {
         <SecondaryNav
           fromLink={`/jobs/${job.id}/activity`}
           title={isEvent ? 'Event details' : 'Task details'}
-          onEdit={() => setEdit(prev => !prev)}
+          onEdit={() => setEdit(!edit)}
           showEdit={true}
         />
       </Header>
       <main>
         <section className='activity-details-group flow'>
           {activity
-            ? isEvent
-              ? <Event activity={activity} maxLength={maxLength} edit={edit} onCancel={handleCancel} titleError={titleError} descriptionError={descriptionError} />
-              : <Task activity={activity} maxLength={maxLength} edit={edit} onCancel={handleCancel} titleError={titleError} descriptionError={descriptionError} />
+            ? <EditableActivity isEvent={isEvent} jobId={job.id} activity={activity} edit={edit} onCancel={handleCancel} errors={errors} />
             : null }
         </section>
       </main>
