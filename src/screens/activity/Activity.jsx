@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { redirect, useOutletContext, useParams, useFetcher } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
-import { validateActivity } from './helpers/validate-act';
 import { validateErrors } from '@screens/addJob/helpers/validate-job';
+import { validate } from '@helpers/validate';
 import { updateJobActivity } from '@network/jobs';
 import { getErrorMessage } from '@helpers/form';
 
@@ -12,22 +12,23 @@ import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { Event } from './components/Event';
 import { Task } from './components/Task';
 
-export const action = async ({ request, params }) => {
+export const updateActivityAction = async ({ request, params }) => {
   const token = authenticate();
 
   if (!token) {
     return redirect('/');
   }
 
-  const { activityId, jobId } = params;
-  const formData = await request.formData();
+  const { jobId } = params;
 
-  const { activityStatus, type, activityTitle, time, date, description } = Object.fromEntries(formData);
+  const formData = await request.formData();
+  const { id, type, activityStatus, activityTitle, time, date, description }
+      = Object.fromEntries(formData);
 
   const activityToUpdate = {
-    id: activityId,
+    id,
     type,
-    done: activityStatus && activityStatus === 'on' ? true : false,
+    done: activityStatus === 'on' ? true : false,
   };
 
   if (activityTitle) {
@@ -42,17 +43,17 @@ export const action = async ({ request, params }) => {
     activityToUpdate.description = description;
   }
 
-  const errors = validateActivity(activityToUpdate);
+  const errors = validate(activityToUpdate);
 
   if (errors.length !== 0) {
-    return errors;
+    return validateErrors(errors);
   }
 
   try {
     return await updateJobActivity(activityToUpdate, token, jobId);
   }
   catch (err) {
-    console.error('Error caught while attempting to update an activity in activity action)', err);
+    console.error('Error caught while attempting to update an activity', err);
     if (err.status !== 400) {
       throw new Response('', {
         status: err.status || 500,
@@ -62,8 +63,6 @@ export const action = async ({ request, params }) => {
     return validateErrors(err.errors);
   }
 };
-
-const activityFetcherKey = 'activity-fetcher';
 
 export const Activity = ({ isEvent }) => {
   const { job } = useOutletContext();
