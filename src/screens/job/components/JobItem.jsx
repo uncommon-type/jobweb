@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useLocation, Outlet, useOutletContext, useFetcher } from 'react-router-dom';
 
 import { Header } from '@screens/common/Header/Header';
@@ -8,8 +8,7 @@ import { TabList } from './TabList/TabList';
 import { Button } from '@screens/common/Buttons/Button';
 
 export const JobItem = () => {
-  const { job, from } = useOutletContext();
-  const [edit, setEdit] = useState(false);
+  const { job, edit, setEdit, handleCancel, from } = useOutletContext();
   const location = useLocation();
   const isNotActivityPath = location.pathname.split('/').pop() !== 'activity';
 
@@ -21,10 +20,6 @@ export const JobItem = () => {
       setEdit(false);
     }
   }, [fetcher.data, errors]);
-
-  const handleCancel = () => {
-    setEdit(false);
-  };
 
   return (
     <>
@@ -46,13 +41,13 @@ export const JobItem = () => {
                   {edit
                   && (
                     <div className='cluster'>
-                      <Button label='Save' aria-label='Save job' variant='primary' name='intent' value='update' />
+                      <Button label='Save' aria-label='Save job' variant='primary' />
                       <Button label='Cancel' aria-label='Cancel editing' variant='primary' onClick={handleCancel} type='button' />
                     </div>
                   )}
                 </fetcher.Form>
               )
-            : <Outlet context={{ job, edit, setEdit, from, errors, fetcher, handleCancel }} />}
+            : <Outlet context={{ job, edit, setEdit, from, errors, handleCancel }} />}
         </section>
       </main>
     </>
