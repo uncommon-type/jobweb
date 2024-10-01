@@ -28,12 +28,11 @@ export const EditOfferTabPanel = () => {
         error={salaryError}
       />
       <TextAreaInput
-        edit={edit}
-        showLabel={true}
+        name='benefits'
         label='Benefits'
         value={benefits}
-        name='benefits'
         error={benefitsError}
+        edit={edit}
       />
       <DateTimeInput
         name='date'
@@ -42,12 +41,11 @@ export const EditOfferTabPanel = () => {
         error={dateTimeInputError}
       />
       <TextAreaInput
-        edit={edit}
-        showLabel={true}
+        name='probation'
         label='Probation'
         value={probation}
-        name='probation'
         error={probationError}
+        edit={edit}
       />
     </>
   );

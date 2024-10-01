@@ -2,8 +2,8 @@ import { useOutletContext } from 'react-router-dom';
 
 import { getErrorMessage } from '@helpers/form';
 
-import { Input } from '@screens/common/Inputs/Input/Input';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
+import { Input } from '@screens/common/Inputs/Input/Input';
 
 export const EditCompanyTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
@@ -30,20 +30,18 @@ export const EditCompanyTabPanel = () => {
         value={company.name}
       />
       <TextAreaInput
-        edit={edit}
-        showLabel={true}
+        name='companyDescription'
         label='Description'
         value={company.description}
-        name='companyDescription'
         error={companyDescriptionError}
+        edit={edit}
       />
       <TextAreaInput
-        edit={edit}
-        showLabel={true}
+        name='benefits'
         label='Benefits'
         value={benefits}
-        name='benefits'
         error={benefitsError}
+        edit={edit}
       />
       <Input
         name='size'

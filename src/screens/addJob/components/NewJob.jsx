@@ -67,11 +67,8 @@ export const NewJob = ({ errors }) => {
         error={sizeError}
       />
       <TextAreaInput
-        edit={true}
-        showLabel={true}
-        label='Company description (optional)'
-        value=''
         name='description'
+        label='Company description (optional)'
         className='width-20'
         error={companyDescriptionError}
       />

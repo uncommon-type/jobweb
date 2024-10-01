@@ -40,12 +40,11 @@ export const EditRoleTabPanel = () => {
         defaultValue={status}
       />
       <TextAreaInput
-        edit={edit}
-        showLabel={true}
+        name='description'
         label='Description'
         value={description}
-        name='description'
         error={roleDescriptionError}
+        edit={edit}
       />
       <RadioGroup
         options={EMPLOYMENT_OPTIONS}
