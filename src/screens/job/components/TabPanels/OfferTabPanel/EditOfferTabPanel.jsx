@@ -4,7 +4,7 @@ import { getErrorMessage } from '@helpers/form';
 
 import { EditableSalary } from '@screens/common/EditableSalary';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
-import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput';
+import { DateTimeInput } from '@screens/common/Inputs/DateTimeInput/DateTimeInput';
 
 export const EditOfferTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
@@ -36,7 +36,9 @@ export const EditOfferTabPanel = () => {
         error={benefitsError}
       />
       <DateTimeInput
-        date={startDate}
+        name='date'
+        legend='Start date'
+        value={startDate}
         error={dateTimeInputError}
       />
       <TextAreaInput

@@ -6,17 +6,15 @@ import { DateTimeInput } from './Inputs/DateTimeInput';
 
 export const EditableDateTime = ({ edit, value, name, label, error }) => {
   const date = new Date(value);
-
   return (
     <div className='option'>
       <DateIcon className={`${name}-icon`} />
-      {!edit && <span className='item-center'>{`${getDate(date)} ${getTime(date)}`}</span>}
+      {!edit && <span className='item-center'>{ date ? `${getDate(date)} ${getTime(date)}` : new Date()}</span>}
       {edit && (
         <DateTimeInput
-          showLabel={true}
-          label={label}
-          value={value}
           name={name}
+          legend={label}
+          value={value}
           error={error}
         />
       )}
