@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocation, useLoaderData, redirect, Outlet } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
@@ -124,10 +125,15 @@ export const updateJobAction = async ({ request, params }) => {
 
 export const Job = () => {
   const job = useLoaderData();
+  const [edit, setEdit] = useState(false);
   const location = useLocation();
   const from = location.state?.from || '/jobs';
 
+  const handleCancel = () => {
+    setEdit(false);
+  };
+
   return (
-    <Outlet context={{ job, from }} />
+    <Outlet context={{ job, edit, setEdit, handleCancel, from }} />
   );
 };
