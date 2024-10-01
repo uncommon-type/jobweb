@@ -1,21 +1,30 @@
 import { useLocation, useLoaderData, redirect, Outlet } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
-import { getJob, updateJob, deleteJobTag, postJobTag } from '@network/jobs';
+import { getJob, updateJob } from '@network/jobs';
 import { validateErrors } from '@screens/addJob/helpers/validate-job';
 
-export const loader = async ({ params }) => {
+export const jobLoader = async ({ params }) => {
   const token = authenticate();
 
   if (!token) {
     return redirect('/');
   }
 
+  const regex = new RegExp('[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}');
+
+  if (!regex.test(params.jobId)) {
+    throw new Response('', {
+      status: 404,
+      statusText: 'Not found',
+    });
+  }
+
   try {
     return await getJob(params.jobId, token);
   }
   catch (err) {
+    console.error('Error caught while fetching a job', err);
     throw new Response('', {
       status: err.status || 500,
       statusText: err.statusText || 'Something went wrong',
@@ -23,7 +32,7 @@ export const loader = async ({ params }) => {
   }
 };
 
-export const action = async ({ request, params }) => {
+export const updateJobAction = async ({ request, params }) => {
   const token = authenticate();
 
   if (!token) {
@@ -33,153 +42,84 @@ export const action = async ({ request, params }) => {
   const { jobId } = params;
 
   const formData = await request.formData();
-  const intent = formData.get('intent');
 
-  if (intent === 'add-pro') {
-    try {
-      const { pro } = Object.fromEntries(formData.entries(formData));
+  const {
+    tabName,
+    description,
+    employmentType,
+    location,
+    salary,
+    status,
+    companyId,
+    companyName,
+    companyDescription,
+    benefits,
+    size,
+    time,
+    date,
+    probation,
+  } = Object.fromEntries(formData);
 
-      if (pro) {
-        return await postJobTag({ id: uuidv4(), title: pro, type: 'pro' }, token, jobId);
-      }
+  const jobToUpdate = { id: jobId, tabName };
 
-      return [{ name: 'pro', message: 'This field is required' }];
-    }
+  if (description) {
+    jobToUpdate.description = description;
+  }
 
-    catch (err) {
-      console.error('Error caught while attempting to adding a job tag', err);
-      if (err.status !== 400) {
-        throw new Response('', {
-          status: err.status || 500,
-          statusText: err.statusText || 'Something went wrong',
-        });
-      }
-      return validateErrors(err.errors);
+  if (status) {
+    jobToUpdate.status = status;
+  }
+
+  if (employmentType) {
+    jobToUpdate.employmentType = employmentType;
+  }
+
+  if (location) {
+    jobToUpdate.location = location;
+  }
+
+  if (salary) {
+    jobToUpdate.salary = parseInt(salary);
+  }
+
+  if (tabName === 'company') {
+    jobToUpdate.company = {
+      id: companyId,
+      name: companyName,
+      description: companyDescription,
+    };
+
+    if (size) {
+      jobToUpdate.company.size = parseInt(size);
     }
   }
 
-  if (intent === 'add-con') {
-    try {
-      const { con } = Object.fromEntries(formData.entries(formData));
-
-      if (con) {
-        return await postJobTag({ id: uuidv4(), title: con, type: 'con' }, token, jobId);
-      }
-
-      return [{ name: 'con', message: 'This field is required' }];
-    }
-
-    catch (err) {
-      console.error('Error caught while attempting to adding a job tag', err);
-      if (err.status !== 400) {
-        throw new Response('', {
-          status: err.status || 500,
-          statusText: err.statusText || 'Something went wrong',
-        });
-      }
-      return validateErrors(err.errors);
-    }
+  if (benefits) {
+    jobToUpdate.benefits = benefits;
   }
 
-  if (intent === 'update') {
-    const {
-      tabName,
-      description,
-      employmentType,
-      location,
-      salary,
-      status,
-      companyId,
-      companyName,
-      companyDescription,
-      benefits,
-      size,
-      time,
-      date,
-      probation,
-    } = Object.fromEntries(formData.entries(formData));
-
-    const jobToUpdate = { id: jobId, tabName };
-
-    if (description) {
-      jobToUpdate.description = description;
-    }
-
-    if (status) {
-      jobToUpdate.status = status;
-    }
-
-    if (employmentType) {
-      jobToUpdate.employmentType = employmentType;
-    }
-
-    if (location) {
-      jobToUpdate.location = location;
-    }
-
-    if (salary) {
-      jobToUpdate.salary = parseInt(salary);
-    }
-
-    if (tabName === 'company') {
-      jobToUpdate.company = {
-        id: companyId,
-        name: companyName,
-        description: companyDescription,
-      };
-
-      if (size) {
-        jobToUpdate.company.size = parseInt(size);
-      }
-    }
-
-    if (benefits) {
-      jobToUpdate.benefits = benefits;
-    }
-
-    if (time && date) {
-      jobToUpdate.startDate = new Date(`${date} ${time}`).toISOString();
-    }
-
-    if (probation) {
-      jobToUpdate.probation = probation;
-    }
-
-    try {
-      return await updateJob(jobId, jobToUpdate, token);
-    }
-    catch (err) {
-      console.error('Error caught while attempting to update a job )', err);
-      if (err.status !== 400) {
-        throw new Response('', {
-          status: err.status || 500,
-          statusText: err.statusText || 'Something went wrong',
-        });
-      }
-
-      return validateErrors(err.errors);
-    }
+  if (time && date) {
+    jobToUpdate.startDate = new Date(`${date} ${time}`).toISOString();
   }
 
-  if (intent === 'delete') {
-    const { tagId } = Object.fromEntries(formData.entries(formData));
+  if (probation) {
+    jobToUpdate.probation = probation;
+  }
 
-    try {
-      return await deleteJobTag(jobId, tagId, token);
-    }
-    catch (err) {
-      console.error('Error caught while attempting to delete a job tag)', err);
+  try {
+    return await updateJob(jobId, jobToUpdate, token);
+  }
+  catch (err) {
+    console.error('Error caught while attempting to update a job', err);
+    if (err.status !== 400) {
       throw new Response('', {
-        status: err.status,
+        status: err.status || 500,
         statusText: err.statusText || 'Something went wrong',
       });
     }
-  }
 
-  throw new Response('', {
-    status: 500,
-    statusText: `Invalid request method: ${request.method} ?? "Missing"`,
-  });
+    return validateErrors(err.errors);
+  }
 };
 
 export const Job = () => {
