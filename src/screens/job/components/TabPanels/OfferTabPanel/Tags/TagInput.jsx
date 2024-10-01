@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useOutletContext, useFetcher } from 'react-router-dom';
 
-import { Button } from '@screens/common/Buttons/Button';
-import { InlineError } from '@screens/common/Error/InlineError';
+import { Input } from '@screens/common/Inputs/Input/Input';
 
 export const TagInput = ({ name, disabled, errorText }) => {
   const { job } = useOutletContext();
@@ -24,21 +23,24 @@ export const TagInput = ({ name, disabled, errorText }) => {
   };
 
   return (
-    <div className='tag-form width-10'>
-      {errorText && <InlineError error={errorText} />}
-      <label htmlFor={name}>
-        <span className='sr-only'>
-          {`Enter a ${name}`}
-        </span>
-        <input
-          type='text'
-          id={name}
-          name={name}
-          ref={inputNode}
-          disabled={disabled}
-        />
-      </label>
-      <Button variant='naked' icon='plusIcon' aria-label={`Add a ${name}`} value={name} disabled={disabled} onClick={handleAdd} />
-    </div>
+    <Input
+      ref={inputNode}
+      id={name}
+      name={name}
+      label={name}
+      labelHidden={true}
+      disabled={disabled}
+      className='tag-form width-10'
+      error={errorText}
+      action={{
+        variant: 'naked',
+        icon: 'plusIcon',
+        ariaLabel: `Add a ${name}`,
+        value: name,
+        type: 'submit',
+        disabled,
+        handler: handleAdd,
+      }}
+    />
   );
 };

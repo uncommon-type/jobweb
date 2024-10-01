@@ -2,8 +2,8 @@ import { useOutletContext } from 'react-router-dom';
 
 import { getErrorMessage } from '@helpers/form';
 
+import { Input } from '@screens/common/Inputs/Input/Input';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
-import { NumericInput } from '@screens/common/Inputs/NumericInput';
 
 export const EditCompanyTabPanel = () => {
   const { job, edit, errors } = useOutletContext();
@@ -45,12 +45,12 @@ export const EditCompanyTabPanel = () => {
         name='benefits'
         error={benefitsError}
       />
-      <NumericInput
+      <Input
+        name='size'
         label='Size'
         value={company?.size}
-        className='width-5'
-        name='size'
         error={sizeError}
+        className='width-5'
       />
     </>
   );

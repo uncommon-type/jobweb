@@ -2,9 +2,8 @@ import { Form } from 'react-router-dom';
 
 import { getErrorMessage } from '@helpers/form';
 
-import { Input } from '@screens/common/Inputs/Input';
+import { Input } from '@screens/common/Inputs/Input/Input';
 import { RadioGroup } from '@screens/common/Inputs/RadioGroup';
-import { NumericInput } from '@screens/common/Inputs/NumericInput';
 import { TextAreaInput } from '@screens/common/Inputs/TextAreaInput';
 import { Button } from '@screens/common/Buttons/Button';
 
@@ -24,8 +23,18 @@ export const NewJob = ({ errors }) => {
 
   return (
     <Form method='post' className='add-job-form flow flow-space-xl' noValidate>
-      <Input showLabel={true} label='Role' name='jobTitle' error={jobTitleError} />
-      <Input showLabel={true} label='Company' name='companyName' error={companyNameError} />
+      <Input
+        name='jobTitle'
+        label='Role'
+        className='width-20'
+        error={jobTitleError}
+      />
+      <Input
+        name='companyName'
+        label='Company'
+        className='width-20'
+        error={companyNameError}
+      />
       <RadioGroup options={STAGES} label="Stage you're at" name='status' error={statusError} />
       <RadioGroup
         options={EMPLOYMENT_OPTIONS}
@@ -39,16 +48,22 @@ export const NewJob = ({ errors }) => {
         name='location'
         error={locationError}
       />
-      <NumericInput
-        label='Salary (optional)'
+      <Input
         name='salary'
+        label='salary'
         className='width-10'
         error={salaryError}
+        pattern='[0-9]*'
+        minLength='1'
+        maxLength='10'
       />
-      <NumericInput
-        label='Company size (optional)'
+      <Input
         name='size'
+        label='Company size (optional)'
         className='width-10'
+        pattern='[0-9]*'
+        minLength='1'
+        maxLength='10'
         error={sizeError}
       />
       <TextAreaInput

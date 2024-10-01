@@ -1,15 +1,14 @@
+import { Input } from './Input/Input';
+
 export const DateInput = ({ dateString }) => (
-  <div>
-    <label htmlFor='date' className='font-special'>
-      <span className='sr-only'>Date</span>
-    </label>
-    <input
-      type='date'
-      id='date'
-      name='date'
-      className='width-8'
-      defaultValue={dateString}
-      pattern='[0-9]*'
-    />
-  </div>
+  <Input
+    type='date'
+    id='date'
+    name='date'
+    label='Date'
+    labelHidden
+    value={dateString}
+    className='width-8'
+    pattern='[0-9]*'
+  />
 );
