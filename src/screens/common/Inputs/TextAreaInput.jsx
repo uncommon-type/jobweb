@@ -1,46 +1,54 @@
 import { useId } from 'react';
 
 import { useCharacterCountdown } from '@hooks/useCharacterCountdown';
-import { FieldError } from '../Error/FieldError';
+import { Labelled } from './Label/Labelled';
+import { InlineError } from '../Error/InlineError';
 
-export const TextAreaInput = ({ edit, label, value, name, id, className, showLabel, rows = 9, maxLength, error }) => {
+export const TextAreaInput = ({ id, name, label, labelHidden, value, className = '', rows = 9, maxLength, error, edit = true }) => {
   const { input, setInput, message } = useCharacterCountdown(maxLength, value);
   const generatedId = useId();
   const appliedId = id || generatedId;
 
+  const errorMarkup = error && typeof error !== 'boolean' && (
+    <InlineError error={error} />
+  );
+
+  const messageMarkup = (
+    maxLength && (
+      <span role='status' aria-live='polite'>
+        {message}
+      </span>
+    )
+  );
+
+  const editMarkup = (
+    <Labelled
+      id={appliedId}
+      label={label}
+      labelHidden={labelHidden}
+    >
+      {error && errorMarkup}
+      <textarea
+        id={appliedId}
+        name={name}
+        defaultValue={input}
+        rows={rows}
+        className={className}
+        maxLength={maxLength}
+        onChange={e => setInput(e.target.value)}
+      >
+      </textarea>
+      {messageMarkup}
+    </Labelled>
+  );
+
+  const viewMarkup = (
+    <span className='item-center'>{value}</span>
+  );
+
   return (
-    <>
-      {!edit && <span className='item-center'>{value}</span>}
-      {edit && (
-        <div className='form-item'>
-          <label htmlFor={`${name}-${appliedId}`}>
-            {showLabel
-              ? (
-                  <span className='font-special'>{label}</span>
-                )
-              : (
-                  <span className='sr-only'>{label}</span>
-                )}
-          </label>
-          {error && <FieldError error={error} />}
-          <textarea
-            id={`${name}-${appliedId}`}
-            name={name}
-            rows={rows}
-            className={className}
-            defaultValue={input}
-            onChange={e => setInput(e.target.value)}
-            message={message}
-            maxLength={maxLength}
-          >
-          </textarea>
-          { maxLength && (
-            <span role='status' aria-live='polite'>
-              {message}
-            </span>
-          )}
-        </div>
-      )}
-    </>
+    edit
+      ? editMarkup
+      : viewMarkup
   );
 };
