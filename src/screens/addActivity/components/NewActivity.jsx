@@ -39,12 +39,10 @@ export const NewActivity = ({ jobId, type, onCancel, errors }) => {
         />
       )}
       <EditableDescription
-        edit={true}
-        showLabel={true}
-        label='Description'
-        value=''
         name='description'
+        label='Description'
         error={descriptionError}
+        edit={true}
       />
       <div className='cluster gap-left'>
         <Button label='Save' aria-label='Save job' variant='primary' type='submit' />

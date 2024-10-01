@@ -47,6 +47,7 @@ export const EditableActivity = ({ activity, edit, onCancel, errors, isEvent, jo
       <EditableDescription
         name='description'
         label='Description'
+        labelHidden
         value={activity.description}
         edit={edit}
         error={descriptionError}
