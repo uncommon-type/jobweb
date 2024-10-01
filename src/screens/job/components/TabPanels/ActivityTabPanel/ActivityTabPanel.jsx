@@ -3,8 +3,8 @@ import { redirect, useOutletContext } from 'react-router-dom';
 import { authenticate } from '@helpers/token';
 import { updateJobActivity, deleteJobActivity } from '@network/jobs';
 
-import { LinkToAddActivity } from './LinkToAddActivity';
-import { CheckboxGroup } from '@screens/common/Inputs/CheckboxGroup';
+import { LinkToNewActivity } from './LinkToNewActivity';
+import { ActivityChoices } from './ActivityChoices';
 
 export const updateActivityStatusAction = async ({ request, params }) => {
   const token = authenticate();
@@ -62,12 +62,21 @@ export const ActivityTabPanel = () => {
   const { job } = useOutletContext();
   const { id, activities } = job;
 
+  const formattedActivities = activities.map(activity => (
+    {
+      ...activity,
+      value: activity.title,
+      label: activity.title,
+      link: `/jobs/${job.id}/activity/${activity.type}s/${activity.id}`,
+    }
+  ));
+
   return (
     <>
-      <LinkToAddActivity jobId={id} />
+      <LinkToNewActivity jobId={id} />
       {activities.length !== 0
         ? (
-            <CheckboxGroup options={activities} jobId={id} />
+            <ActivityChoices choices={formattedActivities} jobId={id} />
           )
         : null}
     </>
