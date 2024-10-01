@@ -7,13 +7,13 @@ export const Tag = ({ tag }) => {
 
   const handleDelete = async (e) => {
     e.preventDefault();
-    fetcher.submit({ tagId: tag.id, tabName: 'offer', intent: 'delete' }, { method: 'DELETE', action: `/jobs/${job.id}/` });
+    fetcher.submit({ tagId: e.currentTarget.id, tabName: 'offer' }, { method: 'DELETE', action: `/jobs/${job.id}/offer/tags/${tag.id}` });
   };
 
   return (
     <div className='tag-item'>
       <p className='tag-item__label'>{tag.title}</p>
-      <Button className='cluster' icon='closeIcon' aria-label='Delete tag' name='intent' value='delete' onClick={handleDelete} />
+      <Button className='cluster' icon='closeIcon' aria-label='Delete tag' id={tag.id} onClick={e => handleDelete(e)} />
     </div>
   );
 };
