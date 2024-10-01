@@ -2,7 +2,7 @@ import { redirect, useActionData, useOutletContext, Form } from 'react-router-do
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
-import { validateActivity } from './helpers/validate-activity';
+import { validate } from '@helpers/validate';
 import { validateErrors } from '@screens/addJob/helpers/validate-job';
 import { postJobActivity } from '@network/jobs';
 
@@ -11,7 +11,7 @@ import { SecondaryNav } from '@screens/common/Header/SecondaryNav';
 import { NewActivityTabs } from './components/NewActivityTabs';
 import { NewActivity } from './components/NewActivity';
 
-export const action = async ({ request }) => {
+export const addActivityAction = async ({ request }) => {
   const token = authenticate();
 
   if (!token) {
@@ -33,7 +33,7 @@ export const action = async ({ request }) => {
   const activityToAdd = {
     id: uuidv4(),
     type,
-    done: activityStatus ? true : false,
+    done: activityStatus === 'on' ? true : false,
   };
 
   if (activityTitle) {
@@ -48,10 +48,10 @@ export const action = async ({ request }) => {
     activityToAdd.startDate = new Date(`${date} ${time}`).toISOString();
   }
 
-  const errors = validateActivity(activityToAdd);
+  const errors = validate(activityToAdd);
 
   if (errors.length !== 0) {
-    return errors;
+    return validateErrors(errors);
   }
 
   try {
@@ -59,6 +59,7 @@ export const action = async ({ request }) => {
     return redirect(`/jobs/${jobId}/activity`);
   }
   catch (err) {
+    console.error('Error caught while attempting to add an activity', err);
     if (err.status !== 400) {
       throw new Response('', {
         status: err.status || 500,
