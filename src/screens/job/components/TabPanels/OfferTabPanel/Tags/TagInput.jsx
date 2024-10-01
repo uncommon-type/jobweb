@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useFetcher } from 'react-router-dom';
 
 import { Button } from '@screens/common/Buttons/Button';
-import { FieldError } from '@screens/common/Error/FieldError';
+import { InlineError } from '@screens/common/Error/InlineError';
 
 export const TagInput = ({ name, disabled, errorText }) => {
-  const { fetcher } = useOutletContext();
+  const { job } = useOutletContext();
+  const fetcher = useFetcher({ key: 'add-tag-fetcher' });
   const inputNode = useRef(null);
 
   useEffect(() => {
@@ -14,9 +15,17 @@ export const TagInput = ({ name, disabled, errorText }) => {
     }
   }, [fetcher.state, fetcher.data]);
 
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const { pro, con } = e.currentTarget.form;
+    const tagValue = pro.value ? pro.value : con.value;
+    const tagType = e.currentTarget.value;
+    fetcher.submit({ title: tagValue, tabName: tagType }, { method: 'POST', action: `/jobs/${job.id}/offer/tags/${tagType}` });
+  };
+
   return (
     <div className='tag-form width-10'>
-      {errorText && <FieldError error={errorText} />}
+      {errorText && <InlineError error={errorText} />}
       <label htmlFor={name}>
         <span className='sr-only'>
           {`Enter a ${name}`}
@@ -29,7 +38,7 @@ export const TagInput = ({ name, disabled, errorText }) => {
           disabled={disabled}
         />
       </label>
-      <Button variant='naked' icon='plusIcon' aria-label={`Add a ${name}`} type='submit' name='intent' value={`add-${name}`} disabled={disabled} />
+      <Button variant='naked' icon='plusIcon' aria-label={`Add a ${name}`} value={name} disabled={disabled} onClick={handleAdd} />
     </div>
   );
 };
