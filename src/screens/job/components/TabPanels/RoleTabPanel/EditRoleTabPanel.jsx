@@ -62,10 +62,9 @@ export const EditRoleTabPanel = () => {
         defaultValue={location}
       />
       <EditableSalary
-        label='Salary per year, in pounds'
         name='salary'
+        label='Salary per year, in pounds'
         value={salary}
-        className='input width-8'
         error={salaryError}
       />
     </>
