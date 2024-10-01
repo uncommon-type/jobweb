@@ -1,4 +1,4 @@
-import { redirect, useActionData, useOutletContext, Form } from 'react-router-dom';
+import { redirect, useActionData, useOutletContext, Form, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import { authenticate } from '@helpers/token';
@@ -73,9 +73,15 @@ export const addActivityAction = async ({ request }) => {
 
 export const AddActivity = ({ isEvent = false }) => {
   const { job, setEdit } = useOutletContext();
+  const navigate = useNavigate();
 
   const actionData = useActionData();
   const errors = actionData?.length ? actionData : [];
+
+  const handleOnCancel = () => {
+    setEdit(false);
+    navigate(`/jobs/${job.id}/activity`);
+  };
 
   return (
     <>
@@ -86,7 +92,7 @@ export const AddActivity = ({ isEvent = false }) => {
         <section className='add-activity-group flow'>
           <NewActivityTabs jobId={job.id} />
           <Form method='post' className='flow' noValidate>
-            <NewActivity jobId={job.id} errors={errors} type={isEvent ? 'event' : 'task'} onEdit={setEdit} />
+            <NewActivity jobId={job.id} type={isEvent ? 'event' : 'task'} errors={errors} onCancel={handleOnCancel} />
           </Form>
         </section>
       </main>
