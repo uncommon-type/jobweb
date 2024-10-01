@@ -34,6 +34,7 @@ export const EditRoleTabPanel = () => {
       <Select
         id={id}
         name='status'
+        label='Stage'
         className='width-9'
         options={STATUS_OPTIONS}
         defaultValue={status}
