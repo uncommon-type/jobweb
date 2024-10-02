@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { RadioButton } from './RadioButton';
-import { FieldError } from '../Error/FieldError';
+import { InlineError } from '../Error/InlineError';
 
 export const RadioGroup = ({ options, label, name, className, error, defaultValue }) => {
   const [selectedOption, setSelectedOption] = useState(defaultValue);
@@ -12,7 +12,7 @@ export const RadioGroup = ({ options, label, name, className, error, defaultValu
 
   return (
     <fieldset className={className}>
-      {error && <FieldError error={error} />}
+      {error && <InlineError error={error} />}
       <legend className='font-special'>{label}</legend>
       {options.map((option, index) => {
         const optionId = `option-${index + 1}`;
