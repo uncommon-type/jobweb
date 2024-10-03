@@ -5,7 +5,7 @@ import { CheckboxList } from '@screens/common/Inputs/CheckboxList';
 const activityChoicesFetcherKey = 'activity-choices-fetcher';
 
 export const ActivityChoices = ({ choices, jobId }) => {
-  const fetcher = useFetcher({ key: 'activity-choices-fetcher' });
+  const fetcher = useFetcher({ key: activityChoicesFetcherKey });
 
   const handleOnChange = async (e) => {
     fetcher.submit({ id: e.target.id, activityStatus: e.target.checked, type: e.target.dataset.type }, { method: 'PUT', action: `/jobs/${jobId}/activity/status` });
