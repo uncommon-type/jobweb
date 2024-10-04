@@ -35,17 +35,22 @@ export const NewJob = ({ errors }) => {
         className='width-20'
         error={companyNameError}
       />
-      <RadioGroup options={STAGES} label="Stage you're at" name='status' error={statusError} />
       <RadioGroup
-        options={EMPLOYMENT_OPTIONS}
-        label='Type (optional)'
+        name='status'
+        label="Stage you're at"
+        options={STAGES}
+        error={statusError}
+      />
+      <RadioGroup
         name='employmentType'
+        label='Type (optional)'
+        options={EMPLOYMENT_OPTIONS}
         error={employmentTypeError}
       />
       <RadioGroup
-        options={LOCATION_OPTIONS}
-        label='Location (optional)'
         name='location'
+        label='Location (optional)'
+        options={LOCATION_OPTIONS}
         error={locationError}
       />
       <Input
