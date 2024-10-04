@@ -11,7 +11,7 @@ export const NotFound = () => {
     <main className='flow'>
       <h1>404</h1>
       <div className='flow'>
-        <p>We&apos;re sorry but the page you&apos;re looking for can&apos;t be found.</p>
+        <p>We are sorry but the page you are looking for cannot be found.</p>
         <Button
           to={from}
           className='with-icon'
