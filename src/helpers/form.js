@@ -3,6 +3,18 @@ export const getUserInput = (e) => {
   return Object.fromEntries(data.entries());
 };
 
+const hasNoEmptyValues = (data) => {
+  return Object.values(data).every(value => value);
+};
+
+export const isValid = (data) => {
+  if (!hasNoEmptyValues(data)) {
+    return false;
+  }
+
+  return true;
+};
+
 export const getErrorMessage = (errors, fieldName) => {
   const error = errors?.find(error => error.name === fieldName);
   return error?.message;
@@ -31,10 +43,4 @@ export const formatMoney = (value) => {
 
   const { format } = new Intl.NumberFormat('en-UK', options);
   return format(value);
-};
-
-export const filterOutEmptyOrNull = (obj) => {
-  return Object.fromEntries(
-    Object.entries(obj).filter(([_, value]) => value !== null && value !== ''),
-  );
 };
