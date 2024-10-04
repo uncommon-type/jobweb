@@ -2,10 +2,11 @@ import { CalendarDaysIcon as DateIcon } from '@heroicons/react/24/outline';
 
 import { getDate, getTime } from '@helpers/datetime';
 
-import { DateTimeInput } from './Inputs/DateTimeInput';
+import { DateTimeInput } from './Inputs/DateTimeInput/DateTimeInput';
 
 export const EditableDateTime = ({ edit, value, name, label, error }) => {
   const date = new Date(value);
+
   return (
     <div className='option'>
       <DateIcon className={`${name}-icon`} />
