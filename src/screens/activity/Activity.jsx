@@ -69,14 +69,17 @@ export const Activity = ({ isEvent = false }) => {
   const { activityId } = useParams();
   const [edit, setEdit] = useState(false);
   const fetcher = useFetcher({ key: 'activity-fetcher' });
-  const errors = fetcher?.data?.length ? fetcher.data : null;
+  const errors = fetcher?.data?.errors || null;
   const activity = activities.find(activity => activity.id === activityId);
 
   useEffect(() => {
     if (fetcher.data && !errors) {
       setEdit(false);
     }
-  }, [fetcher.data, errors]);
+    if (edit === false && errors) {
+      fetcher.data = null;
+    }
+  }, [fetcher.data, edit, errors]);
 
   const handleCancel = () => {
     setEdit(false);
@@ -96,7 +99,7 @@ export const Activity = ({ isEvent = false }) => {
         <section className='activity-details-group flow'>
           {activity
             ? <EditableActivity isEvent={isEvent} jobId={job.id} activity={activity} edit={edit} onCancel={handleCancel} errors={errors} />
-            : null }
+            : null}
         </section>
       </main>
     </>
