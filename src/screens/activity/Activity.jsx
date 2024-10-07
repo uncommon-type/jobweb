@@ -21,7 +21,7 @@ export const updateActivityAction = async ({ request, params }) => {
 
   const formData = await request.formData();
   const { id, type, activityStatus, activityTitle, time, date, description }
-      = Object.fromEntries(formData);
+    = Object.fromEntries(formData);
 
   const activityToUpdate = {
     id,
@@ -44,7 +44,7 @@ export const updateActivityAction = async ({ request, params }) => {
   const errors = validate(activityToUpdate);
 
   if (errors.length !== 0) {
-    return validateErrors(errors);
+    return { errors: validateErrors(errors) };
   }
 
   try {
@@ -58,7 +58,8 @@ export const updateActivityAction = async ({ request, params }) => {
         statusText: err.statusText || 'Something went wrong',
       });
     }
-    return validateErrors(err.errors);
+
+    return { errors: validateErrors(err.errors) };
   }
 };
 
