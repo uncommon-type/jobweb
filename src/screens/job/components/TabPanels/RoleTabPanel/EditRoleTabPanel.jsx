@@ -64,7 +64,6 @@ export const EditRoleTabPanel = () => {
         name='salary'
         label='Salary per year, in pounds'
         value={salary}
-        className='input width-8'
         error={salaryError}
       />
     </>
