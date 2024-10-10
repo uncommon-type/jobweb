@@ -66,6 +66,7 @@ export const EditableActivity = ({ activity, edit, onCancel, errors, isEvent, jo
         id={activity.id}
         name='activityStatus'
         label={activity.title}
+        labelHidden={false}
         checked={isChecked}
         onChange={(e) => {
           setIsChecked(e.target.checked);
