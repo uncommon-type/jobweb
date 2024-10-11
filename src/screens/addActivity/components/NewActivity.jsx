@@ -20,22 +20,19 @@ export const NewActivity = ({ jobId, type, onCancel, errors }) => {
       <EditableCheckbox
         name='activityStatus'
         label={type === 'event' ? 'Type (hiring call, interview, etc)' : 'Short title'}
-        labelHidden
         checked={isChecked}
         onChange={e => setIsChecked(e.target.checked)}
         className='align-self'
-        edit={true}
         error={activityTitleError}
+        edit={true}
         textFieldName='activityTitle'
       />
       {type === 'event' && (
         <EditableDateTime
-          edit={true}
-          showLabel={true}
-          label='Start time'
-          value=''
           name='date'
+          label='Start time'
           error={dateTimeError}
+          edit={true}
         />
       )}
       <EditableDescription
