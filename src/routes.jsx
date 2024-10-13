@@ -4,6 +4,7 @@ import { Root } from './Root';
 import { PageError } from '@screens/common/Error/PageError';
 import { SigninSignup, signinAction, signinLoader, signupAction } from '@screens/signinSignup/SigninSignup';
 import { Jobs, jobsLoader, deleteJobAction } from '@screens/jobs/Jobs';
+import { searchLoader } from '@screens/jobs/components/SearchBar';
 import { Job, jobLoader, updateJobAction } from '@screens/job/Job';
 import { JobItem } from '@screens/job/components/JobItem';
 import { RoleTabPanel } from '@screens/job/components/TabPanels/RoleTabPanel/RoleTabPanel';
@@ -41,6 +42,9 @@ const routes = [
             element: <Jobs />,
             loader: jobsLoader,
             action: deleteJobAction,
+          },
+          { path: 'search',
+            loader: searchLoader,
           },
           {
             path: 'new',
