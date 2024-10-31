@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { redirect, useActionData, useNavigation } from 'react-router-dom';
 
 import { authenticate } from '@helpers/token';
-import { baseUrl } from '@network/network';
-import { requestToken, sendData } from '@network/network';
+import { baseUrl, requestToken, sendData } from '@network/network';
 import { isValid } from '@helpers/form';
 
 import { SigninSignupForm } from './components/SigninSignupForm';
