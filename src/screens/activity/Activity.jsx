@@ -73,9 +73,10 @@ export const Activity = ({ isEvent = false }) => {
   const activity = activities.find(activity => activity.id === activityId);
 
   useEffect(() => {
-    if (fetcher.data && !errors) {
+    if (fetcher.data && fetcher.state === 'loading' && !errors) {
       setEdit(false);
     }
+
     if (edit === false && errors) {
       fetcher.data = null;
     }
