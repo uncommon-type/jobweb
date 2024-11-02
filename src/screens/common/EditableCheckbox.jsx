@@ -24,7 +24,7 @@ export const EditableCheckbox = ({ id, label, labelClassName = '', labelHidden, 
         value={textFieldValue}
         error={error}
         className='width-20'
-        edit='true'
+        edit={true}
       />
     )}
   </Checkbox>
