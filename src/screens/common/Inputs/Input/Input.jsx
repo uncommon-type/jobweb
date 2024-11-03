@@ -6,12 +6,12 @@ import { Button } from '@screens/common/Buttons/Button';
 
 export const Input = forwardRef(
   function Input({ id, name, label, labelHidden, action = {}, value = '', error, type = 'text', onChange, disabled, readOnly,
-  pattern, minLength, maxLength, rows, message, className, helpText, prefix, suffix, loading = '', autoCapitalize, autoCorrect,
-  spellCheck, autoComplete, ...otherProps }, ref) {
+    pattern, minLength, maxLength, rows, message, className, helpText, prefix, suffix, autoCapitalize, autoCorrect,
+    spellCheck, autoComplete }, ref) {
     const generatedId = useId();
     const appliedId = id || generatedId;
 
-    const errorMarkup = error && typeof error !== 'boolean' && (
+    const errorMarkup = error && (
       <InlineError error={error} />
     );
 
@@ -42,12 +42,10 @@ export const Input = forwardRef(
         rows={rows}
         disabled={disabled}
         readOnly={readOnly}
-        loading={loading}
         autoCapitalize={autoCapitalize}
         autoCorrect={autoCorrect}
         spellCheck={spellCheck}
         autoComplete={autoComplete}
-        {...otherProps}
       />
     );
 
@@ -73,8 +71,7 @@ export const Input = forwardRef(
             { suffixMarkup }
           </div>
         )
-      : inputMarkup
-    ;
+      : inputMarkup;
 
     return (
       <Labelled
