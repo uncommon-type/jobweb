@@ -1,11 +1,10 @@
 import { Label } from './Label';
 
-export const Labelled = ({ id, label, labelHidden, children, className = '', ...otherProps }) => {
+export const Labelled = ({ id, label, labelHidden, children, className = '' }) => {
   const labelMarkup = label
     ? (
         <Label
           id={id}
-          {...otherProps}
           hidden={labelHidden}
         >
           {label}
